@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b14">
+<title>استوديو علاء البصراوي الاحترافي</title>
+<style>
+:root{--bg:#090b14;--panel:#111522;--panel2:#0c101b;--cyan:#4de4df;--purple:#c000ff;--muted:#a8b4c7;--line:#263447;--white:#f5f7fb}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:28px}
+header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:3px 0;color:var(--cyan);text-shadow:0 0 16px #4de4df55}header p{font-size:11px;color:var(--muted);margin:6px 0}
+.wrap{width:min(760px,100%);margin:auto;padding:0 12px}
+.uploads{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:13px;border:2px solid var(--cyan);border-radius:20px;background:#10111c;box-shadow:0 0 20px #4de4df18}
+.upload label{display:block;text-align:center;color:var(--cyan);font-weight:bold;font-size:13px;margin:3px 0 10px}
+.upload input{display:none}.upload button{width:100%;min-height:46px;border:0;border-radius:28px;color:white;font-size:13px;background:linear-gradient(110deg,#bd00f5,#7a51f3,#4de4df);padding:8px 5px;cursor:pointer}
+.preview-card{margin-top:13px;border:2px solid #30343b;border-radius:22px;background:#020308;padding:10px;box-shadow:0 0 18px #0008;position:sticky;top:0;z-index:5}
+.preview-top{display:flex;justify-content:space-between;align-items:center;padding:2px 5px 8px;font-size:12px;color:var(--muted)}
+.live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:pan-y}
+.transport{display:grid;grid-template-columns:58px 1fr 48px;align-items:center;gap:10px;margin-top:9px}
+.time{font-variant-numeric:tabular-nums;font-size:13px;color:#fff}
+input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}
+.round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
+.status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
+.tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
+.tools-head{font-weight:bold;color:var(--cyan);font-size:14px;padding:5px 4px 10px}
+details{border:1px dashed #46c9c8;border-radius:14px;margin:9px 0;background:#090e18;overflow:hidden}
+summary{list-style:none;cursor:pointer;padding:14px 13px;color:var(--cyan);font-weight:bold;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}summary:after{content:"＋";font-size:18px;color:var(--cyan)}details[open] summary:after{content:"−"}
+.panel{padding:3px 12px 15px;border-top:1px solid #263b4a}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.field{min-width:0;padding-top:10px}.field label{display:block;font-size:12px;color:#e5e9f1;margin-bottom:8px}
+.field output{color:var(--cyan);font-size:11px;float:left}
+select,input[type=text],input[type=color]{width:100%;min-height:42px;border:1px solid #4bcacb;border-radius:10px;background:#151b2a;color:var(--white);padding:8px;font:inherit}
+input[type=color]{padding:4px;height:43px}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.action{border:1px solid #3d6971;background:#152333;color:#eafcff;border-radius:11px;padding:10px 13px;font-size:12px}
+.action.primary{background:linear-gradient(110deg,#b900f5,#4de4df);border:0;color:#081116;font-weight:bold}
+.note{font-size:10px;line-height:1.8;color:#9eacc0;margin:9px 2px 0}
+.export-status{font-size:11px;color:var(--cyan);margin-top:8px;min-height:18px}
+@media(max-width:420px){header h1{font-size:18px}.uploads{gap:6px;padding:9px}.upload label{font-size:11px}.upload button{font-size:11px}.grid{gap:10px 8px}.field label{font-size:11px}.tools{padding:8px}}
+
+.error-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f060a;border:1px solid #ff4d4d;color:#ff8080;padding:12px 20px;border-radius:12px;font-size:13px;box-shadow:0 4px 20px rgba(255,0,0,0.3);z-index:9999;display:none;align-items:center;gap:10px;animation:fadeIn 0.3s ease}
+.error-toast.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</head>
+<body>
+<header><h1>استوديو علاء البصراوي الاحترافي</h1><p>استوديو صوتي بصري · معاينة مباشرة · تحكم مستقل · تصدير فيديو</p></header>
+<main class="wrap">
+<section class="uploads">
+ <div class="upload"><label>الخلفية</label><label for="bgFile"><button type="button" onclick="document.getElementById('bgFile').click()">رفع صورة</button></label><input id="bgFile" type="file" accept="image/*"></div>
+ <div class="upload"><label>الملف الصوتي</label><label for="audioFile"><button type="button" onclick="document.getElementById('audioFile').click()">رفع صوت</button></label><input id="audioFile" type="file" accept="audio/*"></div>
+ <div class="upload"><label>الملصق / الشعار</label><label for="logoFile"><button type="button" onclick="document.getElementById('logoFile').click()">رفع ملصق</button></label><input id="logoFile" type="file" accept="image/*"></div>
+</section>
+
+<section class="preview-card">
+ <div class="preview-top"><span>شاشة المعاينة</span><span class="live">● معاينة مباشرة</span></div>
+ <canvas id="screen" width="1280" height="720"></canvas>
+ <div class="transport">
+  <span class="time" id="clock">00:00</span>
+  <input id="seek" type="range" min="0" max="1000" value="0">
+  <button class="round" id="play" aria-label="تشغيل">▶</button>
+ </div>
+ <div class="status" id="status">ارفع صورة الخلفية والملف الصوتي والملصق للبدء.</div>
+</section>
+
+<section class="tools">
+ <div class="tools-head">⚙️ أقسام التحكم — اختر القسم الذي تريد العمل عليه</div>
+  <details open style="border: 2px solid var(--cyan); background: linear-gradient(135deg, #111a2e, #0c101b);">
+  <summary style="font-size: 15px; color: var(--cyan);">🎬 القوالب الشاملة (تنسيق كلي جاهز لجميع العناصر بضغطة زر)</summary>
+  <div class="panel"><div class="grid">
+   <div class="field full">
+    <label for="fullPreset" style="font-weight:bold; color:var(--white);">اختر النمط/القالب الشامل لترتيب الفيديو</label>
+    <select id="fullPreset" style="background: #192338; font-weight:bold; color:var(--cyan); border-width: 2px;">
+     <option value="custom">-- اختر قالباً شاملاً لترتيب كافة العناصر --</option>
+     <option value="top_right_split">قالب احترافي: النصوص فوق يمين + الموجة 1 يسار + الموجة 2 أسفل</option>
+     <option value="split_circular_left">قالب 1: موجة دائرية يسار + موجة يمين + موجة أسفل + نصوص متحركة من اليمين لليسار</option>
+     <option value="split_circular_right">قالب 2: موجة دائرية يمين + موجة يسار + موجة أسفل + نصوص متحركة من اليمين لليسار</option>
+     <option value="classic_center">قالب كلاسيكي: الملصق والموجات في الوسط + النصوص في الأسفل</option>
+     <option value="modern_reels">قالب ستوري / ريلز عمودي: الملصق أعلى + موجة دائرية + النصوص وسط</option>
+     <option value="left_stack">قالب جانبي يسار: النصوص في يسار الشاشة + الموجة في اليمين</option>
+    </select>
+   </div>
+     <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
+    <label style="font-weight:bold; color:var(--cyan)">💾 حفظ القوالب المخصصة (Custom Presets)</label>
+    <div style="display:flex; gap:8px;">
+     <input id="customPresetName" type="text" placeholder="اكتب اسم القالب الجديد..." style="flex:1;">
+     <button id="saveCustomPresetBtn" type="button" class="action primary" style="padding: 0 16px; white-space:nowrap;">حفظ القالب الحجمي والمواضع</button>
+    </div>
+   </div>
+       <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
+    <label style="font-weight:bold; color:var(--cyan)">🖼️ معرض قوالبي المرئية (قوالب محفوظة مع الصور المصغرة)</label>
+    <div id="visualPresetGallery" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(85px, 1fr)); gap:6px; margin-top:10px; max-height:180px; overflow-y:auto; padding:4px;">
+     <div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة مع صور بعد. احفظ قالبك الجديد أدناه!</div>
+    </div>
+   </div>
+  </div></div>
+ </details>
+ <details>
+  <summary>🎵 إعدادات الموجة الصوتية</summary>
+  <div class="panel"><div class="grid">
+   <div class="field full"><label for="waveType">نوع الموجة</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="ring">حلقة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="line">خط صوتي ناعم</option></select></div>
+   <div class="field"><label for="waveSize">حجم الموجة <output id="waveSizeOut">95</output></label><input id="waveSize" type="range" min="20" max="180" value="95"></div>
+   <div class="field"><label for="waveSpeed">سرعة الحركة <output id="waveSpeedOut">5</output></label><input id="waveSpeed" type="range" min="1" max="10" value="5"></div>
+   <div class="field"><label for="waveX">الموضع الأفقي للموجة 1 (يمين/يسار) <output id="waveXOut">50%</output></label><input id="waveX" type="range" min="0" max="100" value="50"></div>
+   <div class="field"><label for="waveY">الموضع العمودي للموجة 1 (فوق/تحت) <output id="waveYOut">68%</output></label><input id="waveY" type="range" min="0" max="100" value="68"></div>
+   <div class="field"><label for="waveColor">لون الموجة</label><input id="waveColor" type="color" value="#4de4df"></div>
+   <div class="field"><label for="waveColor2">اللون الثاني</label><input id="waveColor2" type="color" value="#bd00f5"></div>
+   <div class="field"><label for="waveThickness">سماكة الموجة <output id="waveThicknessOut">8</output></label><input id="waveThickness" type="range" min="1" max="24" value="8"></div>
+   <div class="field"><label for="waveAlpha">شفافية الموجة <output id="waveAlphaOut">90%</output></label><input id="waveAlpha" type="range" min="10" max="100" value="90"></div>
+   <div class="field"><label for="ringDistance">بُعد الموجة عن الملصق <output id="ringDistanceOut">24</output></label><input id="ringDistance" type="range" min="0" max="180" value="24"></div>
+   <div class="field"><label for="ringHeight">ارتفاعات الموجة حول الملصق <output id="ringHeightOut">90</output></label><input id="ringHeight" type="range" min="5" max="220" value="90"></div>
+   <div class="field"><label for="ringCount">عدد أعمدة الحلقة <output id="ringCountOut">72</output></label><input id="ringCount" type="range" min="16" max="180" value="72"></div>
+   <div class="field"><label for="ringWidth">سماكة أعمدة الحلقة <output id="ringWidthOut">5</output></label><input id="ringWidth" type="range" min="1" max="18" value="5"></div>
+  </div></div>
+ </details>
+ <details>
+  <summary>🖼️ التحكم الشامل بالملصق والموجة الثانية حول الملصق</summary>
+  <div class="panel"><div class="grid">
+   <div class="field"><label for="logoSize">حجم الملصق <output id="logoSizeOut">180</output></label><input id="logoSize" type="range" min="50" max="420" value="180"></div>
+   <div class="field"><label for="logoX">الموضع الأفقي للملصق (يمين/يسار) <output id="logoXOut">50%</output></label><input id="logoX" type="range" min="0" max="100" value="50"></div>
+   <div class="field"><label for="logoY">الموضع العمودي للملصق (فوق/تحت) <output id="logoYOut">48%</output></label><input id="logoY" type="range" min="0" max="100" value="48"></div>
+   <div class="field"><label for="logoFrame">حجم إطار الملصق <output id="logoFrameOut">5</output></label><input id="logoFrame" type="range" min="0" max="20" value="5"></div>
+   <div class="field"><label for="logoRound">استدارة الإطار</label><select id="logoRound"><option value="circle">دائري</option><option value="square">مربع</option><option value="rounded">مستدير</option></select></div>
+   <div class="field"><label for="logoBorder">لون الإطار</label><input id="logoBorder" type="color" value="#4de4df"></div>
+   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:6px; font-weight:bold; color:var(--cyan)">🌊 الموجة الثانية (مرتبطة ومرافقة للملصق)</div>
+   <div class="field"><label for="enableWave2">تفعيل الموجة الثانية</label><select id="enableWave2"><option value="true">مفعلة</option><option value="false">معطلة</option></select></div>
+   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="line">خط صوتي ناعم</option></select></div>
+   <div class="field"><label for="wave2Color">لون الموجة الثانية</label><input id="wave2Color" type="color" value="#bd00f5"></div>
+   <div class="field"><label for="wave2Color2">اللون الثاني للموجة الثانية</label><input id="wave2Color2" type="color" value="#4de4df"></div>
+   <div class="field"><label for="wave2Scale">نسبة حجم الموجة الثانية <output id="wave2ScaleOut">85%</output></label><input id="wave2Scale" type="range" min="20" max="180" value="85"></div>
+   <div class="field"><label for="wave2Thickness">سماكة الموجة الثانية <output id="wave2ThicknessOut">6</output></label><input id="wave2Thickness" type="range" min="1" max="24" value="6"></div>
+   <div class="field"><label for="wave2Alpha">شفافية الموجة الثانية <output id="wave2AlphaOut">50%</output></label><input id="wave2Alpha" type="range" min="10" max="100" value="50"></div>
+   <div class="field"><label for="wave2Offset">إزاحة/تأخير الموجة الثانية <output id="wave2OffsetOut">15</output></label><input id="wave2Offset" type="range" min="0" max="50" value="15"></div>
+  </div></div>
+ </details>
+ <details>
+  <summary>🌌 إعدادات الخلفية والعناوين</summary>
+  <div class="panel"><div class="grid">
+   <div class="field full"><label for="titleText">العنوان الرئيسي الأول (H1)</label><input id="titleText" type="text" value="Sad Horse Sound Music"></div>
+   <div class="field"><label for="titleSize">حجم الخط <output id="titleSizeOut">32</output></label><input id="titleSize" type="range" min="10" max="100" value="32"></div>
+   <div class="field"><label for="titleColor">لون الخط</label><input id="titleColor" type="color" value="#ffffff"></div>
+   <div class="field"><label for="titleX">الموضع الأفقي (يمين/يسار) <output id="titleXOut">50%</output></label><input id="titleX" type="range" min="0" max="100" value="50"></div>
+   <div class="field"><label for="titleY">الموضع العمودي (فوق/تحت) <output id="titleYOut">86%</output></label><input id="titleY" type="range" min="0" max="100" value="86"></div>
+
+   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;"><label for="subText">العنوان الرئيسي الثاني (H1)</label><input id="subText" type="text" value="موسيقى صوت الخيل الحزين"></div>
+   <div class="field"><label for="subSize">حجم خط العنوان الرئيسي الثاني <output id="subSizeOut">22</output></label><input id="subSize" type="range" min="10" max="100" value="22"></div>
+   <div class="field"><label for="subColor">لون خط العنوان الرئيسي الثاني</label><input id="subColor" type="color" value="#4de4df"></div>
+   <div class="field"><label for="subX">الموضع الأفقي للعنوان الثاني <output id="subXOut">50%</output></label><input id="subX" type="range" min="0" max="100" value="50"></div>
+   <div class="field"><label for="subY">الموضع العمودي للعنوان الثاني <output id="subYOut">93%</output></label><input id="subY" type="range" min="0" max="100" value="93"></div>
+
+   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;"><label for="extraText">العنوان الرئيسي الثالث (H1)</label><input id="extraText" type="text" value="استوديو علاء البصراوي"></div>
+   <div class="field"><label for="extraSize">حجم خط العنوان الرئيسي الثالث <output id="extraSizeOut">18</output></label><input id="extraSize" type="range" min="8" max="100" value="18"></div>
+   <div class="field"><label for="extraColor">لون خط العنوان الرئيسي الثالث</label><input id="extraColor" type="color" value="#a8b4c7"></div>
+   <div class="field"><label for="extraX">الموضع الأفقي للعنوان الثالث <output id="extraXOut">50%</output></label><input id="extraX" type="range" min="0" max="100" value="50"></div>
+   <div class="field"><label for="extraY">الموضع العمودي للعنوان الثالث <output id="extraYOut">97%</output></label><input id="extraY" type="range" min="0" max="100" value="97"></div>
+   <div class="field"><label for="bgFit">طريقة عرض الخلفية</label><select id="bgFit"><option value="cover">ملء الشاشة</option><option value="contain">إظهار الصورة كاملة</option></select></div>
+   <div class="field"><label for="shade">تعتيم الخلفية <output id="shadeOut">20%</output></label><input id="shade" type="range" min="0" max="80" value="20"></div>
+  </div></div>
+ </details>
+ <details style="border: 2px solid #bd00f5; background: linear-gradient(135deg, #181128, #0c101b);" open>
+  <summary style="font-size: 15px; color: #d066ff;">✨ المؤثرات الجوية المخصصة (مطر، دخان ملون، رياح ملونة، واهتزاز الخلفية)</summary>
+  <div class="panel"><div class="grid">
+   <div class="field"><label for="enableRain">🌧️ تأثير المطر الناعم</label><select id="enableRain"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="rainColor">🎨 لون قطرات المطر</label><input id="rainColor" type="color" value="#aed8ff"></div>
+
+   <div class="field"><label for="enableSmoke">💨 تأثير الدخان المتصاعد</label><select id="enableSmoke"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="smokeColor">🎨 لون الدخان المخصص</label><input id="smokeColor" type="color" value="#bd00f5"></div>
+
+   <div class="field"><label for="enableWind">🍃 تأثير الرياح والعاصفة</label><select id="enableWind"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="windColor">🎨 لون جزيئات الرياح</label><input id="windColor" type="color" value="#4de4df"></div>
+
+   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;">
+    <label for="enableBgShake" style="font-weight:bold; color:var(--cyan);">📳 حركة اهتزاز الخلفية (يمين يسار ارتجاج ناعم عشوائي)</label>
+    <select id="enableBgShake">
+     <option value="true" selected>مفعل (ارتجاج ناعم ومستمر)</option>
+     <option value="false">معطل (ثابتة)</option>
+    </select>
+   </div>
+  </div></div>
+  <details>
+  <summary>🎨 قوالب النصوص والمؤثرات البصرية النصية</summary>
+  <div class="panel"><div class="grid">
+   <div class="field full"><label for="textPreset">اختر قالب جاهز لترتيب النصوص</label>
+    <select id="textPreset">
+     <option value="custom">تنسيق يدوي حسب الرغبة</option>
+     <option value="centered">قالب مركزي متناسق (وسط الشاشة)</option>
+     <option value="bottom_stack">قالب أسفل الشاشة الاحترافي (Song Visualizer)</option>
+     <option value="top_bottom">قالب العنوان في الأعلى والحقوق في الأسفل</option>
+     <option value="side_right">قالب الترتيب الجانبي (يمين الشاشة)</option>
+    </select>
+   </div>
+   <div class="field full"><label for="textEffect">اختر المؤثر البصري للنصوص</label>
+    <select id="textEffect">
+     <option value="shadow">ظلال كلاسيكية ناعمة (Shadow)</option>
+     <option value="neon">توهج نيون مضيء (Neon Glow)</option>
+     <option value="stroke">إطار حد خارجي (Text Stroke Outline)</option>
+     <option value="3d">تأثير ثلاثي الأبعاد (3D Depth Effect)</option>
+    </select>
+   </div>
+   <div class="field"><label for="textGlowColor">لون التوهج / الحد الخارجي</label><input id="textGlowColor" type="color" value="#4de4df"></div>
+   <div class="field"><label for="textGlowSize">قوة المؤثر / التوهج <output id="textGlowSizeOut">12</output></label><input id="textGlowSize" type="range" min="0" max="40" value="12"></div>
+  </div></div>
+ </details>
+ </details>
+ <details>
+  <summary>🎚️ إعدادات الصوت والتصدير</summary>
+  <div class="panel"><div class="grid">
+   <div class="field full"><label for="volume">مستوى الصوت <output id="volumeOut">100%</output></label><input id="volume" type="range" min="0" max="100" value="100"></div>
+   <div class="field"><label for="quality">جودة الفيديو</label><select id="quality"><option value="2">عالية جداً</option><option value="1.5" selected>عالية</option><option value="1">متوسطة</option></select></div>
+   <div class="field"><label for="ratio">أبعاد الفيديو</label><select id="ratio"><option value="16:9">أفقي 16:9</option><option value="9:16">عمودي 9:16</option><option value="1:1">مربع 1:1</option></select></div>
+  </div>
+  <div class="actions"><button class="action primary" id="export">⬇ تصدير الفيديو</button><button class="action" id="reset">إعادة ضبط الأدوات</button></div>
+  <div class="export-status" id="exportStatus"></div>
+  <p class="note">التصدير بصيغة WebM عبر المتصفح. اترك الصفحة مفتوحة حتى يكتمل التسجيل.</p>
+  </div>
+ </details>
+</section>
+</main>
+<audio id="audio" preload="metadata"></audio>
+<script>
+(()=>{
+'use strict';
+
+function showError(msg){
+ console.error("[Studio Error]:", msg);
+ const toast = $('errorToast'), msgEl = $('errorMsg');
+ if(toast && msgEl){
+  msgEl.textContent = msg;
+  toast.classList.add('active');
+  setTimeout(()=> toast.classList.remove('active'), 5000);
+ }
+ const status = $('status');
+ if(status) status.textContent = '❌ خطأ: ' + msg;
+}
+
+window.addEventListener('error', e => showError(e.message));
+window.addEventListener('unhandledrejection', e => showError(e.reason?.message || e.reason || 'خطأ في العملية البرمجية'));
+
+const $=id=>document.getElementById(id),canvas=$('screen'),ctx=canvas.getContext('2d');
+const audio=$('audio');let bg=null,logo=null,bgURL=null,logoURL=null,audioURL=null,ac=null,analyser=null,source=null,dest=null,raf=0,playing=false,recorder=null,exporting=false;
+
+const defaults={
+ textPreset:'custom',textEffect:'shadow',textGlowColor:'#4de4df',textGlowSize:12,
+ waveType:'bars',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
+ enableWave2:true,wave2Type:'double',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
+ logoSize:180,logoX:50,logoY:48,logoFrame:5,logoRound:'circle',logoBorder:'#4de4df',
+ titleText:'Sad Horse Sound Music',titleSize:32,titleX:50,titleY:86,subText:'موسيقى صوت الخيل الحزين',subSize:22,subX:50,subY:93,extraText:'استوديو علاء البصراوي',extraSize:18,extraX:50,extraY:97,extraColor:'#a8b4c7',titleColor:'#ffffff',subColor:'#4de4df',
+ bgFit:'cover',shade:20,
+ enableRain:'true',rainColor:'#aed8ff',
+ enableSmoke:'true',smokeColor:'#bd00f5',
+ enableWind:'true',windColor:'#4de4df',
+ enableBgShake:'true',
+ volume:100,quality:1.5,ratio:'16:9'
+};
+
+const ids=Object.keys(defaults);
+function val(id){return $(id).value}
+function fmt(s){if(!isFinite(s))return'00:00';s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function fitCanvas(){const r=val('ratio');canvas.width=r==='9:16'?720:r==='1:1'?900:1280;canvas.height=r==='9:16'?1280:r==='1:1'?900:720}
+function loadImage(file,cb){const u=URL.createObjectURL(file),im=new Image();im.onload=()=>cb(im,u);im.onerror=()=>{URL.revokeObjectURL(u);showError('تعذر تحميل الصورة المختارة.')};im.src=u}
+
+$('bgFile').onchange=e=>{const f=e.target.files[0];if(f)loadImage(f,(im,u)=>{if(bgURL)URL.revokeObjectURL(bgURL);bg=im;bgURL=u;$('status').textContent='تم تحميل الخلفية: '+f.name;draw()})};
+$('logoFile').onchange=e=>{const f=e.target.files[0];if(f)loadImage(f,(im,u)=>{if(logoURL)URL.revokeObjectURL(logoURL);logo=im;logoURL=u;$('status').textContent='تم تحميل الملصق: '+f.name;draw()})};
+$('audioFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(f);audio.src=audioURL;audio.load();$('status').textContent='تم تحميل الملف الصوتي: '+f.name;};
+
+function audioGraph(){if(ac)return;ac=new (window.AudioContext||window.webkitAudioContext)();analyser=ac.createAnalyser();analyser.fftSize=512;analyser.smoothingTimeConstant=.82;source=ac.createMediaElementSource(audio);dest=ac.createMediaStreamDestination();source.connect(analyser);analyser.connect(ac.destination);analyser.connect(dest)}
+async function togglePlay(){if(!audio.src){showError('يرجى رفع ملف صوتي قبل البدء.');return}if(playing){audio.pause();playing=false;$('play').textContent='▶';return}try{audioGraph();if(ac.state==='suspended')await ac.resume();audio.volume=Number(val('volume'))/100;await audio.play();playing=true;$('play').textContent='Ⅱ';animate()}catch(e){showError('تعذر تشغيل الصوت: ' + e.message)}}
+$('play').onclick=togglePlay;audio.onpause=()=>{playing=false;$('play').textContent='▶'};audio.onended=()=>{playing=false;$('play').textContent='▶';$('seek').value=0};audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*1000;$('clock').textContent=fmt(audio.currentTime)}};
+$('seek').oninput=()=>{if(audio.duration)audio.currentTime=Number(val('seek'))/1000*audio.duration};
+
+function drawImageCover(im,fit){
+ if(!im)return;
+ const cw=canvas.width,ch=canvas.height,ir=im.width/im.height,cr=cw/ch;let w,h;
+ if(fit==='contain'){w=ir>cr?cw:ch*ir;h=ir>cr?cw/ir:ch}else{w=ir>cr?ch*ir:cw;h=ir>cr?ch: cw/ir}
+ 
+ // حساب تأثير الارتجاج الناعم والعشوائي للخلفية يمين ويسار وفوق تحت
+ let shakeX = 0, shakeY = 0;
+ const shakeOn = val('enableBgShake') === 'true' || val('enableBgShake') === true;
+ if(shakeOn){
+  const t = performance.now() / 120;
+  shakeX = Math.sin(t * 1.3) * 4 + (Math.random() - 0.5) * 2;
+  shakeY = Math.cos(t * 1.1) * 3 + (Math.random() - 0.5) * 2;
+ }
+ 
+ ctx.drawImage(im, (cw-w)/2 + shakeX, (ch-h)/2 + shakeY, w, h);
+}
+
+function drawLogo(){if(!logo)return;const size=Number(val('logoSize')),x=canvas.width*Number(val('logoX'))/100,y=canvas.height*Number(val('logoY'))/100,fr=Number(val('logoFrame')),shape=val('logoRound');ctx.save();ctx.beginPath();if(shape==='circle')ctx.arc(x,y,size/2,0,Math.PI*2);else if(shape==='rounded')ctx.roundRect(x-size/2,y-size/2,size,size,22);else ctx.rect(x-size/2,y-size/2,size,size);ctx.clip();const ratio=Math.min(size/logo.width,size/logo.height);ctx.drawImage(logo,x-logo.width*ratio/2,y-logo.height*ratio/2,logo.width*ratio,logo.height*ratio);ctx.restore();if(fr){ctx.save();ctx.strokeStyle=val('logoBorder');ctx.lineWidth=fr;ctx.shadowColor=val('logoBorder');ctx.shadowBlur=18;ctx.beginPath();if(shape==='circle')ctx.arc(x,y,size/2,0,Math.PI*2);else if(shape==='rounded')ctx.roundRect(x-size/2,y-size/2,size,size,22);else ctx.rect(x-size/2,y-size/2,size,size);ctx.stroke();ctx.restore()}}
+function spectrum(){const n=analyser?analyser.frequencyBinCount:128,a=new Uint8Array(n);if(analyser)analyser.getByteFrequencyData(a);else for(let i=0;i<n;i++)a[i]=8+Math.abs(Math.sin(i*.21+performance.now()/800))*12;return a}
+
+function renderSingleWave(data, scale, alpha, th, color1, color2, offset=0, customType=null, posX=50, posY=68){
+ const type=customType||val('waveType');
+ const w=canvas.width,h=canvas.height;
+ const cx=w*(posX/100);
+ const cy=h*(posY/100);
+ ctx.save();
+ ctx.globalAlpha=alpha;
+ const g=ctx.createLinearGradient(0,0,w,h);
+ g.addColorStop(0,color1);g.addColorStop(1,color2);
+ ctx.strokeStyle=g;ctx.fillStyle=g;ctx.lineWidth=th;ctx.lineCap='round';
+ ctx.shadowColor=color1;ctx.shadowBlur=12;
+ const count=64;
+
+ if(type==='bars'||type==='double'||type==='pulse'){
+  const gap=w/(count+10),base=cy;
+  for(let i=0;i<count;i++){
+   const idx=(i+offset)%data.length;
+   const v=data[idx]/255,amp=(18+v*h*.24)*scale,x=(i-(count-1)/2)*gap+cx;
+   ctx.beginPath();ctx.moveTo(x,base-amp);ctx.lineTo(x,base+(type==='double'?amp*.25:0));ctx.stroke();
+   if(type==='double'){
+    ctx.globalAlpha=alpha*.45;ctx.beginPath();ctx.moveTo(x,h*.88);ctx.lineTo(x,h*.88-amp*.55);ctx.stroke();ctx.globalAlpha=alpha;
+   }
+  }
+ }
+ else if(type==='circle'){
+  const base=Math.min(w,h)*.16*scale;
+  ctx.beginPath();
+  for(let i=0;i<=180;i++){
+   const ang=i/180*Math.PI*2,idx=(i+offset)%data.length,v=data[idx]/255,r=base+v*base*.8;
+   const x=cx+Math.cos(ang)*r,y=cy-h*.18+Math.sin(ang)*r;
+   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.stroke();
+ }
+ else if(type==='ring'){
+  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
+  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
+  const stickerRadius=logo?Number(val('logoSize'))/2:Math.min(w,h)*.12;
+  const base=stickerRadius+Number(val('ringDistance'))*Math.min(w,h)/720;
+  const amp=Number(val('ringHeight'))*Math.min(w,h)/720*scale;
+  const bars=Number(val('ringCount')),thick=Number(val('ringWidth'))*Math.min(w,h)/720;
+  for(let i=0;i<bars;i++){
+   const idx=Math.floor((i+offset)*data.length/bars)%data.length,v=data[idx]/255;
+   const angle=(i/bars)*Math.PI*2-Math.PI/2;
+   const inner=base,outer=base+Math.max(3,amp*(.12+v));
+   const x1=lx+Math.cos(angle)*inner,y1=ly+Math.sin(angle)*inner;
+   const x2=lx+Math.cos(angle)*outer,y2=ly+Math.sin(angle)*outer;
+   ctx.lineWidth=Math.max(1,thick);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  }
+ }
+ else{
+  ctx.beginPath();
+  for(let i=0;i<count;i++){
+   const idx=Math.floor((i+offset)*data.length/count)%data.length;
+   const x=i/(count-1)*w,y=h*.78-(data[idx]/255)*h*.2*scale;
+   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+ }
+ ctx.restore();
+}
+
+function drawWave(){
+ const data=spectrum();
+ const isWave2=val('enableWave2')==='true'||val('enableWave2')===true;
+ if(isWave2){
+  const scale2=(Number(val('wave2Scale'))/100);
+  const alpha2=(Number(val('wave2Alpha'))/100);
+  const th2=Number(val('wave2Thickness'));
+  const offset2=Number(val('wave2Offset'));
+  const type2=val('wave2Type');
+  renderSingleWave(data, scale2, alpha2, th2, val('wave2Color'), val('wave2Color2'), offset2, type2);
+ }
+ const scale1=Number(val('waveSize'))/100;
+ const alpha1=Number(val('waveAlpha'))/100;
+ const th1=Number(val('waveThickness'));
+ const type1=val('waveType');
+ const wx1=Number(val('waveX'));
+ const wy1=Number(val('waveY'));
+ renderSingleWave(data, scale1, alpha1, th1, val('waveColor'), val('waveColor2'), 0, type1, wx1, wy1);
+}
+
+// نظام جسيمات المطر، الدخان الملون، والرياح الملونة
+let particles = [];
+function initParticles(){
+ particles = [];
+ // مطر
+ for(let i=0; i<70; i++){
+  particles.push({
+   type: 'rain',
+   x: Math.random() * canvas.width,
+   y: Math.random() * canvas.height,
+   len: Math.random() * 22 + 12,
+   vy: Math.random() * 9 + 14,
+   vx: -1.5
+  });
+ }
+ // دخان
+ for(let i=0; i<18; i++){
+  particles.push({
+   type: 'smoke',
+   x: Math.random() * canvas.width,
+   y: canvas.height + Math.random() * 100,
+   r: Math.random() * 45 + 25,
+   vy: -(Math.random() * 1.2 + 0.5),
+   vx: (Math.random() - 0.5) * 0.8,
+   alpha: Math.random() * 0.18 + 0.05
+  });
+ }
+ // رياح
+ for(let i=0; i<35; i++){
+  particles.push({
+   type: 'wind',
+   x: Math.random() * canvas.width,
+   y: Math.random() * canvas.height,
+   r: Math.random() * 2.5 + 0.8,
+   vx: Math.random() * 7 + 5,
+   vy: (Math.random() - 0.5) * 0.4,
+   alpha: Math.random() * 0.5 + 0.2
+  });
+ }
+}
+
+function drawParticles(){
+ if(!particles.length) initParticles();
+ 
+ const rainOn = val('enableRain') === 'true' || val('enableRain') === true;
+ const smokeOn = val('enableSmoke') === 'true' || val('enableSmoke') === true;
+ const windOn = val('enableWind') === 'true' || val('enableWind') === true;
+ 
+ if(!rainOn && !smokeOn && !windOn) return;
+ 
+ ctx.save();
+ particles.forEach(p => {
+  if(p.type === 'rain' && rainOn){
+   ctx.strokeStyle = val('rainColor');
+   ctx.lineWidth = 1.6;
+   ctx.beginPath();
+   ctx.moveTo(p.x, p.y);
+   ctx.lineTo(p.x + p.vx, p.y + p.len);
+   ctx.stroke();
+   p.y += p.vy;
+   p.x += p.vx;
+   if(p.y > canvas.height){ p.y = -20; p.x = Math.random() * canvas.width; }
+  } else if(p.type === 'smoke' && smokeOn){
+   ctx.fillStyle = val('smokeColor');
+   ctx.globalAlpha = p.alpha;
+   ctx.beginPath();
+   ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+   ctx.fill();
+   p.y += p.vy;
+   p.x += p.vx + Math.sin(p.y/40)*0.8;
+   p.r += 0.2;
+   if(p.y < -60){ p.y = canvas.height + 30; p.x = Math.random() * canvas.width; p.r = Math.random() * 45 + 25; }
+  } else if(p.type === 'wind' && windOn){
+   ctx.fillStyle = val('windColor');
+   ctx.globalAlpha = p.alpha;
+   ctx.beginPath();
+   ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+   ctx.fill();
+   p.x += p.vx;
+   p.y += p.vy;
+   if(p.x > canvas.width){ p.x = -15; p.y = Math.random() * canvas.height; }
+  }
+ });
+ ctx.restore();
+}
+
+function draw(){
+ const w=canvas.width,h=canvas.height;
+ ctx.clearRect(0,0,w,h);
+ 
+ if(bg) drawImageCover(bg,val('bgFit'));
+ else {
+  const g=ctx.createLinearGradient(0,0,w,h);
+  g.addColorStop(0,'#171b2a');g.addColorStop(1,'#03050b');
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  for(let i=0;i<55;i++){ctx.fillStyle='#ffffff18';ctx.beginPath();ctx.arc((i*173)%w,(i*97)%h,1.5,0,7);ctx.fill()}
+ }
+ 
+ ctx.fillStyle='rgba(0,0,0,'+(Number(val('shade'))/100)+')';
+ ctx.fillRect(0,0,w,h);
+ 
+ drawLogo();
+ drawWave();
+ drawParticles();
+
+ ctx.textAlign='center';ctx.direction='rtl';ctx.shadowColor='#000';ctx.shadowBlur=8;
+ const tSize=Math.round((Number(val('titleSize'))/500)*h);
+ const sSize=Math.round((Number(val('subSize'))/500)*h);
+ const eSize=Math.round((Number(val('extraSize'))/500)*h);
+ const tx=w*(Number(val('titleX'))/100), ty=h*(Number(val('titleY'))/100);
+ const sx=w*(Number(val('subX'))/100), sy=h*(Number(val('subY'))/100);
+ const ex=w*(Number(val('extraX'))/100), ey=h*(Number(val('extraY'))/100);
+
+ const effect = val('textEffect'), glowColor = val('textGlowColor'), glowSize = Number(val('textGlowSize'));
+
+ function applyTextEffect(text, x, y, size, color, font='Arial'){
+  ctx.save();
+  ctx.font = 'bold ' + size + 'px ' + font + ', Tahoma, sans-serif';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  
+  if(effect === 'neon'){
+   ctx.shadowColor = glowColor; ctx.shadowBlur = glowSize * 1.5;
+   ctx.fillText(text, x, y, w*.92); ctx.fillText(text, x, y, w*.92);
+  } else if(effect === 'stroke'){
+   ctx.strokeStyle = glowColor; ctx.lineWidth = Math.max(1, glowSize / 4);
+   ctx.strokeText(text, x, y, w*.92); ctx.fillText(text, x, y, w*.92);
+  } else if(effect === '3d'){
+   const depth = Math.min(10, Math.max(2, Math.floor(glowSize / 3)));
+   for(let i=depth; i>0; i--){ ctx.fillStyle = glowColor; ctx.fillText(text, x + i, y + i, w*.92); }
+   ctx.fillStyle = color; ctx.fillText(text, x, y, w*.92);
+  } else {
+   ctx.shadowColor = '#000000'; ctx.shadowBlur = glowSize;
+   ctx.fillText(text, x, y, w*.92);
+  }
+  ctx.restore();
+ }
+
+ applyTextEffect(val('titleText'), tx, ty, tSize, val('titleColor'), 'Arial');
+ applyTextEffect(val('subText'), sx, sy, sSize, val('subColor'), 'Arial');
+ applyTextEffect(val('extraText'), ex, ey, eSize, val('extraColor'), 'Arial');
+}
+
+function animate(){
+ cancelAnimationFrame(raf);
+ const loop=()=>{
+  draw();
+  raf=requestAnimationFrame(loop);
+ };
+ loop();
+}
+
+setTimeout(animate, 200);
+let needsDraw=false;
+function requestSmoothDraw(){
+ if(!needsDraw){
+  needsDraw=true;
+  requestAnimationFrame(()=>{
+   draw();
+   needsDraw=false;
+  });
+ }
+}
+
+ids.forEach(id=>{
+ const el=$(id);
+ if(!el)return;
+ el.addEventListener('input',()=>{
+  const out=$(id+'Out');
+  if(out){
+   const isPct=['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
+   out.textContent=el.value+(isPct?'%':'');
+  }
+  if(id==='ratio')fitCanvas();
+  if(id==='volume')audio.volume=Number(val('volume'))/100;
+  requestSmoothDraw();
+ });
+ el.addEventListener('change',()=>{draw();});
+});
+
+$('textPreset').addEventListener('change', e => {
+ const p = e.target.value;
+ if(p === 'centered'){
+  $('titleX').value = 50; $('titleY').value = 40;
+  $('subX').value = 50; $('subY').value = 52;
+  $('extraX').value = 50; $('extraY').value = 62;
+ } else if(p === 'bottom_stack'){
+  $('titleX').value = 50; $('titleY').value = 82;
+  $('subX').value = 50; $('subY').value = 89;
+  $('extraX').value = 50; $('extraY').value = 95;
+ } else if(p === 'top_bottom'){
+  $('titleX').value = 50; $('titleY').value = 14;
+  $('subX').value = 50; $('subY').value = 22;
+  $('extraX').value = 50; $('extraY').value = 95;
+ } else if(p === 'side_right'){
+  $('titleX').value = 75; $('titleY').value = 45;
+  $('subX').value = 75; $('subY').value = 55;
+  $('extraX').value = 75; $('extraY').value = 65;
+ }
+ ['titleX','titleY','subX','subY','extraX','extraY'].forEach(id=>{
+  const o=$(id+'Out'); if(o) o.textContent = $(id).value+'%';
+ });
+ draw();
+});
+
+function supportedMime(){return ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m))||''}
+
+$('export').onclick=async()=>{
+ if(exporting)return;
+ if(!audio.src){showError('ارفع ملفاً صوتياً قبل التصدير.');return}
+ if(!canvas.captureStream||!window.MediaRecorder){showError('التصدير غير مدعوم في هذا المتصفح.');return}
+ const mime=supportedMime();
+ if(!mime){showError('لا توجد صيغة WebM مدعومة في متصفحك.');return}
+ try{
+  audioGraph();
+  if(ac.state==='suspended')await ac.resume();
+  const wasPlaying=!audio.paused;
+  audio.pause();audio.currentTime=0;draw();
+  const stream=canvas.captureStream(30);
+  dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:Math.round(2500000*Number(val('quality')))});
+  const chunks=[];
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  recorder.onstop=()=>{
+   const blob=new Blob(chunks,{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=url;a.download='Alaa-AlBasrawi-Studio.webm';a.click();
+   setTimeout(()=>URL.revokeObjectURL(url),30000);
+   stream.getTracks().forEach(t=>t.stop());
+   exporting=false;
+   $('exportStatus').textContent='اكتمل التصدير. تم تنزيل الفيديو.';
+   if(wasPlaying)togglePlay();
+  };
+  recorder.start(250);
+  exporting=true;
+  $('exportStatus').textContent='جارٍ تسجيل الفيديو والصوت…';
+  await audio.play();
+  playing=true;$('play').textContent='Ⅱ';
+  animate();
+  audio.onended=()=>{playing=false;$('play').textContent='▶';if(recorder&&recorder.state!=='inactive')recorder.stop()};
+ }catch(e){exporting=false;showError('تعذر التصدير: ' + e.message)}
+};
+
+$('reset').onclick=()=>{ids.forEach(id=>{$(id).value=defaults[id]});ids.forEach(id=>{const o=$(id+'Out');if(o)o.textContent=$(id).value});fitCanvas();draw()};
+
+$('fullPreset').addEventListener('change', e => {
+ const p = e.target.value;
+ if(p === 'top_right_split'){
+  $('titleX').value = 80; $('titleY').value = 18;
+  $('subX').value = 80; $('subY').value = 28;
+  $('extraX').value = 80; $('extraY').value = 38;
+  $('waveX').value = 25; $('waveY').value = 45;
+  $('waveType').value = 'bars';
+  $('enableWave2').value = 'true';
+  $('wave2Type').value = 'double';
+  $('wave2Scale').value = 90;
+  $('logoX').value = 25; $('logoY').value = 22;
+ } else if(p === 'split_circular_left'){
+  $('titleX').value = 80; $('titleY').value = 20;
+  $('subX').value = 80; $('subY').value = 30;
+  $('extraX').value = 80; $('extraY').value = 40;
+  $('waveX').value = 25; $('waveY').value = 45;
+  $('waveType').value = 'circle';
+  $('enableWave2').value = 'true';
+  $('wave2Type').value = 'double';
+  $('wave2Scale').value = 100;
+  $('logoX').value = 25; $('logoY').value = 45;
+ } else if(p === 'split_circular_right'){
+  $('titleX').value = 30; $('titleY').value = 20;
+  $('subX').value = 30; $('subY').value = 30;
+  $('extraX').value = 30; $('extraY').value = 40;
+  $('waveX').value = 75; $('waveY').value = 45;
+  $('waveType').value = 'circle';
+  $('enableWave2').value = 'true';
+  $('wave2Type').value = 'bars';
+  $('wave2Scale').value = 95;
+  $('logoX').value = 75; $('logoY').value = 45;
+ } else if(p === 'classic_center'){
+  $('titleX').value = 50; $('titleY').value = 82;
+  $('subX').value = 50; $('subY').value = 89;
+  $('extraX').value = 50; $('extraY').value = 95;
+  $('waveX').value = 50; $('waveY').value = 75;
+  $('waveType').value = 'bars';
+  $('enableWave2').value = 'true';
+  $('wave2Type').value = 'ring';
+  $('logoX').value = 50; $('logoY').value = 45;
+ } else if(p === 'modern_reels'){
+  $('ratio').value = '9:16'; fitCanvas();
+  $('titleX').value = 50; $('titleY').value = 65;
+  $('subX').value = 50; $('subY').value = 73;
+  $('extraX').value = 50; $('extraY').value = 80;
+  $('logoX').value = 50; $('logoY').value = 32;
+  $('waveX').value = 50; $('waveY').value = 88;
+  $('enableWave2').value = 'true';
+  $('wave2Type').value = 'ring';
+ } else if(p === 'left_stack'){
+  $('titleX').value = 25; $('titleY').value = 25;
+  $('subX').value = 25; $('subY').value = 35;
+  $('extraX').value = 25; $('extraY').value = 45;
+  $('waveX').value = 75; $('waveY').value = 60;
+  $('logoX').value = 75; $('logoY').value = 30;
+ }
+ 
+ ids.forEach(id => {
+  const el = $(id), out = $(id+'Out');
+  if(el && out){
+   const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
+   out.textContent = el.value + (isPct ? '%' : '');
+  }
+ });
+ draw();
+});
+
+function loadSavedCustomPresets(){
+ const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
+ const select = $('fullPreset');
+ Array.from(select.options).forEach(opt => { if(opt.dataset.custom === 'true') opt.remove(); });
+ Object.keys(saved).forEach(name => {
+  const opt = document.createElement('option');
+  opt.value = 'custom_save_' + name;
+  opt.textContent = '⭐ قالب مخصص: ' + name;
+  opt.dataset.custom = 'true';
+  select.appendChild(opt);
+ });
+}
+
+$('saveCustomPresetBtn').onclick = () => {
+ const nameInput = $('customPresetName');
+ const name = nameInput.value.trim();
+ if(!name){ showError('يرجى كتابة اسم للقالب أولاً.'); return; }
+ const currentConfig = {};
+ ids.forEach(id => { currentConfig[id] = $(id).value; });
+ const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
+ saved[name] = currentConfig;
+ localStorage.setItem('studio_custom_presets', JSON.stringify(saved));
+ nameInput.value = '';
+ loadSavedCustomPresets();
+ const status = $('status');
+ if(status) status.textContent = '✅ تم حفظ القالب "' + name + '" بنجاح!';
+};
+
+$('fullPreset').addEventListener('change', e => {
+ const valStr = e.target.value;
+ if(valStr.startsWith('custom_save_')){
+  const name = valStr.replace('custom_save_', '');
+  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
+  const cfg = saved[name];
+  if(cfg){
+   Object.keys(cfg).forEach(id => { const el = $(id); if(el) el.value = cfg[id]; });
+   ids.forEach(id => {
+    const el = $(id), out = $(id+'Out');
+    if(el && out){
+     const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
+     out.textContent = el.value + (isPct ? '%' : '');
+    }
+   });
+   fitCanvas(); draw();
+   const status = $('status');
+   if(status) status.textContent = '👌 تم تطبيق القالب المخصص: ' + name;
+  }
+ }
+});
+
+fitCanvas(); draw();
+})();
+</script>
+<div id="errorToast" class="error-toast">⚠️ <span id="errorMsg">حدث خطأ غير متوقع.</span></div>
+</body>
+</html>
