@@ -8,7 +8,7 @@
 <style>
 :root{--bg:#090b14;--panel:#111522;--panel2:#0c101b;--cyan:#4de4df;--purple:#c000ff;--muted:#a8b4c7;--line:#263447;--white:#f5f7fb}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:80px;/* زيادة مسافة الأمان السفلي لمنع تداخل أزرار الهاتف */}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:80px}
 header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:3px 0;color:var(--cyan);text-shadow:0 0 16px #4de4df55}header p{font-size:11px;color:var(--muted);margin:6px 0}
 .wrap{width:min(760px,100%);margin:auto;padding:0 12px}
 .uploads{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:13px;border:2px solid var(--cyan);border-radius:20px;background:#10111c;box-shadow:0 0 20px #4de4df18}
@@ -19,7 +19,7 @@ header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:
 .live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:none}
 .transport{display:grid;grid-template-columns:58px 1fr 48px;align-items:center;gap:10px;margin-top:9px}
 .time{font-variant-numeric:tabular-nums;font-size:13px;color:#fff}
-input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:16px 0;touch-action:none} /* مسافة لمس مريحة للمنزلقات */
+input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:16px 0;touch-action:none}
 .round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
 .status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
 .tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
@@ -99,15 +99,15 @@ input[type=color]{padding:4px;height:43px}
   </div></div>
  </details>
  <details>
-  <summary>🎵 إعدادات الموجة الصوتية</summary>
+  <summary>🎵 إعدادات الموجة الصوتية الاحترافية</summary>
   <div class="panel"><div class="grid">
-   <div class="field full"><label for="waveType">نوع الموجة</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="ring">حلقة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="line">خط صوتي ناعم</option></select></div>
+   <div class="field full"><label for="waveType">نوع الموجة الاحترافية</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية الفاخرة</option><option value="neon_bars">أعمدة نيون متوهجة (موجة السوق)</option><option value="pulse">نبضات متحركة سينمائية</option><option value="circle">موجة دائرية إيقاعية</option><option value="ring">حلقة متوهجة حول الملصق</option><option value="double">موجتان مزدوجتان مع شرارات</option><option value="line">خط صوتي ناعم متعرج</option></select></div>
    <div class="field"><label for="waveSize">حجم الموجة <output id="waveSizeOut">95</output></label><input id="waveSize" type="range" min="20" max="180" value="95"></div>
    <div class="field"><label for="waveSpeed">سرعة الحركة <output id="waveSpeedOut">5</output></label><input id="waveSpeed" type="range" min="1" max="10" value="5"></div>
    <div class="field"><label for="waveX">الموضع الأفقي للموجة 1 (يمين/يسار) <output id="waveXOut">50%</output></label><input id="waveX" type="range" min="0" max="100" value="50"></div>
    <div class="field"><label for="waveY">الموضع العمودي للموجة 1 (فوق/تحت) <output id="waveYOut">68%</output></label><input id="waveY" type="range" min="0" max="100" value="68"></div>
-   <div class="field"><label for="waveColor">لون الموجة</label><input id="waveColor" type="color" value="#4de4df"></div>
-   <div class="field"><label for="waveColor2">اللون الثاني</label><input id="waveColor2" type="color" value="#bd00f5"></div>
+   <div class="field"><label for="waveColor">لون الموجة الأساسي</label><input id="waveColor" type="color" value="#4de4df"></div>
+   <div class="field"><label for="waveColor2">اللون الثاني للتدرج</label><input id="waveColor2" type="color" value="#bd00f5"></div>
    <div class="field"><label for="waveThickness">سماكة الموجة <output id="waveThicknessOut">8</output></label><input id="waveThickness" type="range" min="1" max="24" value="8"></div>
    <div class="field"><label for="waveAlpha">شفافية الموجة <output id="waveAlphaOut">90%</output></label><input id="waveAlpha" type="range" min="10" max="100" value="90"></div>
    <div class="field"><label for="ringDistance">بُعد الموجة عن الملصق <output id="ringDistanceOut">24</output></label><input id="ringDistance" type="range" min="0" max="180" value="24"></div>
@@ -127,7 +127,7 @@ input[type=color]{padding:4px;height:43px}
    <div class="field"><label for="logoBorder">لون الإطار</label><input id="logoBorder" type="color" value="#4de4df"></div>
    <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:6px; font-weight:bold; color:var(--cyan)">🌊 الموجة الثانية (مرتبطة ومرافقة للملصق)</div>
    <div class="field"><label for="enableWave2">تفعيل الموجة الثانية</label><select id="enableWave2"><option value="true">مفعلة</option><option value="false">معطلة</option></select></div>
-   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="line">خط صوتي ناعم</option></select></div>
+   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="neon_bars">أعمدة نيون متوهجة</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="line">خط صوتي ناعم</option></select></div>
    <div class="field"><label for="wave2Color">لون الموجة الثانية</label><input id="wave2Color" type="color" value="#bd00f5"></div>
    <div class="field"><label for="wave2Color2">اللون الثاني للموجة الثانية</label><input id="wave2Color2" type="color" value="#4de4df"></div>
    <div class="field"><label for="wave2Scale">نسبة حجم الموجة الثانية <output id="wave2ScaleOut">85%</output></label><input id="wave2Scale" type="range" min="20" max="180" value="85"></div>
@@ -246,8 +246,8 @@ const audio=$('audio');let bg=null,logo=null,bgURL=null,logoURL=null,audioURL=nu
 
 const defaults={
  textPreset:'custom',textEffect:'shadow',textGlowColor:'#4de4df',textGlowSize:12,
- waveType:'bars',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
- enableWave2:true,wave2Type:'double',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
+ waveType:'neon_bars',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
+ enableWave2:true,wave2Type:'ring',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
  logoSize:180,logoX:50,logoY:48,logoFrame:5,logoRound:'circle',logoBorder:'#4de4df',
  titleText:'Sad Horse Sound Music',titleSize:32,titleX:50,titleY:86,subText:'موسيقى صوت الخيل الحزين',subSize:22,subX:50,subY:93,extraText:'استوديو علاء البصراوي',extraSize:18,extraX:50,extraY:97,extraColor:'#a8b4c7',titleColor:'#ffffff',subColor:'#4de4df',
  bgFit:'cover',shade:20,
@@ -302,10 +302,30 @@ function renderSingleWave(data, scale, alpha, th, color1, color2, offset=0, cust
  const g=ctx.createLinearGradient(0,0,w,h);
  g.addColorStop(0,color1);g.addColorStop(1,color2);
  ctx.strokeStyle=g;ctx.fillStyle=g;ctx.lineWidth=th;ctx.lineCap='round';
- ctx.shadowColor=color1;ctx.shadowBlur=12;
+ ctx.shadowColor=color1;ctx.shadowBlur=16; // توهج نيون احترافي قوي مثل موجات السوق
  const count=64;
 
- if(type==='bars'||type==='double'||type==='pulse'){
+ if(type==='neon_bars'){
+  // أعمدة نيون متوهجة مقوسة واحترافية للغاية مثل تطبيقات المونتاج الحديثة
+  const gap=w/(count+10),base=cy;
+  for(let i=0;i<count;i++){
+   const idx=(i+offset)%data.length;
+   const v=data[idx]/255,amp=(15+v*h*.3)*scale,x=(i-(count-1)/2)*gap+cx;
+   ctx.lineWidth=Math.max(2,th*0.8);
+   ctx.shadowBlur=20;
+   ctx.beginPath();
+   ctx.roundRect ? ctx.roundRect(x - th/2, base-amp, th, amp, [4, 4, 0, 0]) : ctx.rect(x - th/2, base-amp, th, amp);
+   ctx.fill();
+   
+   // انعكاس سفلي خفيف للموجة يزودها جمالية سينمائية
+   ctx.globalAlpha = alpha * 0.3;
+   ctx.beginPath();
+   ctx.rect(x - th/2, base + 2, th, amp * 0.3);
+   ctx.fill();
+   ctx.globalAlpha = alpha;
+  }
+ }
+ else if(type==='bars'||type==='double'||type==='pulse'){
   const gap=w/(count+10),base=cy;
   for(let i=0;i<count;i++){
    const idx=(i+offset)%data.length;
@@ -627,9 +647,9 @@ $('fullPreset').addEventListener('change', e => {
   $('subX').value = 80; $('subY').value = 28;
   $('extraX').value = 80; $('extraY').value = 38;
   $('waveX').value = 25; $('waveY').value = 45;
-  $('waveType').value = 'bars';
+  $('waveType').value = 'neon_bars';
   $('enableWave2').value = 'true';
-  $('wave2Type').value = 'double';
+  $('wave2Type').value = 'ring';
   $('wave2Scale').value = 90;
   $('logoX').value = 25; $('logoY').value = 22;
  } else if(p === 'split_circular_left'){
@@ -639,7 +659,7 @@ $('fullPreset').addEventListener('change', e => {
   $('waveX').value = 25; $('waveY').value = 45;
   $('waveType').value = 'circle';
   $('enableWave2').value = 'true';
-  $('wave2Type').value = 'double';
+  $('wave2Type').value = 'neon_bars';
   $('wave2Scale').value = 100;
   $('logoX').value = 25; $('logoY').value = 45;
  } else if(p === 'split_circular_right'){
@@ -649,7 +669,7 @@ $('fullPreset').addEventListener('change', e => {
   $('waveX').value = 75; $('waveY').value = 45;
   $('waveType').value = 'circle';
   $('enableWave2').value = 'true';
-  $('wave2Type').value = 'bars';
+  $('wave2Type').value = 'neon_bars';
   $('wave2Scale').value = 95;
   $('logoX').value = 75; $('logoY').value = 45;
  } else if(p === 'classic_center'){
@@ -657,7 +677,7 @@ $('fullPreset').addEventListener('change', e => {
   $('subX').value = 50; $('subY').value = 89;
   $('extraX').value = 50; $('extraY').value = 95;
   $('waveX').value = 50; $('waveY').value = 75;
-  $('waveType').value = 'bars';
+  $('waveType').value = 'neon_bars';
   $('enableWave2').value = 'true';
   $('wave2Type').value = 'ring';
   $('logoX').value = 50; $('logoY').value = 45;
@@ -729,7 +749,6 @@ $('saveCustomPresetBtn').onclick = () => {
  ids.forEach(id => { const el = $(id); if(el) currentConfig[id] = el.value; });
  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
  saved[name] = currentConfig;
- localStorage.setItem('studio_current_presets', JSON.stringify(saved));
  localStorage.setItem('studio_custom_presets', JSON.stringify(saved));
  nameInput.value = '';
  renderVisualPresetGallery();
