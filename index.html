@@ -15,10 +15,10 @@ header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:
 .upload input{display:none}.upload button{width:100%;min-height:46px;border:0;border-radius:28px;color:white;font-size:13px;background:linear-gradient(110deg,#bd00f5,#7a51f3,#4de4df);padding:8px 5px;cursor:pointer}
 .preview-card{margin-top:13px;border:2px solid #30343b;border-radius:22px;background:#020308;padding:10px;box-shadow:0 0 18px #0008;position:sticky;top:0;z-index:5}
 .preview-top{display:flex;justify-content:space-between;align-items:center;padding:2px 5px 8px;font-size:12px;color:var(--muted)}
-.live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:pan-y}
+.live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:none}
 .transport{display:grid;grid-template-columns:58px 1fr 48px;align-items:center;gap:10px;margin-top:9px}
 .time{font-variant-numeric:tabular-nums;font-size:13px;color:#fff}
-input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}
+input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:12px 0;touch-action:none}
 .round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
 .status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
 .tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
@@ -83,16 +83,16 @@ input[type=color]{padding:4px;height:43px}
     </select>
    </div>
      <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
-    <label style="font-weight:bold; color:var(--cyan)">💾 حفظ القوالب المخصصة (Custom Presets)</label>
+    <label style="font-weight:bold; color:var(--cyan)">💾 حفظ القوالب المخصصة (داخل قسم القوالب)</label>
     <div style="display:flex; gap:8px;">
      <input id="customPresetName" type="text" placeholder="اكتب اسم القالب الجديد..." style="flex:1;">
-     <button id="saveCustomPresetBtn" type="button" class="action primary" style="padding: 0 16px; white-space:nowrap;">حفظ القالب الحجمي والمواضع</button>
+     <button id="saveCustomPresetBtn" type="button" class="action primary" style="padding: 0 16px; white-space:nowrap;">حفظ القالب الحالي</button>
     </div>
    </div>
        <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
-    <label style="font-weight:bold; color:var(--cyan)">🖼️ معرض قوالبي المرئية (قوالب محفوظة مع الصور المصغرة)</label>
-    <div id="visualPresetGallery" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(85px, 1fr)); gap:6px; margin-top:10px; max-height:180px; overflow-y:auto; padding:4px;">
-     <div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة مع صور بعد. احفظ قالبك الجديد أدناه!</div>
+    <label style="font-weight:bold; color:var(--cyan)">🖼️ معرض قوالبي المرئية المحفوظة</label>
+    <div id="visualPresetGallery" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:8px; margin-top:10px; max-height:200px; overflow-y:auto; padding:4px;">
+     <div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة بعد. اضغط على زر حفظ القالب أعلاه لتخزينه هنا!</div>
     </div>
    </div>
   </div></div>
@@ -160,19 +160,21 @@ input[type=color]{padding:4px;height:43px}
   </div></div>
  </details>
  <details style="border: 2px solid #bd00f5; background: linear-gradient(135deg, #181128, #0c101b);" open>
-  <summary style="font-size: 15px; color: #d066ff;">✨ المؤثرات الجوية المخصصة (مطر، دخان ملون، رياح ملونة، واهتزاز الخلفية)</summary>
+  <summary style="font-size: 15px; color: #d066ff;">✨ المؤثرات الجوية الاحترافية المتقدمة (مطر سينمائي، دخان ملون، رياح عاتية)</summary>
   <div class="panel"><div class="grid">
-   <div class="field"><label for="enableRain">🌧️ تأثير المطر الناعم</label><select id="enableRain"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="enableRain">🌧️ تفعيل المطر السينمائي الاحترافي</label><select id="enableRain"><option value="false">معطل</option><option value="true" selected>مفعل (عالي الواقعية)</option></select></div>
+   <div class="field"><label for="rainDensity">💧 كثافة وسرعة قطرات المطر <output id="rainDensityOut">80</output></label><input id="rainDensity" type="range" min="20" max="200" value="80"></div>
    <div class="field"><label for="rainColor">🎨 لون قطرات المطر</label><input id="rainColor" type="color" value="#aed8ff"></div>
 
-   <div class="field"><label for="enableSmoke">💨 تأثير الدخان المتصاعد</label><select id="enableSmoke"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="enableSmoke">💨 تأثير الدخان المتصاعد الملون</label><select id="enableSmoke"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
    <div class="field"><label for="smokeColor">🎨 لون الدخان المخصص</label><input id="smokeColor" type="color" value="#bd00f5"></div>
 
-   <div class="field"><label for="enableWind">🍃 تأثير الرياح والعاصفة</label><select id="enableWind"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="enableWind">🍃 تأثير الرياح والعاصفة المتقدمة</label><select id="enableWind"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
+   <div class="field"><label for="windSpeed">🌪️ قوة وسرعة تدفق الرياح <output id="windSpeedOut">7</output></label><input id="windSpeed" type="range" min="1" max="20" value="7"></div>
    <div class="field"><label for="windColor">🎨 لون جزيئات الرياح</label><input id="windColor" type="color" value="#4de4df"></div>
 
    <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;">
-    <label for="enableBgShake" style="font-weight:bold; color:var(--cyan);">📳 حركة اهتزاز الخلفية (يمين يسار ارتجاج ناعم عشوائي)</label>
+    <label for="enableBgShake" style="font-weight:bold; color:var(--cyan);">📳 حركة اهتزاز الخلفية (ارتجاج سينمائي ناعم)</label>
     <select id="enableBgShake">
      <option value="true" selected>مفعل (ارتجاج ناعم ومستمر)</option>
      <option value="false">معطل (ثابتة)</option>
@@ -248,9 +250,9 @@ const defaults={
  logoSize:180,logoX:50,logoY:48,logoFrame:5,logoRound:'circle',logoBorder:'#4de4df',
  titleText:'Sad Horse Sound Music',titleSize:32,titleX:50,titleY:86,subText:'موسيقى صوت الخيل الحزين',subSize:22,subX:50,subY:93,extraText:'استوديو علاء البصراوي',extraSize:18,extraX:50,extraY:97,extraColor:'#a8b4c7',titleColor:'#ffffff',subColor:'#4de4df',
  bgFit:'cover',shade:20,
- enableRain:'true',rainColor:'#aed8ff',
+ enableRain:'true',rainDensity:80,rainColor:'#aed8ff',
  enableSmoke:'true',smokeColor:'#bd00f5',
- enableWind:'true',windColor:'#4de4df',
+ enableWind:'true',windSpeed:7,windColor:'#4de4df',
  enableBgShake:'true',
  volume:100,quality:1.5,ratio:'16:9'
 };
@@ -275,7 +277,6 @@ function drawImageCover(im,fit){
  const cw=canvas.width,ch=canvas.height,ir=im.width/im.height,cr=cw/ch;let w,h;
  if(fit==='contain'){w=ir>cr?cw:ch*ir;h=ir>cr?cw/ir:ch}else{w=ir>cr?ch*ir:cw;h=ir>cr?ch: cw/ir}
  
- // حساب تأثير الارتجاج الناعم والعشوائي للخلفية يمين ويسار وفوق تحت
  let shakeX = 0, shakeY = 0;
  const shakeOn = val('enableBgShake') === 'true' || val('enableBgShake') === true;
  if(shakeOn){
@@ -372,43 +373,46 @@ function drawWave(){
  renderSingleWave(data, scale1, alpha1, th1, val('waveColor'), val('waveColor2'), 0, type1, wx1, wy1);
 }
 
-// نظام جسيمات المطر، الدخان الملون، والرياح الملونة
+// نظام جسيمات المطر، الدخان، والرياح السينمائي المتقدم
 let particles = [];
 function initParticles(){
  particles = [];
- // مطر
- for(let i=0; i<70; i++){
+ const density = Number(val('rainDensity')) || 80;
+ // مطر سينمائي واقعي (قطرات متعددة الطبقات بسرعات مختلفة)
+ for(let i=0; i<density; i++){
   particles.push({
    type: 'rain',
-   x: Math.random() * canvas.width,
+   x: Math.random() * canvas.width * 1.3 - (canvas.width * 0.15),
    y: Math.random() * canvas.height,
-   len: Math.random() * 22 + 12,
-   vy: Math.random() * 9 + 14,
-   vx: -1.5
+   len: Math.random() * 32 + 15,
+   vy: Math.random() * 12 + 16,
+   vx: -(Math.random() * 3 + 2.5),
+   alpha: Math.random() * 0.5 + 0.3
   });
  }
  // دخان
- for(let i=0; i<18; i++){
+ for(let i=0; i<20; i++){
   particles.push({
    type: 'smoke',
    x: Math.random() * canvas.width,
    y: canvas.height + Math.random() * 100,
-   r: Math.random() * 45 + 25,
-   vy: -(Math.random() * 1.2 + 0.5),
-   vx: (Math.random() - 0.5) * 0.8,
-   alpha: Math.random() * 0.18 + 0.05
+   r: Math.random() * 55 + 30,
+   vy: -(Math.random() * 1.5 + 0.6),
+   vx: (Math.random() - 0.5) * 1.2,
+   alpha: Math.random() * 0.22 + 0.06
   });
  }
- // رياح
- for(let i=0; i<35; i++){
+ // رياح عاتية احترافية
+ const windPower = Number(val('windSpeed')) || 7;
+ for(let i=0; i<45; i++){
   particles.push({
    type: 'wind',
    x: Math.random() * canvas.width,
    y: Math.random() * canvas.height,
-   r: Math.random() * 2.5 + 0.8,
-   vx: Math.random() * 7 + 5,
-   vy: (Math.random() - 0.5) * 0.4,
-   alpha: Math.random() * 0.5 + 0.2
+   r: Math.random() * 3 + 1,
+   vx: Math.random() * (windPower * 1.5) + (windPower * 0.8),
+   vy: (Math.random() - 0.5) * 0.8,
+   alpha: Math.random() * 0.6 + 0.25
   });
  }
 }
@@ -426,14 +430,15 @@ function drawParticles(){
  particles.forEach(p => {
   if(p.type === 'rain' && rainOn){
    ctx.strokeStyle = val('rainColor');
-   ctx.lineWidth = 1.6;
+   ctx.globalAlpha = p.alpha;
+   ctx.lineWidth = 1.8;
    ctx.beginPath();
    ctx.moveTo(p.x, p.y);
    ctx.lineTo(p.x + p.vx, p.y + p.len);
    ctx.stroke();
    p.y += p.vy;
    p.x += p.vx;
-   if(p.y > canvas.height){ p.y = -20; p.x = Math.random() * canvas.width; }
+   if(p.y > canvas.height + 20){ p.y = -30; p.x = Math.random() * canvas.width * 1.3; }
   } else if(p.type === 'smoke' && smokeOn){
    ctx.fillStyle = val('smokeColor');
    ctx.globalAlpha = p.alpha;
@@ -441,18 +446,19 @@ function drawParticles(){
    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
    ctx.fill();
    p.y += p.vy;
-   p.x += p.vx + Math.sin(p.y/40)*0.8;
-   p.r += 0.2;
-   if(p.y < -60){ p.y = canvas.height + 30; p.x = Math.random() * canvas.width; p.r = Math.random() * 45 + 25; }
+   p.x += p.vx + Math.sin(p.y/40)*0.9;
+   p.r += 0.25;
+   if(p.y < -70){ p.y = canvas.height + 40; p.x = Math.random() * canvas.width; p.r = Math.random() * 55 + 30; }
   } else if(p.type === 'wind' && windOn){
    ctx.fillStyle = val('windColor');
    ctx.globalAlpha = p.alpha;
    ctx.beginPath();
    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
    ctx.fill();
-   p.x += p.vx;
+   const wp = Number(val('windSpeed')) || 7;
+   p.x += p.vx * (wp / 7);
    p.y += p.vy;
-   if(p.x > canvas.width){ p.x = -15; p.y = Math.random() * canvas.height; }
+   if(p.x > canvas.width + 20){ p.x = -20; p.y = Math.random() * canvas.height; }
   }
  });
  ctx.restore();
@@ -547,6 +553,7 @@ ids.forEach(id=>{
   }
   if(id==='ratio')fitCanvas();
   if(id==='volume')audio.volume=Number(val('volume'))/100;
+  if(id==='rainDensity'||id==='windSpeed') initParticles();
   requestSmoothDraw();
  });
  el.addEventListener('change',()=>{draw();});
@@ -614,7 +621,7 @@ $('export').onclick=async()=>{
  }catch(e){exporting=false;showError('تعذر التصدير: ' + e.message)}
 };
 
-$('reset').onclick=()=>{ids.forEach(id=>{$(id).value=defaults[id]});ids.forEach(id=>{const o=$(id+'Out');if(o)o.textContent=$(id).value});fitCanvas();draw()};
+$('reset').onclick=()=>{ids.forEach(id=>{$(id).value=defaults[id]});ids.forEach(id=>{const o=$(id+'Out');if(o)o.textContent=$(id).value});fitCanvas();initParticles();draw()};
 
 $('fullPreset').addEventListener('change', e => {
  const p = e.target.value;
@@ -670,7 +677,7 @@ $('fullPreset').addEventListener('change', e => {
   $('titleX').value = 25; $('titleY').value = 25;
   $('subX').value = 25; $('subY').value = 35;
   $('extraX').value = 25; $('extraY').value = 45;
-  $('waveX').value = 75; $('waveY').value = 60;
+  $('waveX').value        $('waveX').value = 75; $('waveY').value = 60;
   $('logoX').value = 75; $('logoY').value = 30;
  }
  
@@ -684,16 +691,37 @@ $('fullPreset').addEventListener('change', e => {
  draw();
 });
 
-function loadSavedCustomPresets(){
+// حفظ القوالب المعروضة داخل قسم القوالب مع معرض بصري مصغر
+function renderVisualPresetGallery(){
+ const gallery = $('visualPresetGallery');
+ if(!gallery) return;
  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
- const select = $('fullPreset');
- Array.from(select.options).forEach(opt => { if(opt.dataset.custom === 'true') opt.remove(); });
- Object.keys(saved).forEach(name => {
-  const opt = document.createElement('option');
-  opt.value = 'custom_save_' + name;
-  opt.textContent = '⭐ قالب مخصص: ' + name;
-  opt.dataset.custom = 'true';
-  select.appendChild(opt);
+ const keys = Object.keys(saved);
+ if(keys.length === 0){
+  gallery.innerHTML = '<div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة بعد. اضغط على زر حفظ القالب أعلاه لتخزينه هنا!</div>';
+  return;
+ }
+ gallery.innerHTML = '';
+ keys.forEach(name => {
+  const card = document.createElement('div');
+  card.style.cssText = 'background:#151b2a; border:1px solid #3ecac7; border-radius:10px; padding:8px; text-align:center; cursor:pointer; transition:all 0.2s;';
+  card.innerHTML = `<div style="font-size:12px; font-weight:bold; color:var(--cyan); margin-bottom:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</div><button type="button" class="action primary" style="font-size:10px; padding:4px 8px; width:100%;">تطبيق</button>`;
+  card.onclick = () => {
+   const cfg = saved[name];
+   if(cfg){
+    Object.keys(cfg).forEach(id => { const el = $(id); if(el) el.value = cfg[id]; });
+    ids.forEach(id => {
+     const el = $(id), out = $(id+'Out');
+     if(el && out){
+      const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
+      out.textContent = el.value + (isPct ? '%' : '');
+     }
+    });
+    fitCanvas(); initParticles(); draw();
+    $('status').textContent = '👌 تم تطبيق القالب المحفوظ: ' + name;
+   }
+  };
+  gallery.appendChild(card);
  });
 }
 
@@ -702,39 +730,16 @@ $('saveCustomPresetBtn').onclick = () => {
  const name = nameInput.value.trim();
  if(!name){ showError('يرجى كتابة اسم للقالب أولاً.'); return; }
  const currentConfig = {};
- ids.forEach(id => { currentConfig[id] = $(id).value; });
+ ids.forEach(id => { currentConfig[id] = $(id); if(currentConfig[id]) currentConfig[id] = $(id).value; });
  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
  saved[name] = currentConfig;
  localStorage.setItem('studio_custom_presets', JSON.stringify(saved));
  nameInput.value = '';
- loadSavedCustomPresets();
- const status = $('status');
- if(status) status.textContent = '✅ تم حفظ القالب "' + name + '" بنجاح!';
+ renderVisualPresetGallery();
+ $('status').textContent = '✅ تم حفظ القالب "' + name + '" بنجاح داخل قسم القوالب!';
 };
 
-$('fullPreset').addEventListener('change', e => {
- const valStr = e.target.value;
- if(valStr.startsWith('custom_save_')){
-  const name = valStr.replace('custom_save_', '');
-  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
-  const cfg = saved[name];
-  if(cfg){
-   Object.keys(cfg).forEach(id => { const el = $(id); if(el) el.value = cfg[id]; });
-   ids.forEach(id => {
-    const el = $(id), out = $(id+'Out');
-    if(el && out){
-     const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
-     out.textContent = el.value + (isPct ? '%' : '');
-    }
-   });
-   fitCanvas(); draw();
-   const status = $('status');
-   if(status) status.textContent = '👌 تم تطبيق القالب المخصص: ' + name;
-  }
- }
-});
-
-fitCanvas(); draw();
+fitCanvas(); initParticles(); draw(); renderVisualPresetGallery();
 })();
 </script>
 <div id="errorToast" class="error-toast">⚠️ <span id="errorMsg">حدث خطأ غير متوقع.</span></div>
