@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090b14">
-<title>استوديو علاء البصراوي الاحترافي</title>
+<title>استوديو علاء البصراوي الاحترافي — معرض الدوائر الحلقية</title>
 <style>
 :root{--bg:#090b14;--panel:#111522;--panel2:#0c101b;--cyan:#4de4df;--purple:#c000ff;--muted:#a8b4c7;--line:#263447;--white:#f5f7fb}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
@@ -22,6 +22,7 @@ header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:
 input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:16px 0;touch-action:none}
 .round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
 .status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
+
 .tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
 .tools-head{font-weight:bold;color:var(--cyan);font-size:14px;padding:5px 4px 10px}
 details{border:1px dashed #46c9c8;border-radius:14px;margin:9px 0;background:#090e18;overflow:hidden}
@@ -29,6 +30,48 @@ summary{list-style:none;cursor:pointer;padding:14px 13px;color:var(--cyan);font-
 summary::-webkit-details-marker{display:none}summary:after{content:"＋";font-size:18px;color:var(--cyan)}details[open] summary:after{content:"−"}
 .panel{padding:3px 12px 20px;border-top:1px solid #263b4a}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+
+/* قسم اختيار الدوائر الحلقية المرتب ببطاقات منفصلة */
+.ring-grid-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.ring-card {
+  background: #151b2a;
+  border: 2px solid #263b4a;
+  border-radius: 14px;
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.ring-card:hover, .ring-card.active {
+  border-color: var(--cyan);
+  background: #19263f;
+  box-shadow: 0 0 12px rgba(77, 228, 223, 0.3);
+  transform: translateY(-2px);
+}
+.ring-card-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--white);
+  margin-top: 6px;
+}
+.ring-preview-icon {
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  border-radius: 50%;
+  border: 2px dashed var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #090e18;
+}
+
 .field{min-width:0;padding-top:10px}.field label{display:block;font-size:12px;color:#e5e9f1;margin-bottom:8px}
 .field output{color:var(--cyan);font-size:11px;float:left}
 select,input[type=text],input[type=color]{width:100%;min-height:42px;border:1px solid #4bcacb;border-radius:10px;background:#151b2a;color:var(--white);padding:8px;font:inherit}
@@ -39,7 +82,11 @@ input[type=color]{padding:4px;height:43px}
 .action.primary{background:linear-gradient(110deg,#b900f5,#4de4df);border:0;color:#081116;font-weight:bold}
 .note{font-size:10px;line-height:1.8;color:#9eacc0;margin:9px 2px 0}
 .export-status{font-size:11px;color:var(--cyan);margin-top:8px;min-height:18px}
-@media(max-width:420px){header h1{font-size:18px}.uploads{gap:6px;padding:9px}.upload label{font-size:11px}.upload button{font-size:11px}.grid{gap:10px 8px}.field label{font-size:11px}.tools{padding:8px}}
+
+@media(max-width:480px){
+  .ring-grid-section { grid-template-columns: repeat(2, 1fr); }
+  header h1{font-size:18px}.uploads{gap:6px;padding:9px}.upload label{font-size:11px}.upload button{font-size:11px}.grid{gap:10px 8px}.field label{font-size:11px}.tools{padding:8px}
+}
 
 .error-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f060a;border:1px solid #ff4d4d;color:#ff8080;padding:12px 20px;border-radius:12px;font-size:13px;box-shadow:0 4px 20px rgba(255,0,0,0.3);z-index:9999;display:none;align-items:center;gap:10px;animation:fadeIn 0.3s ease}
 .error-toast.active{display:flex}
@@ -98,10 +145,47 @@ input[type=color]{padding:4px;height:43px}
    </div>
   </div></div>
  </details>
+
+ <details open>
+  <summary>🔵 معرض الدوائر الحلقية وأنماط السوق الاحترافية (Choose Style)</summary>
+  <div class="panel">
+   <div class="field full" style="margin-bottom: 8px;">
+    <label style="font-weight:bold; color:var(--cyan);">اختر الشكل المطلوب للدوائر الحلقية بضغطة زر مرتبة:</label>
+   </div>
+   <!-- قسم المربعات المنفصلة لاختيار أنماط الدوائر الحلقية -->
+   <div class="ring-grid-section">
+    <div class="ring-card active" data-ring="ring">
+     <div class="ring-preview-icon">⭕</div>
+     <div class="ring-card-title">حلقة متوهجة</div>
+    </div>
+    <div class="ring-card" data-ring="multi_rings">
+     <div class="ring-preview-icon">🎯</div>
+     <div class="ring-card-title">دوائر متداخلة</div>
+    </div>
+    <div class="ring-card" data-ring="dotted_ring">
+     <div class="ring-preview-icon">💠</div>
+     <div class="ring-card-title">نقاط منقطة</div>
+    </div>
+    <div class="ring-card" data-ring="neon_bars">
+     <div class="ring-preview-icon">📊</div>
+     <div class="ring-card-title">أعمدة نيون</div>
+    </div>
+    <div class="ring-card" data-ring="circle">
+     <div class="ring-preview-icon">🌐</div>
+     <div class="ring-card-title">موجة دائرية</div>
+    </div>
+    <div class="ring-card" data-ring="double">
+     <div class="ring-preview-icon">✨</div>
+     <div class="ring-card-title">موجتان مزدوجتان</div>
+    </div>
+   </div>
+  </div>
+ </details>
+
  <details>
-  <summary>🎵 إعدادات الموجة الصوتية الاحترافية</summary>
+  <summary>🎵 إعدادات الموجة الصوتية التفصيلية</summary>
   <div class="panel"><div class="grid">
-   <div class="field full"><label for="waveType">نوع الموجة الاحترافية</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية الفاخرة</option><option value="neon_bars">أعمدة نيون متوهجة (موجة السوق)</option><option value="pulse">نبضات متحركة سينمائية</option><option value="circle">موجة دائرية إيقاعية</option><option value="ring">حلقة متوهجة حول الملصق</option><option value="double">موجتان مزدوجتان مع شرارات</option><option value="line">خط صوتي ناعم متعرج</option></select></div>
+   <div class="field full"><label for="waveType">نوع الموجة الأساسية</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية الفاخرة</option><option value="neon_bars">أعمدة نيون متوهجة</option><option value="pulse">نبضات متحركة سينمائية</option><option value="circle">موجة دائرية إيقاعية</option><option value="ring" selected>حلقة متوهجة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="line">خط صوتي ناعم متعرج</option></select></div>
    <div class="field"><label for="waveSize">حجم الموجة <output id="waveSizeOut">95</output></label><input id="waveSize" type="range" min="20" max="180" value="95"></div>
    <div class="field"><label for="waveSpeed">سرعة الحركة <output id="waveSpeedOut">5</output></label><input id="waveSpeed" type="range" min="1" max="10" value="5"></div>
    <div class="field"><label for="waveX">الموضع الأفقي للموجة 1 (يمين/يسار) <output id="waveXOut">50%</output></label><input id="waveX" type="range" min="0" max="100" value="50"></div>
@@ -126,8 +210,8 @@ input[type=color]{padding:4px;height:43px}
    <div class="field"><label for="logoRound">استدارة الإطار</label><select id="logoRound"><option value="circle">دائري</option><option value="square">مربع</option><option value="rounded">مستدير</option></select></div>
    <div class="field"><label for="logoBorder">لون الإطار</label><input id="logoBorder" type="color" value="#4de4df"></div>
    <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:6px; font-weight:bold; color:var(--cyan)">🌊 الموجة الثانية (مرتبطة ومرافقة للملصق)</div>
-   <div class="field"><label for="enableWave2">تفعيل الموجة الثانية</label><select id="enableWave2"><option value="true">مفعلة</option><option value="false">معطلة</option></select></div>
-   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="neon_bars">أعمدة نيون متوهجة</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="pulse">نبضات متحركة</option><option value="circle">موجة دائرية</option><option value="line">خط صوتي ناعم</option></select></div>
+   <div class="field"><label for="enableWave2">تفعيل الموجة الثانية</label><select id="enableWave2"><option value="true" selected>مفعلة</option><option value="false">معطلة</option></select></div>
+   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="multi_rings">دوائر متداخلة</option><option value="dotted_ring">نقاط منقطة</option><option value="neon_bars">أعمدة نيون</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="circle">موجة دائرية</option></select></div>
    <div class="field"><label for="wave2Color">لون الموجة الثانية</label><input id="wave2Color" type="color" value="#bd00f5"></div>
    <div class="field"><label for="wave2Color2">اللون الثاني للموجة الثانية</label><input id="wave2Color2" type="color" value="#4de4df"></div>
    <div class="field"><label for="wave2Scale">نسبة حجم الموجة الثانية <output id="wave2ScaleOut">85%</output></label><input id="wave2Scale" type="range" min="20" max="180" value="85"></div>
@@ -182,30 +266,6 @@ input[type=color]{padding:4px;height:43px}
     </select>
    </div>
   </div></div>
-  <details>
-  <summary>🎨 قوالب النصوص والمؤثرات البصرية النصية</summary>
-  <div class="panel"><div class="grid">
-   <div class="field full"><label for="textPreset">اختر قالب جاهز لترتيب النصوص</label>
-    <select id="textPreset">
-     <option value="custom">تنسيق يدوي حسب الرغبة</option>
-     <option value="centered">قالب مركزي متناسق (وسط الشاشة)</option>
-     <option value="bottom_stack">قالب أسفل الشاشة الاحترافي (Song Visualizer)</option>
-     <option value="top_bottom">قالب العنوان في الأعلى والحقوق في الأسفل</option>
-     <option value="side_right">قالب الترتيب الجانبي (يمين الشاشة)</option>
-    </select>
-   </div>
-   <div class="field full"><label for="textEffect">اختر المؤثر البصري للنصوص</label>
-    <select id="textEffect">
-     <option value="shadow">ظلال كلاسيكية ناعمة (Shadow)</option>
-     <option value="neon">توهج نيون مضيء (Neon Glow)</option>
-     <option value="stroke">إطار حد خارجي (Text Stroke Outline)</option>
-     <option value="3d">تأثير ثلاثي الأبعاد (3D Depth Effect)</option>
-    </select>
-   </div>
-   <div class="field"><label for="textGlowColor">لون التوهج / الحد الخارجي</label><input id="textGlowColor" type="color" value="#4de4df"></div>
-   <div class="field"><label for="textGlowSize">قوة المؤثر / التوهج <output id="textGlowSizeOut">12</output></label><input id="textGlowSize" type="range" min="0" max="40" value="12"></div>
-  </div></div>
- </details>
  </details>
  <details>
   <summary>🎚️ إعدادات الصوت والتصدير</summary>
@@ -246,8 +306,8 @@ const audio=$('audio');let bg=null,logo=null,bgURL=null,logoURL=null,audioURL=nu
 
 const defaults={
  textPreset:'custom',textEffect:'shadow',textGlowColor:'#4de4df',textGlowSize:12,
- waveType:'neon_bars',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
- enableWave2:true,wave2Type:'ring',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
+ waveType:'ring',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
+ enableWave2:true,wave2Type:'multi_rings',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
  logoSize:180,logoX:50,logoY:48,logoFrame:5,logoRound:'circle',logoBorder:'#4de4df',
  titleText:'Sad Horse Sound Music',titleSize:32,titleX:50,titleY:86,subText:'موسيقى صوت الخيل الحزين',subSize:22,subX:50,subY:93,extraText:'استوديو علاء البصراوي',extraSize:18,extraX:50,extraY:97,extraColor:'#a8b4c7',titleColor:'#ffffff',subColor:'#4de4df',
  bgFit:'cover',shade:20,
@@ -302,51 +362,11 @@ function renderSingleWave(data, scale, alpha, th, color1, color2, offset=0, cust
  const g=ctx.createLinearGradient(0,0,w,h);
  g.addColorStop(0,color1);g.addColorStop(1,color2);
  ctx.strokeStyle=g;ctx.fillStyle=g;ctx.lineWidth=th;ctx.lineCap='round';
- ctx.shadowColor=color1;ctx.shadowBlur=16; // توهج نيون احترافي قوي مثل موجات السوق
+ ctx.shadowColor=color1;ctx.shadowBlur=16;
  const count=64;
 
- if(type==='neon_bars'){
-  // أعمدة نيون متوهجة مقوسة واحترافية للغاية مثل تطبيقات المونتاج الحديثة
-  const gap=w/(count+10),base=cy;
-  for(let i=0;i<count;i++){
-   const idx=(i+offset)%data.length;
-   const v=data[idx]/255,amp=(15+v*h*.3)*scale,x=(i-(count-1)/2)*gap+cx;
-   ctx.lineWidth=Math.max(2,th*0.8);
-   ctx.shadowBlur=20;
-   ctx.beginPath();
-   ctx.roundRect ? ctx.roundRect(x - th/2, base-amp, th, amp, [4, 4, 0, 0]) : ctx.rect(x - th/2, base-amp, th, amp);
-   ctx.fill();
-   
-   // انعكاس سفلي خفيف للموجة يزودها جمالية سينمائية
-   ctx.globalAlpha = alpha * 0.3;
-   ctx.beginPath();
-   ctx.rect(x - th/2, base + 2, th, amp * 0.3);
-   ctx.fill();
-   ctx.globalAlpha = alpha;
-  }
- }
- else if(type==='bars'||type==='double'||type==='pulse'){
-  const gap=w/(count+10),base=cy;
-  for(let i=0;i<count;i++){
-   const idx=(i+offset)%data.length;
-   const v=data[idx]/255,amp=(18+v*h*.24)*scale,x=(i-(count-1)/2)*gap+cx;
-   ctx.beginPath();ctx.moveTo(x,base-amp);ctx.lineTo(x,base+(type==='double'?amp*.25:0));ctx.stroke();
-   if(type==='double'){
-    ctx.globalAlpha=alpha*.45;ctx.beginPath();ctx.moveTo(x,h*.88);ctx.lineTo(x,h*.88-amp*.55);ctx.stroke();ctx.globalAlpha=alpha;
-   }
-  }
- }
- else if(type==='circle'){
-  const base=Math.min(w,h)*.16*scale;
-  ctx.beginPath();
-  for(let i=0;i<=180;i++){
-   const ang=i/180*Math.PI*2,idx=(i+offset)%data.length,v=data[idx]/255,r=base+v*base*.8;
-   const x=cx+Math.cos(ang)*r,y=cy-h*.18+Math.sin(ang)*r;
-   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-  }
-  ctx.closePath();ctx.stroke();
- }
- else if(type==='ring'){
+ if(type==='ring'){
+  // حلقة متوهجة حول الشعار
   const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
   const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
   const stickerRadius=logo?Number(val('logoSize'))/2:Math.min(w,h)*.12;
@@ -361,6 +381,76 @@ function renderSingleWave(data, scale, alpha, th, color1, color2, offset=0, cust
    const x2=lx+Math.cos(angle)*outer,y2=ly+Math.sin(angle)*outer;
    ctx.lineWidth=Math.max(1,thick);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
   }
+ }
+ else if(type==='multi_rings'){
+  // دوائر متداخلة حلقية (مثل أنماط السوق الاحترافية)
+  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
+  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
+  const baseR=logo?Number(val('logoSize'))/2+15:50;
+  const ringsCount=6;
+  for(let r=0; r<ringsCount; r++){
+   const radius = baseR + r * (18 * scale);
+   ctx.beginPath();
+   const avgVal = data[r*10 % data.length] / 255;
+   ctx.lineWidth = Math.max(1.5, (th - r) * 0.7);
+   ctx.globalAlpha = alpha * (1 - r * 0.12);
+   for(let i=0; i<=120; i++){
+    const ang = (i/120) * Math.PI * 2;
+    const pulse = Math.sin(ang * 6 + performance.now()/300 + r) * avgVal * 12;
+    const x = lx + Math.cos(ang) * (radius + pulse);
+    const y = ly + Math.sin(ang) * (radius + pulse);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+   }
+   ctx.closePath();
+   ctx.stroke();
+  }
+ }
+ else if(type==='dotted_ring'){
+  // حلقة نقاط منقطة متوهجة إيقاعية
+  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
+  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
+  const baseR=logo?Number(val('logoSize'))/2+25:70;
+  const dots=40;
+  for(let i=0; i<dots; i++){
+   const idx = Math.floor(i * data.length / dots);
+   const v = data[idx] / 255;
+   const ang = (i / dots) * Math.PI * 2;
+   const r = baseR + v * 40 * scale;
+   const x = lx + Math.cos(ang) * r;
+   const y = ly + Math.sin(ang) * r;
+   ctx.beginPath();
+   ctx.arc(x, y, Math.max(2, 3.5 * v * scale), 0, Math.PI * 2);
+   ctx.fill();
+  }
+ }
+ else if(type==='neon_bars'){
+  const gap=w/(count+10),base=cy;
+  for(let i=0;i<count;i++){
+   const idx=(i+offset)%data.length;
+   const v=data[idx]/255,amp=(15+v*h*.3)*scale,x=(i-(count-1)/2)*gap+cx;
+   ctx.lineWidth=Math.max(2,th*0.8);
+   ctx.beginPath();
+   ctx.roundRect ? ctx.roundRect(x - th/2, base-amp, th, amp, [4, 4, 0, 0]) : ctx.rect(x - th/2, base-amp, th, amp);
+   ctx.fill();
+  }
+ }
+ else if(type==='bars'||type==='double'||type==='pulse'){
+  const gap=w/(count+10),base=cy;
+  for(let i=0;i<count;i++){
+   const idx=(i+offset)%data.length;
+   const v=data[idx]/255,amp=(18+v*h*.24)*scale,x=(i-(count-1)/2)*gap+cx;
+   ctx.beginPath();ctx.moveTo(x,base-amp);ctx.lineTo(x,base+(type==='double'?amp*.25:0));ctx.stroke();
+  }
+ }
+ else if(type==='circle'){
+  const base=Math.min(w,h)*.16*scale;
+  ctx.beginPath();
+  for(let i=0;i<=180;i++){
+   const ang=i/180*Math.PI*2,idx=(i+offset)%data.length,v=data[idx]/255,r=base+v*base*.8;
+   const x=cx+Math.cos(ang)*r,y=cy-h*.18+Math.sin(ang)*r;
+   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.stroke();
  }
  else{
   ctx.beginPath();
@@ -576,69 +666,20 @@ ids.forEach(id=>{
  el.addEventListener('change',()=>{draw();});
 });
 
-$('textPreset').addEventListener('change', e => {
- const p = e.target.value;
- if(p === 'centered'){
-  $('titleX').value = 50; $('titleY').value = 40;
-  $('subX').value = 50; $('subY').value = 52;
-  $('extraX').value = 50; $('extraY').value = 62;
- } else if(p === 'bottom_stack'){
-  $('titleX').value = 50; $('titleY').value = 82;
-  $('subX').value = 50; $('subY').value = 89;
-  $('extraX').value = 50; $('extraY').value = 95;
- } else if(p === 'top_bottom'){
-  $('titleX').value = 50; $('titleY').value = 14;
-  $('subX').value = 50; $('subY').value = 22;
-  $('extraX').value = 50; $('extraY').value = 95;
- } else if(p === 'side_right'){
-  $('titleX').value = 75; $('titleY').value = 45;
-  $('subX').value = 75; $('subY').value = 55;
-  $('extraX').value = 75; $('extraY').value = 65;
- }
- ['titleX','titleY','subX','subY','extraX','extraY'].forEach(id=>{
-  const o=$(id+'Out'); if(o) o.textContent = $(id).value+'%';
+// تفعيل ربط مربعات معرض الدوائر الحلقية (Choose Style)
+document.querySelectorAll('.ring-card').forEach(card => {
+ card.addEventListener('click', () => {
+  document.querySelectorAll('.ring-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const ringType = card.dataset.ring;
+  const waveTypeSelect = $('waveType');
+  if(waveTypeSelect){
+   waveTypeSelect.value = ringType;
+   draw();
+   $('status').textContent = '✨ تم اختيار نمط الدائرة: ' + card.querySelector('.ring-card-title').textContent;
+  }
  });
- draw();
 });
-
-function supportedMime(){return ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m))||''}
-
-$('export').onclick=async()=>{
- if(exporting)return;
- if(!audio.src){showError('ارفع ملفاً صوتياً قبل التصدير.');return}
- if(!canvas.captureStream||!window.MediaRecorder){showError('التصدير غير مدعوم في هذا المتصفح.');return}
- const mime=supportedMime();
- if(!mime){showError('لا توجد صيغة WebM مدعومة في متصفحك.');return}
- try{
-  audioGraph();
-  if(ac.state==='suspended')await ac.resume();
-  const wasPlaying=!audio.paused;
-  audio.pause();audio.currentTime=0;draw();
-  const stream=canvas.captureStream(30);
-  dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
-  recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:Math.round(2500000*Number(val('quality')))});
-  const chunks=[];
-  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
-  recorder.onstop=()=>{
-   const blob=new Blob(chunks,{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');
-   a.href=url;a.download='Alaa-AlBasrawi-Studio.webm';a.click();
-   setTimeout(()=>URL.revokeObjectURL(url),30000);
-   stream.getTracks().forEach(t=>t.stop());
-   exporting=false;
-   $('exportStatus').textContent='اكتمل التصدير. تم تنزيل الفيديو.';
-   if(wasPlaying)togglePlay();
-  };
-  recorder.start(250);
-  exporting=true;
-  $('exportStatus').textContent='جارٍ تسجيل الفيديو والصوت…';
-  await audio.play();
-  playing=true;$('play').textContent='Ⅱ';
-  animate();
-  audio.onended=()=>{playing=false;$('play').textContent='▶';if(recorder&&recorder.state!=='inactive')recorder.stop()};
- }catch(e){exporting=false;showError('تعذر التصدير: ' + e.message)}
-};
-
-$('reset').onclick=()=>{ids.forEach(id=>{$(id).value=defaults[id]});ids.forEach(id=>{const o=$(id+'Out');if(o)o.textContent=$(id).value});fitCanvas();initParticles();draw()};
 
 $('fullPreset').addEventListener('change', e => {
  const p = e.target.value;
@@ -659,7 +700,7 @@ $('fullPreset').addEventListener('change', e => {
   $('waveX').value = 25; $('waveY').value = 45;
   $('waveType').value = 'circle';
   $('enableWave2').value = 'true';
-  $('wave2Type').value = 'neon_bars';
+  $('wave2Type').value = 'multi_rings';
   $('wave2Scale').value = 100;
   $('logoX').value = 25; $('logoY').value = 45;
  } else if(p === 'split_circular_right'){
@@ -667,7 +708,7 @@ $('fullPreset').addEventListener('change', e => {
   $('subX').value = 30; $('subY').value = 30;
   $('extraX').value = 30; $('extraY').value = 40;
   $('waveX').value = 75; $('waveY').value = 45;
-  $('waveType').value = 'circle';
+  $('waveType').value = 'multi_rings';
   $('enableWave2').value = 'true';
   $('wave2Type').value = 'neon_bars';
   $('wave2Scale').value = 95;
@@ -708,54 +749,7 @@ $('fullPreset').addEventListener('change', e => {
  draw();
 });
 
-function renderVisualPresetGallery(){
- const gallery = $('visualPresetGallery');
- if(!gallery) return;
- const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
- const keys = Object.keys(saved);
- if(keys.length === 0){
-  gallery.innerHTML = '<div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة بعد. اضغط على زر حفظ القالب أعلاه لتخزينه هنا!</div>';
-  return;
- }
- gallery.innerHTML = '';
- keys.forEach(name => {
-  const card = document.createElement('div');
-  card.style.cssText = 'background:#151b2a; border:1px solid #3ecac7; border-radius:10px; padding:8px; text-align:center; cursor:pointer; transition:all 0.2s;';
-  card.innerHTML = `<div style="font-size:12px; font-weight:bold; color:var(--cyan); margin-bottom:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</div><button type="button" class="action primary" style="font-size:10px; padding:4px 8px; width:100%;">تطبيق</button>`;
-  card.onclick = () => {
-   const cfg = saved[name];
-   if(cfg){
-    Object.keys(cfg).forEach(id => { const el = $(id); if(el) el.value = cfg[id]; });
-    ids.forEach(id => {
-     const el = $(id), out = $(id+'Out');
-     if(el && out){
-      const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
-      out.textContent = el.value + (isPct ? '%' : '');
-     }
-    });
-    fitCanvas(); initParticles(); draw();
-    $('status').textContent = '👌 تم تطبيق القالب المحفوظ: ' + name;
-   }
-  };
-  gallery.appendChild(card);
- });
-}
-
-$('saveCustomPresetBtn').onclick = () => {
- const nameInput = $('customPresetName');
- const name = nameInput.value.trim();
- if(!name){ showError('يرجى كتابة اسم للقالب أولاً.'); return; }
- const currentConfig = {};
- ids.forEach(id => { const el = $(id); if(el) currentConfig[id] = el.value; });
- const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
- saved[name] = currentConfig;
- localStorage.setItem('studio_custom_presets', JSON.stringify(saved));
- nameInput.value = '';
- renderVisualPresetGallery();
- $('status').textContent = '✅ تم حفظ القالب "' + name + '" بنجاح داخل قسم القوالب!';
-};
-
-fitCanvas(); initParticles(); draw(); renderVisualPresetGallery();
+fitCanvas(); initParticles(); draw();
 })();
 </script>
 <div id="errorToast" class="error-toast">⚠️ <span id="errorMsg">حدث خطأ غير متوقع.</span></div>
