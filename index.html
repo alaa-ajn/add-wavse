@@ -7,7 +7,8 @@
 <title>استوديو علاء البصراوي الاحترافي</title>
 <style>
 :root{--bg:#090b14;--panel:#111522;--panel2:#0c101b;--cyan:#4de4df;--purple:#c000ff;--muted:#a8b4c7;--line:#263447;--white:#f5f7fb}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:28px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:80px;/* زيادة مسافة الأمان السفلي لمنع تداخل أزرار الهاتف */}
 header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:3px 0;color:var(--cyan);text-shadow:0 0 16px #4de4df55}header p{font-size:11px;color:var(--muted);margin:6px 0}
 .wrap{width:min(760px,100%);margin:auto;padding:0 12px}
 .uploads{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:13px;border:2px solid var(--cyan);border-radius:20px;background:#10111c;box-shadow:0 0 20px #4de4df18}
@@ -18,7 +19,7 @@ header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:
 .live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:none}
 .transport{display:grid;grid-template-columns:58px 1fr 48px;align-items:center;gap:10px;margin-top:9px}
 .time{font-variant-numeric:tabular-nums;font-size:13px;color:#fff}
-input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:12px 0;touch-action:none}
+input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:16px 0;touch-action:none} /* مسافة لمس مريحة للمنزلقات */
 .round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
 .status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
 .tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
@@ -26,7 +27,7 @@ input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:12p
 details{border:1px dashed #46c9c8;border-radius:14px;margin:9px 0;background:#090e18;overflow:hidden}
 summary{list-style:none;cursor:pointer;padding:14px 13px;color:var(--cyan);font-weight:bold;font-size:14px;display:flex;justify-content:space-between;align-items:center}
 summary::-webkit-details-marker{display:none}summary:after{content:"＋";font-size:18px;color:var(--cyan)}details[open] summary:after{content:"−"}
-.panel{padding:3px 12px 15px;border-top:1px solid #263b4a}
+.panel{padding:3px 12px 20px;border-top:1px solid #263b4a}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
 .field{min-width:0;padding-top:10px}.field label{display:block;font-size:12px;color:#e5e9f1;margin-bottom:8px}
 .field output{color:var(--cyan);font-size:11px;float:left}
@@ -373,12 +374,10 @@ function drawWave(){
  renderSingleWave(data, scale1, alpha1, th1, val('waveColor'), val('waveColor2'), 0, type1, wx1, wy1);
 }
 
-// نظام جسيمات المطر، الدخان، والرياح السينمائي المتقدم
 let particles = [];
 function initParticles(){
  particles = [];
  const density = Number(val('rainDensity')) || 80;
- // مطر سينمائي واقعي (قطرات متعددة الطبقات بسرعات مختلفة)
  for(let i=0; i<density; i++){
   particles.push({
    type: 'rain',
@@ -390,7 +389,6 @@ function initParticles(){
    alpha: Math.random() * 0.5 + 0.3
   });
  }
- // دخان
  for(let i=0; i<20; i++){
   particles.push({
    type: 'smoke',
@@ -402,7 +400,6 @@ function initParticles(){
    alpha: Math.random() * 0.22 + 0.06
   });
  }
- // رياح عاتية احترافية
  const windPower = Number(val('windSpeed')) || 7;
  for(let i=0; i<45; i++){
   particles.push({
@@ -677,7 +674,7 @@ $('fullPreset').addEventListener('change', e => {
   $('titleX').value = 25; $('titleY').value = 25;
   $('subX').value = 25; $('subY').value = 35;
   $('extraX').value = 25; $('extraY').value = 45;
-  $('waveX').value        $('waveX').value = 75; $('waveY').value = 60;
+  $('waveX').value = 75; $('waveY').value = 60;
   $('logoX').value = 75; $('logoY').value = 30;
  }
  
@@ -691,7 +688,6 @@ $('fullPreset').addEventListener('change', e => {
  draw();
 });
 
-// حفظ القوالب المعروضة داخل قسم القوالب مع معرض بصري مصغر
 function renderVisualPresetGallery(){
  const gallery = $('visualPresetGallery');
  if(!gallery) return;
@@ -730,9 +726,10 @@ $('saveCustomPresetBtn').onclick = () => {
  const name = nameInput.value.trim();
  if(!name){ showError('يرجى كتابة اسم للقالب أولاً.'); return; }
  const currentConfig = {};
- ids.forEach(id => { currentConfig[id] = $(id); if(currentConfig[id]) currentConfig[id] = $(id).value; });
+ ids.forEach(id => { const el = $(id); if(el) currentConfig[id] = el.value; });
  const saved = JSON.parse(localStorage.getItem('studio_custom_presets') || '{}');
  saved[name] = currentConfig;
+ localStorage.setItem('studio_current_presets', JSON.stringify(saved));
  localStorage.setItem('studio_custom_presets', JSON.stringify(saved));
  nameInput.value = '';
  renderVisualPresetGallery();
