@@ -1,757 +1,1364 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090b14">
-<title>استوديو علاء البصراوي الاحترافي — معرض الدوائر الحلقية</title>
-<style>
-:root{--bg:#090b14;--panel:#111522;--panel2:#0c101b;--cyan:#4de4df;--purple:#c000ff;--muted:#a8b4c7;--line:#263447;--white:#f5f7fb}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 50% -10%,#172235 0,#090b14 42%);color:var(--white);font-family:Tahoma,Arial,sans-serif;padding-bottom:80px}
-header{padding:15px 14px 10px;text-align:center}header h1{font-size:20px;margin:3px 0;color:var(--cyan);text-shadow:0 0 16px #4de4df55}header p{font-size:11px;color:var(--muted);margin:6px 0}
-.wrap{width:min(760px,100%);margin:auto;padding:0 12px}
-.uploads{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:13px;border:2px solid var(--cyan);border-radius:20px;background:#10111c;box-shadow:0 0 20px #4de4df18}
-.upload label{display:block;text-align:center;color:var(--cyan);font-weight:bold;font-size:13px;margin:3px 0 10px}
-.upload input{display:none}.upload button{width:100%;min-height:46px;border:0;border-radius:28px;color:white;font-size:13px;background:linear-gradient(110deg,#bd00f5,#7a51f3,#4de4df);padding:8px 5px;cursor:pointer}
-.preview-card{margin-top:13px;border:2px solid #30343b;border-radius:22px;background:#020308;padding:10px;box-shadow:0 0 18px #0008;position:sticky;top:0;z-index:5}
-.preview-top{display:flex;justify-content:space-between;align-items:center;padding:2px 5px 8px;font-size:12px;color:var(--muted)}
-.live{color:var(--cyan)}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:13px;background:#03050b;touch-action:none}
-.transport{display:grid;grid-template-columns:58px 1fr 48px;align-items:center;gap:10px;margin-top:9px}
-.time{font-variant-numeric:tabular-nums;font-size:13px;color:#fff}
-input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;padding:16px 0;touch-action:none}
-.round{width:46px;height:46px;border:0;border-radius:50%;background:var(--cyan);color:#071116;font-size:20px;font-weight:bold;box-shadow:0 0 16px #4de4df55}
-.status{font-size:11px;color:var(--muted);padding:8px 4px 1px;min-height:23px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.1</title>
+    <style>
+        :root {
+            --bg-color: #050508;
+            --wave-color: #00ffff;
+            --panel-bg: rgba(18, 18, 26, 0.92);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --accent-purple: #8e44ad;
+            --accent-orange: #e67e22;
+            --text-color: #fff;
+        }
 
-.tools{margin-top:13px;border:2px solid #3ecac7;border-radius:20px;background:linear-gradient(145deg,#11131e,#0c1019);padding:10px;box-shadow:0 0 18px #4de4df13}
-.tools-head{font-weight:bold;color:var(--cyan);font-size:14px;padding:5px 4px 10px}
-details{border:1px dashed #46c9c8;border-radius:14px;margin:9px 0;background:#090e18;overflow:hidden}
-summary{list-style:none;cursor:pointer;padding:14px 13px;color:var(--cyan);font-weight:bold;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-summary::-webkit-details-marker{display:none}summary:after{content:"＋";font-size:18px;color:var(--cyan)}details[open] summary:after{content:"−"}
-.panel{padding:3px 12px 20px;border-top:1px solid #263b4a}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+        * { box-sizing: border-box; }
 
-/* قسم اختيار الدوائر الحلقية المرتب ببطاقات منفصلة */
-.ring-grid-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 10px;
-}
-.ring-card {
-  background: #151b2a;
-  border: 2px solid #263b4a;
-  border-radius: 14px;
-  padding: 10px 6px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-.ring-card:hover, .ring-card.active {
-  border-color: var(--cyan);
-  background: #19263f;
-  box-shadow: 0 0 12px rgba(77, 228, 223, 0.3);
-  transform: translateY(-2px);
-}
-.ring-card-title {
-  font-size: 11px;
-  font-weight: bold;
-  color: var(--white);
-  margin-top: 6px;
-}
-.ring-preview-icon {
-  width: 48px;
-  height: 48px;
-  margin: auto;
-  border-radius: 50%;
-  border: 2px dashed var(--cyan);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  background: #090e18;
-}
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            color: var(--text-color);
+            transition: background-color 0.8s ease;
+        }
 
-.field{min-width:0;padding-top:10px}.field label{display:block;font-size:12px;color:#e5e9f1;margin-bottom:8px}
-.field output{color:var(--cyan);font-size:11px;float:left}
-select,input[type=text],input[type=color]{width:100%;min-height:42px;border:1px solid #4bcacb;border-radius:10px;background:#151b2a;color:var(--white);padding:8px;font:inherit}
-input[type=color]{padding:4px;height:43px}
-.full{grid-column:1/-1}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.action{border:1px solid #3d6971;background:#152333;color:#eafcff;border-radius:11px;padding:10px 13px;font-size:12px}
-.action.primary{background:linear-gradient(110deg,#b900f5,#4de4df);border:0;color:#081116;font-weight:bold}
-.note{font-size:10px;line-height:1.8;color:#9eacc0;margin:9px 2px 0}
-.export-status{font-size:11px;color:var(--cyan);margin-top:8px;min-height:18px}
+        #top-bar-container {
+            width: 95%;
+            max-width: 980px;
+            margin-top: 6px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            z-index: 10;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
 
-@media(max-width:480px){
-  .ring-grid-section { grid-template-columns: repeat(2, 1fr); }
-  header h1{font-size:18px}.uploads{gap:6px;padding:9px}.upload label{font-size:11px}.upload button{font-size:11px}.grid{gap:10px 8px}.field label{font-size:11px}.tools{padding:8px}
-}
+        .top-slide-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 6px 12px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            align-items: center;
+        }
 
-.error-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f060a;border:1px solid #ff4d4d;color:#ff8080;padding:12px 20px;border-radius:12px;font-size:13px;box-shadow:0 4px 20px rgba(255,0,0,0.3);z-index:9999;display:none;align-items:center;gap:10px;animation:fadeIn 0.3s ease}
-.error-toast.active{display:flex}
-@keyframes fadeIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
-</style>
+        .top-slide-container::-webkit-scrollbar { height: 2px; }
+        .top-slide-container::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+
+        .btn-top-item {
+            flex: 0 0 auto;
+            background: var(--accent-purple);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-playlist { background: #2980b9; }
+        .btn-export { background: #27ae60; }
+        .btn-fullscreen { background: #d35400; }
+        .btn-rec { background: #c0392b; }
+        .btn-rec.recording { background: #ff0000; box-shadow: 0 0 12px red; }
+        .btn-hide { background: #7f8c8d; }
+        .btn-img { background: #8e44ad; }
+
+        .btn-ai-auto {
+            background: linear-gradient(45deg, #e67e22, #f1c40f);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 10px #f1c40f;
+            white-space: nowrap;
+        }
+
+        .btn-ai-sync {
+            background: linear-gradient(45deg, #9b59b6, #e74c3c);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 10px #e74c3c;
+            white-space: nowrap;
+        }
+        .btn-ai-sync.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            box-shadow: 0 0 14px #2ecc71;
+        }
+
+        .btn-ai-shuffle {
+            background: linear-gradient(45deg, #8e44ad, #2980b9);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
+            white-space: nowrap;
+        }
+        .btn-ai-shuffle.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            box-shadow: 0 0 14px #2ecc71;
+        }
+
+        input[type="file"] { display: none; }
+
+        #export-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 380px;
+            background: rgba(15, 15, 22, 0.98);
+            border: 2px solid #27ae60;
+            border-radius: 14px;
+            padding: 16px;
+            z-index: 200;
+            display: none;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            text-align: center;
+        }
+        #export-modal.active { display: block; }
+        .export-option-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: #fff;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.4);
+        }
+
+        #playlist-modal {
+            position: absolute;
+            top: 70px;
+            width: 92%;
+            max-width: 480px;
+            background: rgba(15, 15, 22, 0.98);
+            border: 2px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 12px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        #playlist-modal.active { display: block; }
+        
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .edit-title-box {
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .edit-title-box label {
+            font-size: 10px;
+            color: #00ffff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .edit-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .edit-title-box input[type="text"] {
+            flex: 1;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: #fff;
+            padding: 5px 8px;
+            font-size: 11px;
+        }
+
+        .btn-ai-fix {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .playlist-items {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-top: 8px;
+            font-size: 11px;
+        }
+        .playlist-item {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 3px solid transparent;
+            cursor: pointer;
+        }
+        .playlist-item.active {
+            border-right-color: #00ffff;
+            background: rgba(0,255,255,0.1);
+        }
+
+        #track-info {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            z-index: 50;
+            max-width: 85%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.9);
+            letter-spacing: 0.8px;
+            color: #00ffff;
+            margin-top: 6px;
+            transition: opacity 0.3s ease;
+        }
+
+        #capture-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .canvas-container {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            top: 0;
+            left: 0;
+        }
+
+        canvas#canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
+            object-fit: cover;
+        }
+
+        #center-badge {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            background: rgba(18, 18, 26, 0.95);
+            border: 2.5px solid var(--wave-color);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 22px var(--wave-color);
+            z-index: 50;
+            padding: 4px;
+            text-align: center;
+        }
+
+        #center-badge .brand {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--text-color);
+        }
+
+        #center-badge span.sub {
+            font-size: 7.5px;
+            color: #aaa;
+            margin-top: 1px;
+        }
+
+        #bottom-slide-dock {
+            position: absolute;
+            bottom: 0;
+            width: 95%;
+            max-width: 980px;
+            background: rgba(12, 12, 18, 0.95);
+            border: 1px solid var(--border-color);
+            border-top: 2px solid var(--accent-purple);
+            border-radius: 12px 12px 0 0;
+            padding: 6px 0 8px 0;
+            z-index: 30;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.8);
+            transition: opacity 0.3s ease;
+        }
+
+        .slide-container {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 0 8px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .slide-container::-webkit-scrollbar { height: 2px; }
+        .slide-container::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+
+        .dock-item {
+            flex: 0 0 48px;
+            height: 48px;
+            background: rgba(30, 30, 45, 0.95);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px;
+            transition: 0.2s;
+        }
+
+        .dock-item:hover { border-color: var(--accent-purple); }
+        .dock-item.active {
+            border-color: #00ffff;
+            background: rgba(142, 68, 173, 0.5);
+            box-shadow: 0 0 8px rgba(0,255,255,0.5);
+        }
+
+        .dock-thumb {
+            width: 100%;
+            height: 56%;
+            background: #111;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+        }
+
+        .dock-label {
+            font-size: 7px;
+            color: #ccc;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .dock-item.active .dock-label { color: #fff; font-weight: bold; }
+        .chroma-item { background: rgba(40, 40, 60, 0.95); border-color: #2ecc71; }
+
+        body.hidden-ui #top-bar-container,
+        body.hidden-ui #bottom-slide-dock,
+        body.hidden-ui #playlist-modal,
+        body.hidden-ui #export-modal {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
-<header><h1>استوديو علاء البصراوي الاحترافي</h1><p>استوديو صوتي بصري · معاينة مباشرة · تحكم مستقل · تصدير فيديو</p></header>
-<main class="wrap">
-<section class="uploads">
- <div class="upload"><label>الخلفية</label><label for="bgFile"><button type="button" onclick="document.getElementById('bgFile').click()">رفع صورة</button></label><input id="bgFile" type="file" accept="image/*"></div>
- <div class="upload"><label>الملف الصوتي</label><label for="audioFile"><button type="button" onclick="document.getElementById('audioFile').click()">رفع صوت</button></label><input id="audioFile" type="file" accept="audio/*"></div>
- <div class="upload"><label>الملصق / الشعار</label><label for="logoFile"><button type="button" onclick="document.getElementById('logoFile').click()">رفع ملصق</button></label><input id="logoFile" type="file" accept="image/*"></div>
-</section>
 
-<section class="preview-card">
- <div class="preview-top"><span>شاشة المعاينة</span><span class="live">● معاينة مباشرة</span></div>
- <canvas id="screen" width="1280" height="720"></canvas>
- <div class="transport">
-  <span class="time" id="clock">00:00</span>
-  <input id="seek" type="range" min="0" max="1000" value="0">
-  <button class="round" id="play" aria-label="تشغيل">▶</button>
- </div>
- <div class="status" id="status">ارفع صورة الخلفية والملف الصوتي والملصق للبدء.</div>
-</section>
+    <div id="capture-wrapper">
 
-<section class="tools">
- <div class="tools-head">⚙️ أقسام التحكم — اختر القسم الذي تريد العمل عليه</div>
-  <details open style="border: 2px solid var(--cyan); background: linear-gradient(135deg, #111a2e, #0c101b);">
-  <summary style="font-size: 15px; color: var(--cyan);">🎬 القوالب الشاملة (تنسيق كلي جاهز لجميع العناصر بضغطة زر)</summary>
-  <div class="panel"><div class="grid">
-   <div class="field full">
-    <label for="fullPreset" style="font-weight:bold; color:var(--white);">اختر النمط/القالب الشامل لترتيب الفيديو</label>
-    <select id="fullPreset" style="background: #192338; font-weight:bold; color:var(--cyan); border-width: 2px;">
-     <option value="custom">-- اختر قالباً شاملاً لترتيب كافة العناصر --</option>
-     <option value="top_right_split">قالب احترافي: النصوص فوق يمين + الموجة 1 يسار + الموجة 2 أسفل</option>
-     <option value="split_circular_left">قالب 1: موجة دائرية يسار + موجة يمين + موجة أسفل + نصوص متحركة من اليمين لليسار</option>
-     <option value="split_circular_right">قالب 2: موجة دائرية يمين + موجة يسار + موجة أسفل + نصوص متحركة من اليمين لليسار</option>
-     <option value="classic_center">قالب كلاسيكي: الملصق والموجات في الوسط + النصوص في الأسفل</option>
-     <option value="modern_reels">قالب ستوري / ريلز عمودي: الملصق أعلى + موجة دائرية + النصوص وسط</option>
-     <option value="left_stack">قالب جانبي يسار: النصوص في يسار الشاشة + الموجة في اليمين</option>
-    </select>
-   </div>
-     <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
-    <label style="font-weight:bold; color:var(--cyan)">💾 حفظ القوالب المخصصة (داخل قسم القوالب)</label>
-    <div style="display:flex; gap:8px;">
-     <input id="customPresetName" type="text" placeholder="اكتب اسم القالب الجديد..." style="flex:1;">
-     <button id="saveCustomPresetBtn" type="button" class="action primary" style="padding: 0 16px; white-space:nowrap;">حفظ القالب الحالي</button>
+        <div id="top-bar-container" style="position: absolute; top: 6px; z-index: 60;">
+            <div class="top-slide-container">
+                <button class="btn-top-item btn-playlist" id="playlistBtn">🎵 القائمة</button>
+                <button class="btn-top-item btn-main" id="playBtn" disabled>▶ تشغيل</button>
+                <button class="btn-top-item btn-ai-auto active" id="aiAutoBtn">✨ AI ديناميكي</button>
+                <button class="btn-top-item btn-ai-sync active" id="aiSyncBtn">⚡ تزامن فائق</button>
+                <button class="btn-top-item btn-ai-shuffle" id="aiShuffleBtn">🔀 تبديل آلي (5ث)</button>
+                <button class="btn-top-item btn-fullscreen" id="fullscreenBtn">⛶ فول سكرين</button>
+                <button class="btn-top-item btn-rec" id="recBtn">🎥 تسجيل الاستوديو</button>
+                <label class="btn-top-item btn-img" for="bgImageFile">🖼️ خلفية</label>
+                <input type="file" id="bgImageFile" accept="image/*">
+                <button class="btn-top-item btn-export" id="exportBtn">📥 تصدير</button>
+                <button class="btn-top-item btn-hide" id="hideUiBtn">👁️ إخفاء وملء الشاشة</button>
+            </div>
+        </div>
+
+        <div id="export-modal">
+            <div class="playlist-header" style="margin-bottom: 10px;">
+                <span>🎯 اختر نوع وحجم التصدير</span>
+                <button class="btn-top-item" id="closeExportModal" style="padding: 2px 6px;">✕</button>
+            </div>
+            <button class="export-option-btn" id="exportVerticalVideoBtn">📱 فيديو عمودي (9:16 - ريلز/شورتس)</button>
+            <button class="export-option-btn" id="exportHorizontalVideoBtn">💻 فيديو أفقي قياسي (16:9 - شاشات)</button>
+            <button class="export-option-btn" id="exportImageBtn" style="background: linear-gradient(45deg, #2980b9, #3498db);">🖼️ صورة استوديو عالية الدقة (PNG)</button>
+        </div>
+
+        <div id="playlist-modal">
+            <div class="playlist-header">
+                <span>قائمة التشغيل وإدارة النصوص</span>
+                <button class="btn-top-item" id="closePlaylist" style="padding: 2px 6px;">✕</button>
+            </div>
+            <div style="margin: 8px 0;">
+                <label class="btn-top-item" for="multiAudioFile" style="display: block; text-align: center; padding: 7px; background: var(--accent-orange); cursor: pointer; border-radius: 6px; font-size: 10px; width:100%;">
+                    ➕ تحميل ملفات الأغاني الصوتية
+                </label>
+                <input type="file" id="multiAudioFile" accept="audio/*" multiple>
+            </div>
+
+            <div class="edit-title-box">
+                <label>✏️ تعديل عنوان الأغنية الحالي أو التصحيح الذكي:</label>
+                <div class="edit-row">
+                    <input type="text" id="manualTitleInput" placeholder="اكتب اسم الأغنية هنا...">
+                    <button class="btn-ai-fix" id="aiFixTitleBtn">✨ تصحيح ذكي AI</button>
+                </div>
+            </div>
+
+            <div class="playlist-items" id="playlistContainer">
+                <div style="color: #888; text-align: center; padding: 12px; font-size: 10px;">لم يتم تحميل ملفات صوتية بعد</div>
+            </div>
+        </div>
+
+        <div id="track-info" style="position: absolute; top: 55px; z-index: 55;">يعمل الآن: لم يتم اختيار أغنية</div>
+        
+        <div class="canvas-container">
+            <div id="center-badge">
+                <div class="brand">AJN</div>
+                <span class="sub">البصراوي</span>
+            </div>
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div id="bottom-slide-dock">
+            <div class="slide-container">
+                <div class="dock-item active" data-style="alaa_pro_1">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">⚡</div>
+                    <div class="dock-label">علاء 1 (بريق)</div>
+                </div>
+                <div class="dock-item" data-style="alaa_pro_2">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #e67e22); color:#fff;">👑</div>
+                    <div class="dock-label">علاء 2 (ملك)</div>
+                </div>
+                <div class="dock-item" data-style="alaa_pro_3">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">💫</div>
+                    <div class="dock-label">علاء 3 (مجرة)</div>
+                </div>
+                <div class="dock-item" data-style="alaa_pro_4">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #27ae60); color:#fff;">🔥</div>
+                    <div class="dock-label">علاء 4 (حماسي)</div>
+                </div>
+                <div class="dock-item" data-style="lyre_1">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00bcd4); color:#fff;">🎻</div>
+                    <div class="dock-label">قيثار 1</div>
+                </div>
+                <div class="dock-item" data-style="lyre_2">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #3f51b5); color:#fff;">🎸</div>
+                    <div class="dock-label">قيثار 2</div>
+                </div>
+                <div class="dock-item" data-style="lyre_3">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #009688); color:#fff;">🎼</div>
+                    <div class="dock-label">قيثار 3</div>
+                </div>
+                <div class="dock-item" data-style="dancer_1">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #e91e63); color:#fff;">💃</div>
+                    <div class="dock-label">راقصة 1</div>
+                </div>
+                <div class="dock-item" data-style="dancer_2">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9c27b0); color:#fff;">💃</div>
+                    <div class="dock-label">راقصة 2</div>
+                </div>
+                <div class="dock-item" data-style="love_hearts_1">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">❤️</div>
+                    <div class="dock-label">قلوب 1</div>
+                </div>
+                <div class="dock-item" data-style="butterfly_1">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">🦋</div>
+                    <div class="dock-label">فراشة 1</div>
+                </div>
+                <div class="dock-item" data-style="quantum_superwave">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🌀</div>
+                    <div class="dock-label">كوانتم</div>
+                </div>
+                <div class="dock-item" data-style="radial_burst">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #2980b9); color:#ff007f;">🎇</div>
+                    <div class="dock-label">شعاعي</div>
+                </div>
+                <div class="dock-item chroma-item" onclick="setChroma('#00FF00')">
+                    <div class="dock-thumb" style="background: #00FF00;">🟢</div>
+                    <div class="dock-label">أخضر كروم</div>
+                </div>
+            </div>
+        </div>
+
     </div>
-   </div>
-       <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:8px;">
-    <label style="font-weight:bold; color:var(--cyan)">🖼️ معرض قوالبي المرئية المحفوظة</label>
-    <div id="visualPresetGallery" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:8px; margin-top:10px; max-height:200px; overflow-y:auto; padding:4px;">
-     <div style="color:var(--muted); font-size:11px; text-align:center; grid-column:1/-1; padding:10px;">لا توجد قوالب محفوظة بعد. اضغط على زر حفظ القالب أعلاه لتخزينه هنا!</div>
-    </div>
-   </div>
-  </div></div>
- </details>
 
- <details open>
-  <summary>🔵 معرض الدوائر الحلقية وأنماط السوق الاحترافية (Choose Style)</summary>
-  <div class="panel">
-   <div class="field full" style="margin-bottom: 8px;">
-    <label style="font-weight:bold; color:var(--cyan);">اختر الشكل المطلوب للدوائر الحلقية بضغطة زر مرتبة:</label>
-   </div>
-   <!-- قسم المربعات المنفصلة لاختيار أنماط الدوائر الحلقية -->
-   <div class="ring-grid-section">
-    <div class="ring-card active" data-ring="ring">
-     <div class="ring-preview-icon">⭕</div>
-     <div class="ring-card-title">حلقة متوهجة</div>
-    </div>
-    <div class="ring-card" data-ring="multi_rings">
-     <div class="ring-preview-icon">🎯</div>
-     <div class="ring-card-title">دوائر متداخلة</div>
-    </div>
-    <div class="ring-card" data-ring="dotted_ring">
-     <div class="ring-preview-icon">💠</div>
-     <div class="ring-card-title">نقاط منقطة</div>
-    </div>
-    <div class="ring-card" data-ring="neon_bars">
-     <div class="ring-preview-icon">📊</div>
-     <div class="ring-card-title">أعمدة نيون</div>
-    </div>
-    <div class="ring-card" data-ring="circle">
-     <div class="ring-preview-icon">🌐</div>
-     <div class="ring-card-title">موجة دائرية</div>
-    </div>
-    <div class="ring-card" data-ring="double">
-     <div class="ring-preview-icon">✨</div>
-     <div class="ring-card-title">موجتان مزدوجتان</div>
-    </div>
-   </div>
-  </div>
- </details>
+    <audio id="audio" crossorigin="anonymous"></audio>
 
- <details>
-  <summary>🎵 إعدادات الموجة الصوتية التفصيلية</summary>
-  <div class="panel"><div class="grid">
-   <div class="field full"><label for="waveType">نوع الموجة الأساسية</label><select id="waveType"><option value="bars">الأعمدة الكلاسيكية الفاخرة</option><option value="neon_bars">أعمدة نيون متوهجة</option><option value="pulse">نبضات متحركة سينمائية</option><option value="circle">موجة دائرية إيقاعية</option><option value="ring" selected>حلقة متوهجة حول الملصق</option><option value="double">موجتان مزدوجتان</option><option value="line">خط صوتي ناعم متعرج</option></select></div>
-   <div class="field"><label for="waveSize">حجم الموجة <output id="waveSizeOut">95</output></label><input id="waveSize" type="range" min="20" max="180" value="95"></div>
-   <div class="field"><label for="waveSpeed">سرعة الحركة <output id="waveSpeedOut">5</output></label><input id="waveSpeed" type="range" min="1" max="10" value="5"></div>
-   <div class="field"><label for="waveX">الموضع الأفقي للموجة 1 (يمين/يسار) <output id="waveXOut">50%</output></label><input id="waveX" type="range" min="0" max="100" value="50"></div>
-   <div class="field"><label for="waveY">الموضع العمودي للموجة 1 (فوق/تحت) <output id="waveYOut">68%</output></label><input id="waveY" type="range" min="0" max="100" value="68"></div>
-   <div class="field"><label for="waveColor">لون الموجة الأساسي</label><input id="waveColor" type="color" value="#4de4df"></div>
-   <div class="field"><label for="waveColor2">اللون الثاني للتدرج</label><input id="waveColor2" type="color" value="#bd00f5"></div>
-   <div class="field"><label for="waveThickness">سماكة الموجة <output id="waveThicknessOut">8</output></label><input id="waveThickness" type="range" min="1" max="24" value="8"></div>
-   <div class="field"><label for="waveAlpha">شفافية الموجة <output id="waveAlphaOut">90%</output></label><input id="waveAlpha" type="range" min="10" max="100" value="90"></div>
-   <div class="field"><label for="ringDistance">بُعد الموجة عن الملصق <output id="ringDistanceOut">24</output></label><input id="ringDistance" type="range" min="0" max="180" value="24"></div>
-   <div class="field"><label for="ringHeight">ارتفاعات الموجة حول الملصق <output id="ringHeightOut">90</output></label><input id="ringHeight" type="range" min="5" max="220" value="90"></div>
-   <div class="field"><label for="ringCount">عدد أعمدة الحلقة <output id="ringCountOut">72</output></label><input id="ringCount" type="range" min="16" max="180" value="72"></div>
-   <div class="field"><label for="ringWidth">سماكة أعمدة الحلقة <output id="ringWidthOut">5</output></label><input id="ringWidth" type="range" min="1" max="18" value="5"></div>
-  </div></div>
- </details>
- <details>
-  <summary>🖼️ التحكم الشامل بالملصق والموجة الثانية حول الملصق</summary>
-  <div class="panel"><div class="grid">
-   <div class="field"><label for="logoSize">حجم الملصق <output id="logoSizeOut">180</output></label><input id="logoSize" type="range" min="50" max="420" value="180"></div>
-   <div class="field"><label for="logoX">الموضع الأفقي للملصق (يمين/يسار) <output id="logoXOut">50%</output></label><input id="logoX" type="range" min="0" max="100" value="50"></div>
-   <div class="field"><label for="logoY">الموضع العمودي للملصق (فوق/تحت) <output id="logoYOut">48%</output></label><input id="logoY" type="range" min="0" max="100" value="48"></div>
-   <div class="field"><label for="logoFrame">حجم إطار الملصق <output id="logoFrameOut">5</output></label><input id="logoFrame" type="range" min="0" max="20" value="5"></div>
-   <div class="field"><label for="logoRound">استدارة الإطار</label><select id="logoRound"><option value="circle">دائري</option><option value="square">مربع</option><option value="rounded">مستدير</option></select></div>
-   <div class="field"><label for="logoBorder">لون الإطار</label><input id="logoBorder" type="color" value="#4de4df"></div>
-   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:12px; margin-top:6px; font-weight:bold; color:var(--cyan)">🌊 الموجة الثانية (مرتبطة ومرافقة للملصق)</div>
-   <div class="field"><label for="enableWave2">تفعيل الموجة الثانية</label><select id="enableWave2"><option value="true" selected>مفعلة</option><option value="false">معطلة</option></select></div>
-   <div class="field"><label for="wave2Type">نوع الموجة الثانية</label><select id="wave2Type"><option value="ring" selected>حلقة حول الملصق</option><option value="multi_rings">دوائر متداخلة</option><option value="dotted_ring">نقاط منقطة</option><option value="neon_bars">أعمدة نيون</option><option value="double">موجتان مزدوجتان</option><option value="bars">الأعمدة الكلاسيكية</option><option value="circle">موجة دائرية</option></select></div>
-   <div class="field"><label for="wave2Color">لون الموجة الثانية</label><input id="wave2Color" type="color" value="#bd00f5"></div>
-   <div class="field"><label for="wave2Color2">اللون الثاني للموجة الثانية</label><input id="wave2Color2" type="color" value="#4de4df"></div>
-   <div class="field"><label for="wave2Scale">نسبة حجم الموجة الثانية <output id="wave2ScaleOut">85%</output></label><input id="wave2Scale" type="range" min="20" max="180" value="85"></div>
-   <div class="field"><label for="wave2Thickness">سماكة الموجة الثانية <output id="wave2ThicknessOut">6</output></label><input id="wave2Thickness" type="range" min="1" max="24" value="6"></div>
-   <div class="field"><label for="wave2Alpha">شفافية الموجة الثانية <output id="wave2AlphaOut">50%</output></label><input id="wave2Alpha" type="range" min="10" max="100" value="50"></div>
-   <div class="field"><label for="wave2Offset">إزاحة/تأخير الموجة الثانية <output id="wave2OffsetOut">15</output></label><input id="wave2Offset" type="range" min="0" max="50" value="15"></div>
-  </div></div>
- </details>
- <details>
-  <summary>🌌 إعدادات الخلفية والعناوين</summary>
-  <div class="panel"><div class="grid">
-   <div class="field full"><label for="titleText">العنوان الرئيسي الأول (H1)</label><input id="titleText" type="text" value="Sad Horse Sound Music"></div>
-   <div class="field"><label for="titleSize">حجم الخط <output id="titleSizeOut">32</output></label><input id="titleSize" type="range" min="10" max="100" value="32"></div>
-   <div class="field"><label for="titleColor">لون الخط</label><input id="titleColor" type="color" value="#ffffff"></div>
-   <div class="field"><label for="titleX">الموضع الأفقي (يمين/يسار) <output id="titleXOut">50%</output></label><input id="titleX" type="range" min="0" max="100" value="50"></div>
-   <div class="field"><label for="titleY">الموضع العمودي (فوق/تحت) <output id="titleYOut">86%</output></label><input id="titleY" type="range" min="0" max="100" value="86"></div>
+    <script>
+        const multiAudioFile = document.getElementById('multiAudioFile');
+        const bgImageFile = document.getElementById('bgImageFile');
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playBtn');
+        const aiAutoBtn = document.getElementById('aiAutoBtn');
+        const aiSyncBtn = document.getElementById('aiSyncBtn');
+        const aiShuffleBtn = document.getElementById('aiShuffleBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const recBtn = document.getElementById('recBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const hideUiBtn = document.getElementById('hideUiBtn');
+        const playlistBtn = document.getElementById('playlistBtn');
+        const playlistModal = document.getElementById('playlist-modal');
+        const closePlaylist = document.getElementById('closePlaylist');
+        const playlistContainer = document.getElementById('playlistContainer');
+        const manualTitleInput = document.getElementById('manualTitleInput');
+        const aiFixTitleBtn = document.getElementById('aiFixTitleBtn');
 
-   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;"><label for="subText">العنوان الرئيسي الثاني (H1)</label><input id="subText" type="text" value="موسيقى صوت الخيل الحزين"></div>
-   <div class="field"><label for="subSize">حجم خط العنوان الرئيسي الثاني <output id="subSizeOut">22</output></label><input id="subSize" type="range" min="10" max="100" value="22"></div>
-   <div class="field"><label for="subColor">لون خط العنوان الرئيسي الثاني</label><input id="subColor" type="color" value="#4de4df"></div>
-   <div class="field"><label for="subX">الموضع الأفقي للعنوان الثاني <output id="subXOut">50%</output></label><input id="subX" type="range" min="0" max="100" value="50"></div>
-   <div class="field"><label for="subY">الموضع العمودي للعنوان الثاني <output id="subYOut">93%</output></label><input id="subY" type="range" min="0" max="100" value="93"></div>
+        const exportModal = document.getElementById('export-modal');
+        const closeExportModal = document.getElementById('closeExportModal');
+        const exportVerticalVideoBtn = document.getElementById('exportVerticalVideoBtn');
+        const exportHorizontalVideoBtn = document.getElementById('exportHorizontalVideoBtn');
+        const exportImageBtn = document.getElementById('exportImageBtn');
 
-   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;"><label for="extraText">العنوان الرئيسي الثالث (H1)</label><input id="extraText" type="text" value="استوديو علاء البصراوي"></div>
-   <div class="field"><label for="extraSize">حجم خط العنوان الرئيسي الثالث <output id="extraSizeOut">18</output></label><input id="extraSize" type="range" min="8" max="100" value="18"></div>
-   <div class="field"><label for="extraColor">لون خط العنوان الرئيسي الثالث</label><input id="extraColor" type="color" value="#a8b4c7"></div>
-   <div class="field"><label for="extraX">الموضع الأفقي للعنوان الثالث <output id="extraXOut">50%</output></label><input id="extraX" type="range" min="0" max="100" value="50"></div>
-   <div class="field"><label for="extraY">الموضع العمودي للعنوان الثالث <output id="extraYOut">97%</output></label><input id="extraY" type="range" min="0" max="100" value="97"></div>
-   <div class="field"><label for="bgFit">طريقة عرض الخلفية</label><select id="bgFit"><option value="cover">ملء الشاشة</option><option value="contain">إظهار الصورة كاملة</option></select></div>
-   <div class="field"><label for="shade">تعتيم الخلفية <output id="shadeOut">20%</output></label><input id="shade" type="range" min="0" max="80" value="20"></div>
-  </div></div>
- </details>
- <details style="border: 2px solid #bd00f5; background: linear-gradient(135deg, #181128, #0c101b);" open>
-  <summary style="font-size: 15px; color: #d066ff;">✨ المؤثرات الجوية الاحترافية المتقدمة (مطر سينمائي، دخان ملون، رياح عاتية)</summary>
-  <div class="panel"><div class="grid">
-   <div class="field"><label for="enableRain">🌧️ تفعيل المطر السينمائي الاحترافي</label><select id="enableRain"><option value="false">معطل</option><option value="true" selected>مفعل (عالي الواقعية)</option></select></div>
-   <div class="field"><label for="rainDensity">💧 كثافة وسرعة قطرات المطر <output id="rainDensityOut">80</output></label><input id="rainDensity" type="range" min="20" max="200" value="80"></div>
-   <div class="field"><label for="rainColor">🎨 لون قطرات المطر</label><input id="rainColor" type="color" value="#aed8ff"></div>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const trackInfo = document.getElementById('track-info');
+        const dockItems = document.querySelectorAll('.dock-item[data-style]');
+        const centerBadge = document.getElementById('center-badge');
 
-   <div class="field"><label for="enableSmoke">💨 تأثير الدخان المتصاعد الملون</label><select id="enableSmoke"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
-   <div class="field"><label for="smokeColor">🎨 لون الدخان المخصص</label><input id="smokeColor" type="color" value="#bd00f5"></div>
+        let audioCtx, analyser, source, dataArray;
+        let currentStyle = 'alaa_pro_1';
+        let orbitAngle = 0;
+        let aiColorTimer = 0;
+        let currentAiColor = '#00ffff';
+        let isChromaMode = false;
+        let customBgActive = false;
+        let loadedBgImage = null;
+        let aiAutoActive = true;
+        let aiSyncActive = true;
+        
+        let aiShuffleActive = false;
+        let shuffleInterval = null;
+        
+        const allStyles = [
+            'alaa_pro_1', 'alaa_pro_2', 'alaa_pro_3', 'alaa_pro_4',
+            'lyre_1', 'lyre_2', 'lyre_3', 'dancer_1', 'dancer_2',
+            'love_hearts_1', 'butterfly_1', 'quantum_superwave', 'radial_burst'
+        ];
 
-   <div class="field"><label for="enableWind">🍃 تأثير الرياح والعاصفة المتقدمة</label><select id="enableWind"><option value="false">معطل</option><option value="true" selected>مفعل</option></select></div>
-   <div class="field"><label for="windSpeed">🌪️ قوة وسرعة تدفق الرياح <output id="windSpeedOut">7</output></label><input id="windSpeed" type="range" min="1" max="20" value="7"></div>
-   <div class="field"><label for="windColor">🎨 لون جزيئات الرياح</label><input id="windColor" type="color" value="#4de4df"></div>
+        let playlist = [];
+        let currentTrackIndex = 0;
 
-   <div class="field full" style="border-top: 1px dashed var(--line); padding-top:10px; margin-top:4px;">
-    <label for="enableBgShake" style="font-weight:bold; color:var(--cyan);">📳 حركة اهتزاز الخلفية (ارتجاج سينمائي ناعم)</label>
-    <select id="enableBgShake">
-     <option value="true" selected>مفعل (ارتجاج ناعم ومستمر)</option>
-     <option value="false">معطل (ثابتة)</option>
-    </select>
-   </div>
-  </div></div>
- </details>
- <details>
-  <summary>🎚️ إعدادات الصوت والتصدير</summary>
-  <div class="panel"><div class="grid">
-   <div class="field full"><label for="volume">مستوى الصوت <output id="volumeOut">100%</output></label><input id="volume" type="range" min="0" max="100" value="100"></div>
-   <div class="field"><label for="quality">جودة الفيديو</label><select id="quality"><option value="2">عالية جداً</option><option value="1.5" selected>عالية</option><option value="1">متوسطة</option></select></div>
-   <div class="field"><label for="ratio">أبعاد الفيديو</label><select id="ratio"><option value="16:9">أفقي 16:9</option><option value="9:16">عمودي 9:16</option><option value="1:1">مربع 1:1</option></select></div>
-  </div>
-  <div class="actions"><button class="action primary" id="export">⬇ تصدير الفيديو</button><button class="action" id="reset">إعادة ضبط الأدوات</button></div>
-  <div class="export-status" id="exportStatus"></div>
-  <p class="note">التصدير بصيغة WebM عبر المتصفح. اترك الصفحة مفتوحة حتى يكتمل التسجيل.</p>
-  </div>
- </details>
-</section>
-</main>
-<audio id="audio" preload="metadata"></audio>
-<script>
-(()=>{
-'use strict';
+        let mediaRecorder;
+        let recordedChunks = [];
+        let isRecording = false;
 
-function showError(msg){
- console.error("[Studio Error]:", msg);
- const toast = $('errorToast'), msgEl = $('errorMsg');
- if(toast && msgEl){
-  msgEl.textContent = msg;
-  toast.classList.add('active');
-  setTimeout(()=> toast.classList.remove('active'), 5000);
- }
- const status = $('status');
- if(status) status.textContent = '❌ خطأ: ' + msg;
-}
+        let particles = [];
+        let smokeParticles = [];
+        const MAX_PARTICLES = 12; 
+        const MAX_SMOKE = 8;
+        let backgroundModeTimer = 0;
+        let currentBgMode = 'snow';
 
-window.addEventListener('error', e => showError(e.message));
-window.addEventListener('unhandledrejection', e => showError(e.reason?.message || e.reason || 'خطأ في العملية البرمجية'));
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth * window.devicePixelRatio;
+            canvas.height = container.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            initElements();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-const $=id=>document.getElementById(id),canvas=$('screen'),ctx=canvas.getContext('2d');
-const audio=$('audio');let bg=null,logo=null,bgURL=null,logoURL=null,audioURL=null,ac=null,analyser=null,source=null,dest=null,raf=0,playing=false,recorder=null,exporting=false;
+        function initElements() {
+            particles = [];
+            for (let i = 0; i < MAX_PARTICLES; i++) { resetParticle(i, true); }
+            smokeParticles = [];
+            for (let i = 0; i < MAX_SMOKE; i++) { resetSmoke(i, true); }
+        }
 
-const defaults={
- textPreset:'custom',textEffect:'shadow',textGlowColor:'#4de4df',textGlowSize:12,
- waveType:'ring',waveSize:95,waveX:50,waveY:68,waveSpeed:5,waveColor:'#4de4df',waveColor2:'#bd00f5',waveThickness:8,waveAlpha:90,ringDistance:24,ringHeight:90,ringCount:72,ringWidth:5,
- enableWave2:true,wave2Type:'multi_rings',wave2Offset:15,wave2Color:'#bd00f5',wave2Color2:'#4de4df',wave2Alpha:50,wave2Scale:85,wave2Thickness:6,
- logoSize:180,logoX:50,logoY:48,logoFrame:5,logoRound:'circle',logoBorder:'#4de4df',
- titleText:'Sad Horse Sound Music',titleSize:32,titleX:50,titleY:86,subText:'موسيقى صوت الخيل الحزين',subSize:22,subX:50,subY:93,extraText:'استوديو علاء البصراوي',extraSize:18,extraX:50,extraY:97,extraColor:'#a8b4c7',titleColor:'#ffffff',subColor:'#4de4df',
- bgFit:'cover',shade:20,
- enableRain:'true',rainDensity:80,rainColor:'#aed8ff',
- enableSmoke:'true',smokeColor:'#bd00f5',
- enableWind:'true',windSpeed:7,windColor:'#4de4df',
- enableBgShake:'true',
- volume:100,quality:1.5,ratio:'16:9'
-};
+        function resetParticle(index, randomY = false) {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            particles[index] = {
+                x: Math.random() * w,
+                y: randomY ? Math.random() * h : -10,
+                speedX: (Math.random() - 0.5) * 3.5,
+                speedY: Math.random() * 2.2 + 1.0,
+                alpha: Math.random() * 0.7 + 0.3
+            };
+        }
 
-const ids=Object.keys(defaults);
-function val(id){return $(id).value}
-function fmt(s){if(!isFinite(s))return'00:00';s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
-function fitCanvas(){const r=val('ratio');canvas.width=r==='9:16'?720:r==='1:1'?900:1280;canvas.height=r==='9:16'?1280:r==='1:1'?900:720}
-function loadImage(file,cb){const u=URL.createObjectURL(file),im=new Image();im.onload=()=>cb(im,u);im.onerror=()=>{URL.revokeObjectURL(u);showError('تعذر تحميل الصورة المختارة.')};im.src=u}
+        function resetSmoke(index, randomY = false) {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            smokeParticles[index] = {
+                x: Math.random() * w,
+                y: randomY ? Math.random() * h : h + 20,
+                radius: Math.random() * 35 + 20,
+                speedY: -(Math.random() * 0.6 + 0.3),
+                alpha: Math.random() * 0.1 + 0.02
+            };
+        }
 
-$('bgFile').onchange=e=>{const f=e.target.files[0];if(f)loadImage(f,(im,u)=>{if(bgURL)URL.revokeObjectURL(bgURL);bg=im;bgURL=u;$('status').textContent='تم تحميل الخلفية: '+f.name;draw()})};
-$('logoFile').onchange=e=>{const f=e.target.files[0];if(f)loadImage(f,(im,u)=>{if(logoURL)URL.revokeObjectURL(logoURL);logo=im;logoURL=u;$('status').textContent='تم تحميل الملصق: '+f.name;draw()})};
-$('audioFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(f);audio.src=audioURL;audio.load();$('status').textContent='تم تحميل الملف الصوتي: '+f.name;};
+        function updateAndRenderEnvironment(bassVolume) {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            const syncMultiplier = aiSyncActive ? 2.8 : 1.4;
+            const bassFactor = (bassVolume / 140) * syncMultiplier;
 
-function audioGraph(){if(ac)return;ac=new (window.AudioContext||window.webkitAudioContext)();analyser=ac.createAnalyser();analyser.fftSize=512;analyser.smoothingTimeConstant=.82;source=ac.createMediaElementSource(audio);dest=ac.createMediaStreamDestination();source.connect(analyser);analyser.connect(ac.destination);analyser.connect(dest)}
-async function togglePlay(){if(!audio.src){showError('يرجى رفع ملف صوتي قبل البدء.');return}if(playing){audio.pause();playing=false;$('play').textContent='▶';return}try{audioGraph();if(ac.state==='suspended')await ac.resume();audio.volume=Number(val('volume'))/100;await audio.play();playing=true;$('play').textContent='Ⅱ';animate()}catch(e){showError('تعذر تشغيل الصوت: ' + e.message)}}
-$('play').onclick=togglePlay;audio.onpause=()=>{playing=false;$('play').textContent='▶'};audio.onended=()=>{playing=false;$('play').textContent='▶';$('seek').value=0};audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*1000;$('clock').textContent=fmt(audio.currentTime)}};
-$('seek').oninput=()=>{if(audio.duration)audio.currentTime=Number(val('seek'))/1000*audio.duration};
+            backgroundModeTimer++;
+            if (backgroundModeTimer % 350 === 0) {
+                currentBgMode = currentBgMode === 'snow' ? 'hearts' : 'snow';
+            }
 
-function drawImageCover(im,fit){
- if(!im)return;
- const cw=canvas.width,ch=canvas.height,ir=im.width/im.height,cr=cw/ch;let w,h;
- if(fit==='contain'){w=ir>cr?cw:ch*ir;h=ir>cr?cw/ir:ch}else{w=ir>cr?ch*ir:cw;h=ir>cr?ch: cw/ir}
- 
- let shakeX = 0, shakeY = 0;
- const shakeOn = val('enableBgShake') === 'true' || val('enableBgShake') === true;
- if(shakeOn){
-  const t = performance.now() / 120;
-  shakeX = Math.sin(t * 1.3) * 4 + (Math.random() - 0.5) * 2;
-  shakeY = Math.cos(t * 1.1) * 3 + (Math.random() - 0.5) * 2;
- }
- 
- ctx.drawImage(im, (cw-w)/2 + shakeX, (ch-h)/2 + shakeY, w, h);
-}
+            for (let i = 0; i < smokeParticles.length; i++) {
+                let s = smokeParticles[i];
+                s.y += s.speedY * (1 + bassFactor * 0.3);
+                if (s.y < -50) { resetSmoke(i, false); s = smokeParticles[i]; }
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fillStyle = currentAiColor;
+                ctx.globalAlpha = s.alpha * 0.5;
+                ctx.filter = 'blur(12px)';
+                ctx.fill();
+                ctx.restore();
+            }
 
-function drawLogo(){if(!logo)return;const size=Number(val('logoSize')),x=canvas.width*Number(val('logoX'))/100,y=canvas.height*Number(val('logoY'))/100,fr=Number(val('logoFrame')),shape=val('logoRound');ctx.save();ctx.beginPath();if(shape==='circle')ctx.arc(x,y,size/2,0,Math.PI*2);else if(shape==='rounded')ctx.roundRect(x-size/2,y-size/2,size,size,22);else ctx.rect(x-size/2,y-size/2,size,size);ctx.clip();const ratio=Math.min(size/logo.width,size/logo.height);ctx.drawImage(logo,x-logo.width*ratio/2,y-logo.height*ratio/2,logo.width*ratio,logo.height*ratio);ctx.restore();if(fr){ctx.save();ctx.strokeStyle=val('logoBorder');ctx.lineWidth=fr;ctx.shadowColor=val('logoBorder');ctx.shadowBlur=18;ctx.beginPath();if(shape==='circle')ctx.arc(x,y,size/2,0,Math.PI*2);else if(shape==='rounded')ctx.roundRect(x-size/2,y-size/2,size,size,22);else ctx.rect(x-size/2,y-size/2,size,size);ctx.stroke();ctx.restore()}}
-function spectrum(){const n=analyser?analyser.frequencyBinCount:128,a=new Uint8Array(n);if(analyser)analyser.getByteFrequencyData(a);else for(let i=0;i<n;i++)a[i]=8+Math.abs(Math.sin(i*.21+performance.now()/800))*12;return a}
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX * syncMultiplier * 0.8;
+                p.y += p.speedY * (1 + bassFactor * 0.8);
 
-function renderSingleWave(data, scale, alpha, th, color1, color2, offset=0, customType=null, posX=50, posY=68){
- const type=customType||val('waveType');
- const w=canvas.width,h=canvas.height;
- const cx=w*(posX/100);
- const cy=h*(posY/100);
- ctx.save();
- ctx.globalAlpha=alpha;
- const g=ctx.createLinearGradient(0,0,w,h);
- g.addColorStop(0,color1);g.addColorStop(1,color2);
- ctx.strokeStyle=g;ctx.fillStyle=g;ctx.lineWidth=th;ctx.lineCap='round';
- ctx.shadowColor=color1;ctx.shadowBlur=16;
- const count=64;
+                if (p.y > h || p.x < 0 || p.x > w) { resetParticle(i, false); p = particles[i]; }
 
- if(type==='ring'){
-  // حلقة متوهجة حول الشعار
-  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
-  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
-  const stickerRadius=logo?Number(val('logoSize'))/2:Math.min(w,h)*.12;
-  const base=stickerRadius+Number(val('ringDistance'))*Math.min(w,h)/720;
-  const amp=Number(val('ringHeight'))*Math.min(w,h)/720*scale;
-  const bars=Number(val('ringCount')),thick=Number(val('ringWidth'))*Math.min(w,h)/720;
-  for(let i=0;i<bars;i++){
-   const idx=Math.floor((i+offset)*data.length/bars)%data.length,v=data[idx]/255;
-   const angle=(i/bars)*Math.PI*2-Math.PI/2;
-   const inner=base,outer=base+Math.max(3,amp*(.12+v));
-   const x1=lx+Math.cos(angle)*inner,y1=ly+Math.sin(angle)*inner;
-   const x2=lx+Math.cos(angle)*outer,y2=ly+Math.sin(angle)*outer;
-   ctx.lineWidth=Math.max(1,thick);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
-  }
- }
- else if(type==='multi_rings'){
-  // دوائر متداخلة حلقية (مثل أنماط السوق الاحترافية)
-  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
-  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
-  const baseR=logo?Number(val('logoSize'))/2+15:50;
-  const ringsCount=6;
-  for(let r=0; r<ringsCount; r++){
-   const radius = baseR + r * (18 * scale);
-   ctx.beginPath();
-   const avgVal = data[r*10 % data.length] / 255;
-   ctx.lineWidth = Math.max(1.5, (th - r) * 0.7);
-   ctx.globalAlpha = alpha * (1 - r * 0.12);
-   for(let i=0; i<=120; i++){
-    const ang = (i/120) * Math.PI * 2;
-    const pulse = Math.sin(ang * 6 + performance.now()/300 + r) * avgVal * 12;
-    const x = lx + Math.cos(ang) * (radius + pulse);
-    const y = ly + Math.sin(ang) * (radius + pulse);
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-   }
-   ctx.closePath();
-   ctx.stroke();
-  }
- }
- else if(type==='dotted_ring'){
-  // حلقة نقاط منقطة متوهجة إيقاعية
-  const lx=logo?canvas.width*Number(val('logoX'))/100:cx;
-  const ly=logo?canvas.height*Number(val('logoY'))/100:cy-h*.18;
-  const baseR=logo?Number(val('logoSize'))/2+25:70;
-  const dots=40;
-  for(let i=0; i<dots; i++){
-   const idx = Math.floor(i * data.length / dots);
-   const v = data[idx] / 255;
-   const ang = (i / dots) * Math.PI * 2;
-   const r = baseR + v * 40 * scale;
-   const x = lx + Math.cos(ang) * r;
-   const y = ly + Math.sin(ang) * r;
-   ctx.beginPath();
-   ctx.arc(x, y, Math.max(2, 3.5 * v * scale), 0, Math.PI * 2);
-   ctx.fill();
-  }
- }
- else if(type==='neon_bars'){
-  const gap=w/(count+10),base=cy;
-  for(let i=0;i<count;i++){
-   const idx=(i+offset)%data.length;
-   const v=data[idx]/255,amp=(15+v*h*.3)*scale,x=(i-(count-1)/2)*gap+cx;
-   ctx.lineWidth=Math.max(2,th*0.8);
-   ctx.beginPath();
-   ctx.roundRect ? ctx.roundRect(x - th/2, base-amp, th, amp, [4, 4, 0, 0]) : ctx.rect(x - th/2, base-amp, th, amp);
-   ctx.fill();
-  }
- }
- else if(type==='bars'||type==='double'||type==='pulse'){
-  const gap=w/(count+10),base=cy;
-  for(let i=0;i<count;i++){
-   const idx=(i+offset)%data.length;
-   const v=data[idx]/255,amp=(18+v*h*.24)*scale,x=(i-(count-1)/2)*gap+cx;
-   ctx.beginPath();ctx.moveTo(x,base-amp);ctx.lineTo(x,base+(type==='double'?amp*.25:0));ctx.stroke();
-  }
- }
- else if(type==='circle'){
-  const base=Math.min(w,h)*.16*scale;
-  ctx.beginPath();
-  for(let i=0;i<=180;i++){
-   const ang=i/180*Math.PI*2,idx=(i+offset)%data.length,v=data[idx]/255,r=base+v*base*.8;
-   const x=cx+Math.cos(ang)*r,y=cy-h*.18+Math.sin(ang)*r;
-   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-  }
-  ctx.closePath();ctx.stroke();
- }
- else{
-  ctx.beginPath();
-  for(let i=0;i<count;i++){
-   const idx=Math.floor((i+offset)*data.length/count)%data.length;
-   const x=i/(count-1)*w,y=h*.78-(data[idx]/255)*h*.2*scale;
-   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-  }
-  ctx.stroke();
- }
- ctx.restore();
-}
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                if (currentBgMode === 'snow') {
+                    if (i % 4 === 0) {
+                        drawSmallHeart(ctx, p.x, p.y, 0.28 + bassFactor * 0.15, currentAiColor);
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.shadowBlur = 4;
+                        ctx.shadowColor = currentAiColor;
+                        ctx.fill();
+                    }
+                } else {
+                    if (i % 3 === 0) {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fill();
+                    } else {
+                        drawSmallHeart(ctx, p.x, p.y, 0.35 + bassFactor * 0.2, currentAiColor);
+                    }
+                }
+                ctx.restore();
+            }
+        }
 
-function drawWave(){
- const data=spectrum();
- const isWave2=val('enableWave2')==='true'||val('enableWave2')===true;
- if(isWave2){
-  const scale2=(Number(val('wave2Scale'))/100);
-  const alpha2=(Number(val('wave2Alpha'))/100);
-  const th2=Number(val('wave2Thickness'));
-  const offset2=Number(val('wave2Offset'));
-  const type2=val('wave2Type');
-  renderSingleWave(data, scale2, alpha2, th2, val('wave2Color'), val('wave2Color2'), offset2, type2);
- }
- const scale1=Number(val('waveSize'))/100;
- const alpha1=Number(val('waveAlpha'))/100;
- const th1=Number(val('waveThickness'));
- const type1=val('waveType');
- const wx1=Number(val('waveX'));
- const wy1=Number(val('waveY'));
- renderSingleWave(data, scale1, alpha1, th1, val('waveColor'), val('waveColor2'), 0, type1, wx1, wy1);
-}
+        function drawSmallHeart(ctx, x, y, size, color) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.translate(x, y);
+            ctx.scale(size, size);
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(0, -3, -5, -15, -15, -15);
+            ctx.bezierCurveTo(-30, -15, -30, 5, -30, 5);
+            ctx.bezierCurveTo(-30, 20, -15, 35, 0, 45);
+            ctx.bezierCurveTo(15, 35, 30, 20, 30, 5);
+            ctx.bezierCurveTo(30, 5, 30, -15, 15, -15);
+            ctx.bezierCurveTo(5, -15, 0, -3, 0, 0);
+            ctx.fillStyle = color;
+            ctx.shadowBlur = 6; ctx.shadowColor = color;
+            ctx.fill();
+            ctx.restore();
+        }
 
-let particles = [];
-function initParticles(){
- particles = [];
- const density = Number(val('rainDensity')) || 80;
- for(let i=0; i<density; i++){
-  particles.push({
-   type: 'rain',
-   x: Math.random() * canvas.width * 1.3 - (canvas.width * 0.15),
-   y: Math.random() * canvas.height,
-   len: Math.random() * 32 + 15,
-   vy: Math.random() * 12 + 16,
-   vx: -(Math.random() * 3 + 2.5),
-   alpha: Math.random() * 0.5 + 0.3
-  });
- }
- for(let i=0; i<20; i++){
-  particles.push({
-   type: 'smoke',
-   x: Math.random() * canvas.width,
-   y: canvas.height + Math.random() * 100,
-   r: Math.random() * 55 + 30,
-   vy: -(Math.random() * 1.5 + 0.6),
-   vx: (Math.random() - 0.5) * 1.2,
-   alpha: Math.random() * 0.22 + 0.06
-  });
- }
- const windPower = Number(val('windSpeed')) || 7;
- for(let i=0; i<45; i++){
-  particles.push({
-   type: 'wind',
-   x: Math.random() * canvas.width,
-   y: Math.random() * canvas.height,
-   r: Math.random() * 3 + 1,
-   vx: Math.random() * (windPower * 1.5) + (windPower * 0.8),
-   vy: (Math.random() - 0.5) * 0.8,
-   alpha: Math.random() * 0.6 + 0.25
-  });
- }
-}
+        function setChroma(color) {
+            isChromaMode = true;
+            customBgActive = false;
+            loadedBgImage = null;
+            document.body.style.backgroundImage = 'none';
+            document.body.style.backgroundColor = color;
+        }
 
-function drawParticles(){
- if(!particles.length) initParticles();
- 
- const rainOn = val('enableRain') === 'true' || val('enableRain') === true;
- const smokeOn = val('enableSmoke') === 'true' || val('enableSmoke') === true;
- const windOn = val('enableWind') === 'true' || val('enableWind') === true;
- 
- if(!rainOn && !smokeOn && !windOn) return;
- 
- ctx.save();
- particles.forEach(p => {
-  if(p.type === 'rain' && rainOn){
-   ctx.strokeStyle = val('rainColor');
-   ctx.globalAlpha = p.alpha;
-   ctx.lineWidth = 1.8;
-   ctx.beginPath();
-   ctx.moveTo(p.x, p.y);
-   ctx.lineTo(p.x + p.vx, p.y + p.len);
-   ctx.stroke();
-   p.y += p.vy;
-   p.x += p.vx;
-   if(p.y > canvas.height + 20){ p.y = -30; p.x = Math.random() * canvas.width * 1.3; }
-  } else if(p.type === 'smoke' && smokeOn){
-   ctx.fillStyle = val('smokeColor');
-   ctx.globalAlpha = p.alpha;
-   ctx.beginPath();
-   ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-   ctx.fill();
-   p.y += p.vy;
-   p.x += p.vx + Math.sin(p.y/40)*0.9;
-   p.r += 0.25;
-   if(p.y < -70){ p.y = canvas.height + 40; p.x = Math.random() * canvas.width; p.r = Math.random() * 55 + 30; }
-  } else if(p.type === 'wind' && windOn){
-   ctx.fillStyle = val('windColor');
-   ctx.globalAlpha = p.alpha;
-   ctx.beginPath();
-   ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-   ctx.fill();
-   const wp = Number(val('windSpeed')) || 7;
-   p.x += p.vx * (wp / 7);
-   p.y += p.vy;
-   if(p.x > canvas.width + 20){ p.x = -20; p.y = Math.random() * canvas.height; }
-  }
- });
- ctx.restore();
-}
+        bgImageFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const imageUrl = URL.createObjectURL(file);
+            document.body.style.backgroundImage = `url('${imageUrl}')`;
+            
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = () => { loadedBgImage = img; };
 
-function draw(){
- const w=canvas.width,h=canvas.height;
- ctx.clearRect(0,0,w,h);
- 
- if(bg) drawImageCover(bg,val('bgFit'));
- else {
-  const g=ctx.createLinearGradient(0,0,w,h);
-  g.addColorStop(0,'#171b2a');g.addColorStop(1,'#03050b');
-  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-  for(let i=0;i<55;i++){ctx.fillStyle='#ffffff18';ctx.beginPath();ctx.arc((i*173)%w,(i*97)%h,1.5,0,7);ctx.fill()}
- }
- 
- ctx.fillStyle='rgba(0,0,0,'+(Number(val('shade'))/100)+')';
- ctx.fillRect(0,0,w,h);
- 
- drawLogo();
- drawWave();
- drawParticles();
+            customBgActive = true;
+            isChromaMode = false;
+        });
 
- ctx.textAlign='center';ctx.direction='rtl';ctx.shadowColor='#000';ctx.shadowBlur=8;
- const tSize=Math.round((Number(val('titleSize'))/500)*h);
- const sSize=Math.round((Number(val('subSize'))/500)*h);
- const eSize=Math.round((Number(val('extraSize'))/500)*h);
- const tx=w*(Number(val('titleX'))/100), ty=h*(Number(val('titleY'))/100);
- const sx=w*(Number(val('subX'))/100), sy=h*(Number(val('subY'))/100);
- const ex=w*(Number(val('extraX'))/100), ey=h*(Number(val('extraY'))/100);
+        dockItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dockItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                currentStyle = item.getAttribute('data-style');
+            });
+        });
 
- const effect = val('textEffect'), glowColor = val('textGlowColor'), glowSize = Number(val('textGlowSize'));
+        aiAutoBtn.addEventListener('click', () => {
+            aiAutoActive = !aiAutoActive;
+            if (aiAutoActive) {
+                aiAutoBtn.classList.add('active');
+                aiAutoBtn.textContent = "✨ AI ديناميكي";
+            } else {
+                aiAutoBtn.classList.remove('active');
+                aiAutoBtn.textContent = "💤 AI متوقف";
+            }
+        });
 
- function applyTextEffect(text, x, y, size, color, font='Arial'){
-  ctx.save();
-  ctx.font = 'bold ' + size + 'px ' + font + ', Tahoma, sans-serif';
-  ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  
-  if(effect === 'neon'){
-   ctx.shadowColor = glowColor; ctx.shadowBlur = glowSize * 1.5;
-   ctx.fillText(text, x, y, w*.92); ctx.fillText(text, x, y, w*.92);
-  } else if(effect === 'stroke'){
-   ctx.strokeStyle = glowColor; ctx.lineWidth = Math.max(1, glowSize / 4);
-   ctx.strokeText(text, x, y, w*.92); ctx.fillText(text, x, y, w*.92);
-  } else if(effect === '3d'){
-   const depth = Math.min(10, Math.max(2, Math.floor(glowSize / 3)));
-   for(let i=depth; i>0; i--){ ctx.fillStyle = glowColor; ctx.fillText(text, x + i, y + i, w*.92); }
-   ctx.fillStyle = color; ctx.fillText(text, x, y, w*.92);
-  } else {
-   ctx.shadowColor = '#000000'; ctx.shadowBlur = glowSize;
-   ctx.fillText(text, x, y, w*.92);
-  }
-  ctx.restore();
- }
+        aiSyncBtn.addEventListener('click', () => {
+            aiSyncActive = !aiSyncActive;
+            if (aiSyncActive) {
+                aiSyncBtn.classList.add('active');
+                aiSyncBtn.textContent = "⚡ تزامن فائق";
+            } else {
+                aiSyncBtn.classList.remove('active');
+                aiSyncBtn.textContent = "💤 تزامن عادي";
+            }
+        });
 
- applyTextEffect(val('titleText'), tx, ty, tSize, val('titleColor'), 'Arial');
- applyTextEffect(val('subText'), sx, sy, sSize, val('subColor'), 'Arial');
- applyTextEffect(val('extraText'), ex, ey, eSize, val('extraColor'), 'Arial');
-}
+        aiShuffleBtn.addEventListener('click', () => {
+            aiShuffleActive = !aiShuffleActive;
+            if (aiShuffleActive) {
+                aiShuffleBtn.classList.add('active');
+                aiShuffleBtn.textContent = "🔀 تبديل آلي (شغال)";
+                startShuffle();
+            } else {
+                aiShuffleBtn.classList.remove('active');
+                aiShuffleBtn.textContent = "🔀 تبديل آلي (5ث)";
+                stopShuffle();
+            }
+        });
 
-function animate(){
- cancelAnimationFrame(raf);
- const loop=()=>{
-  draw();
-  raf=requestAnimationFrame(loop);
- };
- loop();
-}
+        function startShuffle() {
+            if (shuffleInterval) clearInterval(shuffleInterval);
+            shuffleInterval = setInterval(() => {
+                if (!aiShuffleActive) return;
+                let available = allStyles.filter(s => s !== currentStyle);
+                let randomStyle = available[Math.floor(Math.random() * available.length)];
+                currentStyle = randomStyle;
+                
+                dockItems.forEach(item => {
+                    if (item.getAttribute('data-style') === currentStyle) {
+                        item.classList.add('active');
+                        item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }, 5000);
+        }
 
-setTimeout(animate, 200);
-let needsDraw=false;
-function requestSmoothDraw(){
- if(!needsDraw){
-  needsDraw=true;
-  requestAnimationFrame(()=>{
-   draw();
-   needsDraw=false;
-  });
- }
-}
+        function stopShuffle() {
+            if (shuffleInterval) { clearInterval(shuffleInterval); shuffleInterval = null; }
+        }
 
-ids.forEach(id=>{
- const el=$(id);
- if(!el)return;
- el.addEventListener('input',()=>{
-  const out=$(id+'Out');
-  if(out){
-   const isPct=['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
-   out.textContent=el.value+(isPct?'%':'');
-  }
-  if(id==='ratio')fitCanvas();
-  if(id==='volume')audio.volume=Number(val('volume'))/100;
-  if(id==='rainDensity'||id==='windSpeed') initParticles();
-  requestSmoothDraw();
- });
- el.addEventListener('change',()=>{draw();});
-});
+        function requestFullScreenMode() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            }
+        }
 
-// تفعيل ربط مربعات معرض الدوائر الحلقية (Choose Style)
-document.querySelectorAll('.ring-card').forEach(card => {
- card.addEventListener('click', () => {
-  document.querySelectorAll('.ring-card').forEach(c => c.classList.remove('active'));
-  card.classList.add('active');
-  const ringType = card.dataset.ring;
-  const waveTypeSelect = $('waveType');
-  if(waveTypeSelect){
-   waveTypeSelect.value = ringType;
-   draw();
-   $('status').textContent = '✨ تم اختيار نمط الدائرة: ' + card.querySelector('.ring-card-title').textContent;
-  }
- });
-});
+        fullscreenBtn.addEventListener('click', requestFullScreenMode);
 
-$('fullPreset').addEventListener('change', e => {
- const p = e.target.value;
- if(p === 'top_right_split'){
-  $('titleX').value = 80; $('titleY').value = 18;
-  $('subX').value = 80; $('subY').value = 28;
-  $('extraX').value = 80; $('extraY').value = 38;
-  $('waveX').value = 25; $('waveY').value = 45;
-  $('waveType').value = 'neon_bars';
-  $('enableWave2').value = 'true';
-  $('wave2Type').value = 'ring';
-  $('wave2Scale').value = 90;
-  $('logoX').value = 25; $('logoY').value = 22;
- } else if(p === 'split_circular_left'){
-  $('titleX').value = 80; $('titleY').value = 20;
-  $('subX').value = 80; $('subY').value = 30;
-  $('extraX').value = 80; $('extraY').value = 40;
-  $('waveX').value = 25; $('waveY').value = 45;
-  $('waveType').value = 'circle';
-  $('enableWave2').value = 'true';
-  $('wave2Type').value = 'multi_rings';
-  $('wave2Scale').value = 100;
-  $('logoX').value = 25; $('logoY').value = 45;
- } else if(p === 'split_circular_right'){
-  $('titleX').value = 30; $('titleY').value = 20;
-  $('subX').value = 30; $('subY').value = 30;
-  $('extraX').value = 30; $('extraY').value = 40;
-  $('waveX').value = 75; $('waveY').value = 45;
-  $('waveType').value = 'multi_rings';
-  $('enableWave2').value = 'true';
-  $('wave2Type').value = 'neon_bars';
-  $('wave2Scale').value = 95;
-  $('logoX').value = 75; $('logoY').value = 45;
- } else if(p === 'classic_center'){
-  $('titleX').value = 50; $('titleY').value = 82;
-  $('subX').value = 50; $('subY').value = 89;
-  $('extraX').value = 50; $('extraY').value = 95;
-  $('waveX').value = 50; $('waveY').value = 75;
-  $('waveType').value = 'neon_bars';
-  $('enableWave2').value = 'true';
-  $('wave2Type').value = 'ring';
-  $('logoX').value = 50; $('logoY').value = 45;
- } else if(p === 'modern_reels'){
-  $('ratio').value = '9:16'; fitCanvas();
-  $('titleX').value = 50; $('titleY').value = 65;
-  $('subX').value = 50; $('subY').value = 73;
-  $('extraX').value = 50; $('extraY').value = 80;
-  $('logoX').value = 50; $('logoY').value = 32;
-  $('waveX').value = 50; $('waveY').value = 88;
-  $('enableWave2').value = 'true';
-  $('wave2Type').value = 'ring';
- } else if(p === 'left_stack'){
-  $('titleX').value = 25; $('titleY').value = 25;
-  $('subX').value = 25; $('subY').value = 35;
-  $('extraX').value = 25; $('extraY').value = 45;
-  $('waveX').value = 75; $('waveY').value = 60;
-  $('logoX').value = 75; $('logoY').value = 30;
- }
- 
- ids.forEach(id => {
-  const el = $(id), out = $(id+'Out');
-  if(el && out){
-   const isPct = ['waveAlpha','wave2Alpha','wave2Scale','shade','volume','logoX','logoY','titleX','titleY','subX','subY','extraX','extraY','waveX','waveY','textGlowSize'].includes(id);
-   out.textContent = el.value + (isPct ? '%' : '');
-  }
- });
- draw();
-});
+        exportBtn.addEventListener('click', () => {
+            playlistModal.classList.remove('active');
+            exportModal.classList.toggle('active');
+        });
+        closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
 
-fitCanvas(); initParticles(); draw();
-})();
-</script>
-<div id="errorToast" class="error-toast">⚠️ <span id="errorMsg">حدث خطأ غير متوقع.</span></div>
+        exportImageBtn.addEventListener('click', () => {
+            exportModal.classList.remove('active');
+            const link = document.createElement('a');
+            link.download = 'AJN_studio_pro_snapshot.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            alert("✨ تم حفظ لقطة الشاشة بدقة عالية يا أبو حسين!");
+        });
+
+        exportVerticalVideoBtn.addEventListener('click', () => {
+            exportModal.classList.remove('active');
+            startCustomRecording(1080, 1920, 'AJN_Studio_Vertical_Reels.webm');
+        });
+
+        exportHorizontalVideoBtn.addEventListener('click', () => {
+            exportModal.classList.remove('active');
+            startCustomRecording(1920, 1080, 'AJN_Studio_Widescreen.webm');
+        });
+
+        async function startCustomRecording(targetWidth, targetHeight, fileName) {
+            if (!audioCtx) initAudioContext();
+            if (audio.paused) {
+                audio.play();
+                playBtn.textContent = "⏸ إيقاف";
+                requestFullScreenMode();
+                renderFrame();
+            }
+
+            // **إخفاء الأشرطة والواجهة تلقائياً عند بدء التسجيل**
+            document.body.classList.add('hidden-ui');
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = targetWidth;
+            exportCanvas.height = targetHeight;
+            const expCtx = exportCanvas.getContext('2d');
+
+            recordedChunks = [];
+            const exportStream = exportCanvas.captureStream(30);
+            const destNode = audioCtx.createMediaStreamDestination();
+            source.connect(destNode);
+            
+            const combinedStream = new MediaStream([
+                ...exportStream.getVideoTracks(),
+                ...destNode.stream.getAudioTracks()
+            ]);
+
+            try {
+                mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp9,opus' });
+            } catch (e) {
+                try { mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' }); }
+                catch (err) { mediaRecorder = new MediaRecorder(combinedStream); }
+            }
+
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                alert(`🎬 تم تصدير وحفظ الفيديو بدقة متناسقة بدون أي مطه يا أبو حسين!`);
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            recBtn.textContent = "⏹ إيقاف التسجيل";
+            recBtn.classList.add('recording');
+
+            function recordLoop() {
+                if (!isRecording) return;
+                expCtx.clearRect(0, 0, targetWidth, targetHeight);
+
+                // **ضبط أبعاد الخلفية باحترافية (object-fit: cover) لمنع أي مطه أو تشويه**
+                if (customBgActive && loadedBgImage) {
+                    const imgRatio = loadedBgImage.width / loadedBgImage.height;
+                    const targetRatio = targetWidth / targetHeight;
+                    let drawW = targetWidth, drawH = targetHeight, drawX = 0, drawY = 0;
+                    if (imgRatio > targetRatio) {
+                        drawW = targetHeight * imgRatio;
+                        drawX = (targetWidth - drawW) / 2;
+                    } else {
+                        drawH = targetWidth / imgRatio;
+                        drawY = (targetHeight - drawH) / 2;
+                    }
+                    expCtx.drawImage(loadedBgImage, drawX, drawY, drawW, drawH);
+                } else if (isChromaMode) {
+                    expCtx.fillStyle = document.body.style.backgroundColor || '#00FF00';
+                    expCtx.fillRect(0, 0, targetWidth, targetHeight);
+                } else {
+                    const bgGrad = expCtx.createRadialGradient(targetWidth/2, targetHeight/2, 40, targetWidth/2, targetHeight/2, targetWidth*0.75);
+                    bgGrad.addColorStop(0, '#0f081c');
+                    bgGrad.addColorStop(1, '#020205');
+                    expCtx.fillStyle = bgGrad;
+                    expCtx.fillRect(0, 0, targetWidth, targetHeight);
+                }
+
+                // رسم محتويات الـ canvas (الموجات، قلوب، دخان) متناسبة تماماً
+                expCtx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
+
+                // رسم الشعار المركزي بدقة
+                expCtx.save();
+                expCtx.translate(targetWidth / 2, targetHeight / 2);
+                expCtx.beginPath();
+                expCtx.arc(0, 0, 45, 0, Math.PI * 2);
+                expCtx.fillStyle = 'rgba(18, 18, 26, 0.95)';
+                expCtx.strokeStyle = currentAiColor;
+                expCtx.lineWidth = 3;
+                expCtx.shadowBlur = 20;
+                expCtx.shadowColor = currentAiColor;
+                expCtx.fill();
+                expCtx.stroke();
+
+                expCtx.font = "bold 20px Tahoma";
+                expCtx.fillStyle = "#fff";
+                expCtx.textAlign = "center";
+                expCtx.textBaseline = "middle";
+                expCtx.fillText("AJN", 0, -6);
+
+                expCtx.font = "11px Tahoma";
+                expCtx.fillStyle = "#aaa";
+                expCtx.fillText("البصراوي", 0, 14);
+                expCtx.restore();
+
+                // رسم شريط العنوان العلوي
+                const titleText = trackInfo.textContent || "علاء البصراوي - استوديو ظل الروح";
+                expCtx.save();
+                expCtx.font = "bold 16px Tahoma";
+                expCtx.textAlign = "center";
+                expCtx.textBaseline = "middle";
+                
+                const textWidth = expCtx.measureText(titleText).width + 50;
+                const boxX = (targetWidth - textWidth) / 2;
+                const boxY = 40;
+
+                expCtx.beginPath();
+                expCtx.roundRect(boxX, boxY, textWidth, 40, 20);
+                expCtx.fillStyle = "rgba(0, 0, 0, 0.85)";
+                expCtx.strokeStyle = "rgba(0, 255, 255, 0.6)";
+                expCtx.lineWidth = 2;
+                expCtx.shadowBlur = 15;
+                expCtx.shadowColor = "rgba(0,0,0,0.9)";
+                expCtx.fill();
+                expCtx.stroke();
+
+                expCtx.fillStyle = "#00ffff";
+                expCtx.shadowBlur = 8;
+                expCtx.shadowColor = "#00ffff";
+                expCtx.fillText(titleText, targetWidth / 2, boxY + 20);
+                expCtx.restore();
+
+                requestAnimationFrame(recordLoop);
+            }
+            recordLoop();
+        }
+
+        recBtn.addEventListener('click', () => {
+            if (!isRecording) {
+                startCustomRecording(canvas.width, canvas.height, 'AJN_Studio_Recording.webm');
+            } else {
+                stopActiveRecording();
+            }
+        });
+
+        function stopActiveRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            isRecording = false;
+            recBtn.textContent = "🎥 تسجيل الاستوديو";
+            recBtn.classList.remove('recording');
+            // **إظهار الأشرطة والأدوات تلقائياً فور توقف التسجيل**
+            document.body.classList.remove('hidden-ui');
+        }
+
+        // **النقر المزدوج على الشاشة أثناء التسجيل يوقف التسجيل ويظهر الأشرطة فوراً**
+        window.addEventListener('dblclick', () => {
+            if (isRecording) {
+                stopActiveRecording();
+            } else {
+                document.body.classList.toggle('hidden-ui');
+            }
+        });
+
+        playlistBtn.addEventListener('click', () => {
+            exportModal.classList.remove('active');
+            playlistModal.classList.toggle('active');
+        });
+        closePlaylist.addEventListener('click', () => playlistModal.classList.remove('active'));
+
+        hideUiBtn.addEventListener('click', () => {
+            document.body.classList.add('hidden-ui');
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+            requestFullScreenMode();
+        });
+
+        multiAudioFile.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+            files.forEach(file => { playlist.push(file); });
+            renderPlaylistUI();
+            if (audio.paused && playlist.length === files.length) {
+                currentTrackIndex = 0;
+                loadTrack(currentTrackIndex);
+                playBtn.disabled = false;
+            }
+        });
+
+        function renderPlaylistUI() {
+            playlistContainer.innerHTML = '';
+            if (playlist.length === 0) {
+                playlistContainer.innerHTML = '<div style="color: #888; text-align: center; padding: 12px; font-size: 10px;">لم يتم تحميل ملفات صوتية بعد</div>';
+                return;
+            }
+            playlist.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = 'playlist-item';
+                if (index === currentTrackIndex) div.classList.add('active');
+                div.innerHTML = `<span>${index + 1}. ${file.name}</span> ${index === currentTrackIndex ? '<span style="color:#2ecc71;">● يعمل</span>' : ''}`;
+                div.onclick = () => {
+                    currentTrackIndex = index;
+                    loadTrack(currentTrackIndex);
+                    audio.play();
+                    playBtn.textContent = "⏸ إيقاف";
+                    requestFullScreenMode();
+                    renderFrame();
+                    renderPlaylistUI();
+                };
+                playlistContainer.appendChild(div);
+            });
+        }
+
+        function loadTrack(index) {
+            if (!playlist[index]) return;
+            const file = playlist[index];
+            const cleanName = file.name.replace(/\.[^/.]+$/, "");
+            manualTitleInput.value = cleanName;
+            trackInfo.textContent = "يعمل الآن: " + cleanName;
+            audio.src = URL.createObjectURL(file);
+            initAudioContext();
+            playBtn.disabled = false;
+        }
+
+        manualTitleInput.addEventListener('input', () => {
+            const val = manualTitleInput.value.trim();
+            if (val) { trackInfo.textContent = "يعمل الآن: " + val; }
+        });
+
+        aiFixTitleBtn.addEventListener('click', () => {
+            let currentText = manualTitleInput.value.trim();
+            if (!currentText && playlist[currentTrackIndex]) {
+                currentText = playlist[currentTrackIndex].name.replace(/\.[^/.]+$/, "");
+            }
+            if (!currentText) { alert("الرجاء تحميل ملف صوتي أو إدخال نص أولاً!"); return; }
+            let cleaned = currentText.replace(/[_.-]/g, ' ').replace(/\s+/g, ' ').trim();
+            if (!cleaned.includes("علاء البصراوي")) { cleaned = cleaned + " - علاء البصراوي"; }
+            manualTitleInput.value = cleaned;
+            trackInfo.textContent = "يعمل الآن: " + cleaned;
+            alert("✨ تمت عملية التصحيح والتنسيق الذكي بنجاح يا أبو حسين!");
+        });
+
+        audio.addEventListener('ended', () => {
+            if (playlist.length > 0) {
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                requestFullScreenMode();
+                renderPlaylistUI();
+            }
+        });
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                source = audioCtx.createMediaElementSource(audio);
+                source.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                analyser.fftSize = 256;
+            }
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            if (audio.paused) {
+                audio.play();
+                playBtn.textContent = "⏸ إيقاف";
+                requestFullScreenMode();
+                renderFrame();
+            } else {
+                audio.pause();
+                playBtn.textContent = "▶ تشغيل";
+            }
+        });
+
+        function renderFrame() {
+            if (audio.paused) return;
+            requestAnimationFrame(renderFrame);
+
+            const bufferLength = analyser.frequencyBinCount;
+            if (!dataArray) dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+
+            const displayWidth = canvas.clientWidth;
+            const displayHeight = canvas.clientHeight;
+            ctx.clearRect(0, 0, displayWidth, displayHeight);
+
+            aiColorTimer++;
+            const speedFactor = aiSyncActive ? 3.0 : 1.5;
+            if (aiAutoActive && aiColorTimer % Math.max(1, Math.floor(8 / speedFactor)) === 0) {
+                const waveColors = ['#00ffff', '#ff007f', '#ffcc00', '#9b59b6', '#00ffcc', '#3498db', '#e74c3c'];
+                currentAiColor = waveColors[Math.floor(Math.random() * waveColors.length)];
+                centerBadge.style.borderColor = currentAiColor;
+                centerBadge.style.boxShadow = `0 0 22px ${currentAiColor}`;
+
+                if (!isChromaMode && !customBgActive) {
+                    ctx.save();
+                    const bgGrad = ctx.createRadialGradient(displayWidth/2, displayHeight/2, 40,displayWidth/2, displayHeight/2, displayWidth*0.75);
+                    bgGrad.addColorStop(0, '#0f081c');
+                    bgGrad.addColorStop(1, '#020205');
+                    ctx.fillStyle = bgGrad;
+                    ctx.fillRect(0, 0, displayWidth, displayHeight);
+                    ctx.restore();
+                }
+            }
+
+            let midSum = 0;
+            const midStart = Math.floor(bufferLength * 0.15);
+            const midEnd = Math.floor(bufferLength * 0.45);
+            for(let i = midStart; i < midEnd; i++) { midSum += dataArray[i]; }
+            const midVolume = midSum / (midEnd - midStart);
+
+            let bassSum = 0;
+            for(let i = 0; i < 15; i++) { bassSum += dataArray[i]; }
+            const bassVolume = bassSum / 15;
+
+            if (customBgActive && midVolume > 35) {
+                const shakeX = (Math.random() - 0.5) * (midVolume / 18);
+                const shakeY = (Math.random() - 0.5) * (midVolume / 18);
+                document.body.style.backgroundPosition = `calc(50% + ${shakeX}px) calc(50% + ${shakeY}px)`;
+            } else {
+                document.body.style.backgroundPosition = 'center center';
+            }
+
+            updateAndRenderEnvironment(bassVolume);
+
+            orbitAngle += (0.05 + (bassVolume / 220)) * speedFactor;
+            const activeColor = currentAiColor;
+
+            const centerX = displayWidth / 2;
+            const centerY = displayHeight / 2;
+            
+            const maxAllowedRadius = Math.min(centerX, centerY) * 0.65; 
+            const dynamicScaleFactor = Math.min(1.15, 0.7 + (bassVolume / 220));
+
+            ctx.save();
+            ctx.translate(centerX, centerY);
+
+            if (currentStyle === 'alaa_pro_1') {
+                ctx.font = "bold 16px Tahoma";
+                ctx.fillStyle = activeColor;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = activeColor;
+                ctx.fillText("علاء البصراوي", 0, 0);
+
+                for (let r = 1; r <= 3; r++) {
+                    const waveR = Math.min(maxAllowedRadius, (28 + (r * 20) + (bassVolume * 0.25)) * dynamicScaleFactor);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, waveR, 0, Math.PI * 2);
+                    ctx.strokeStyle = activeColor;
+                    ctx.lineWidth = 2.5;
+                    ctx.setLineDash([12, 6]);
+                    ctx.stroke();
+                }
+
+                for (let orb = 1; orb <= 2; orb++) {
+                    const orbitRadius = Math.min(maxAllowedRadius * 0.85, 40 + (orb * 25) + (bassVolume * 0.12));
+                    ctx.beginPath();
+                    ctx.arc(0, 0, orbitRadius, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([]);
+                    ctx.stroke();
+
+                    const electronAngle = orbitAngle * (orb % 2 === 0 ? 2.5 : -3.0) + (orb * 2);
+                    const elX = orbitRadius * Math.cos(electronAngle);
+                    const elY = orbitRadius * Math.sin(electronAngle);
+
+                    ctx.beginPath();
+                    ctx.arc(elX, elY, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = activeColor;
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = activeColor;
+                    ctx.fill();
+                }
+            } else if (currentStyle === 'alaa_pro_2') {
+                ctx.font = "bold 16px Tahoma";
+                ctx.fillStyle = activeColor;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = activeColor;
+                ctx.fillText("👑 علاء البصراوي", 0, 0);
+
+                for (let i = 0; i < 10; i++) {
+                    const angle = orbitAngle + (i * (Math.PI * 2 / 10));
+                    const len = Math.min(maxAllowedRadius, 35 + (bassVolume * 1.1));
+                    ctx.beginPath();
+                    ctx.moveTo(22 * Math.cos(angle), 22 * Math.sin(angle));
+                    ctx.lineTo(len * Math.cos(angle), len * Math.sin(angle));
+                    ctx.strokeStyle = activeColor;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }
+            } else if (currentStyle === 'alaa_pro_3') {
+                ctx.font = "bold 16px Tahoma";
+                ctx.fillStyle = activeColor;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = activeColor;
+                ctx.fillText("💫 علاء البصراوي", 0, 0);
+
+                for (let r = 1; r <= 3; r++) {
+                    const rx = Math.min(maxAllowedRadius, (50 + (r * 18) + (bassVolume * 0.2)) * dynamicScaleFactor);
+                    const ry = Math.min(maxAllowedRadius * 0.6, (25 + (r * 10) + (bassVolume * 0.12)) * dynamicScaleFactor);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, rx, ry, orbitAngle * (r % 2 === 0 ? 2.2 : -2.2), 0, Math.PI * 2);
+                    ctx.strokeStyle = activeColor;
+                    ctx.lineWidth = 2.5;
+                    ctx.setLineDash([8, 8]);
+                    ctx.stroke();
+                }
+            } else if (currentStyle === 'alaa_pro_4') {
+                ctx.font = "bold 16px Tahoma";
+                ctx.fillStyle = activeColor;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = activeColor;
+                ctx.fillText("🔥 علاء البصراوي", 0, 0);
+
+                const baseR = Math.min(maxAllowedRadius, 45 + (bassVolume * 0.4));
+                ctx.beginPath();
+                ctx.arc(0, 0, baseR, 0, Math.PI * 2);
+                ctx.strokeStyle = activeColor;
+                ctx.lineWidth = 4;
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = activeColor;
+                ctx.stroke();
+            } else if (currentStyle === 'lyre_1') {
+                for (let i = 0; i < 9; i++) {
+                    const xOffset = (i - 4) * 20;
+                    const val = dataArray[i * 4] / 255;
+                    const len = Math.min(maxAllowedRadius * 0.65, (30 + (val * 45) + (bassVolume * 0.2)) * dynamicScaleFactor);
+                    ctx.beginPath(); ctx.moveTo(xOffset, -len); ctx.lineTo(xOffset, len);
+                    ctx.strokeStyle = activeColor; ctx.lineWidth = 3 + (val * 2);
+                    ctx.shadowBlur = 15; ctx.shadowColor = activeColor; ctx.stroke();
+                }
+            } else if (currentStyle === 'lyre_2') {
+                const baseR = maxAllowedRadius * 0.35;
+                for (let r = 1; r <= 3; r++) {
+                    const radius = Math.min(maxAllowedRadius, (baseR * r * 0.6) * dynamicScaleFactor);
+                    ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                    ctx.strokeStyle = activeColor; ctx.lineWidth = 3; ctx.setLineDash([10, 6]);
+                    ctx.shadowBlur = 18; ctx.shadowColor = activeColor; ctx.stroke();
+                }
+            } else if (currentStyle === 'lyre_3') {
+                for (let i = 0; i < 11; i++) {
+                    const angle = orbitAngle * 3.5 + (i * (Math.PI * 2 / 11));
+                    const dist = Math.min(maxAllowedRadius * 0.7, 35 + Math.sin(orbitAngle * 5 + i) * 12 + ((bassVolume/200)*30));
+                    ctx.beginPath(); ctx.arc(dist * Math.cos(angle), dist * Math.sin(angle), 4 + (bassVolume/35), 0, Math.PI * 2);
+                    ctx.fillStyle = activeColor; ctx.shadowBlur = 15; ctx.shadowColor = activeColor; ctx.fill();
+                }
+            } else if (currentStyle === 'dancer_1') {
+                const radius = Math.min(maxAllowedRadius, (40 + (bassVolume * 0.25)) * dynamicScaleFactor);
+                ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = activeColor; ctx.lineWidth = 4; ctx.shadowBlur = 20; ctx.shadowColor = activeColor; ctx.stroke();
+            } else if (currentStyle === 'love_hearts_1') {
+                const heartScale = Math.min(1.4, (1.0 + (bassVolume / 280)) * dynamicScaleFactor);
+                drawHeart(ctx, 0, 0, heartScale, activeColor);
+            } else if (currentStyle === 'butterfly_1') {
+                const rx = Math.min(maxAllowedRadius * 0.7, (55 + (bassVolume * 0.2)) * dynamicScaleFactor);
+                const ry = Math.min(maxAllowedRadius * 0.5, (35 + (bassVolume * 0.15)) * dynamicScaleFactor);
+                ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, orbitAngle, 0, Math.PI * 2);
+                ctx.strokeStyle = activeColor; ctx.lineWidth = 3.5; ctx.shadowBlur = 20; ctx.shadowColor = activeColor; ctx.stroke();
+            } else if (currentStyle === 'quantum_superwave') {
+                for (let r = 1; r <= 5; r++) {
+                    const radius = Math.min(maxAllowedRadius, (22 + (r * 16) + (bassVolume * 0.18)) * dynamicScaleFactor);
+                    ctx.beginPath(); ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+                    ctx.strokeStyle = activeColor; ctx.lineWidth = 2.5; ctx.setLineDash([10, 6]); ctx.stroke();
+                }
+            } else if (currentStyle === 'radial_burst') {
+                for (let i = 0; i < bufferLength; i += 2) {
+                    const angle = (i * 2 * Math.PI) / bufferLength;
+                    const len = Math.min(maxAllowedRadius * 0.65, ((dataArray[i] / 220) * 40) * dynamicScaleFactor);
+                    ctx.beginPath(); ctx.moveTo(30 * Math.cos(angle), 30 * Math.sin(angle));
+                    ctx.lineTo((30 + len) * Math.cos(angle), (30 + len) * Math.sin(angle));
+                    ctx.strokeStyle = currentAiColor; ctx.lineWidth = 2.5; ctx.stroke();
+                }
+            }
+
+            ctx.restore();
+        }
+
+        function drawHeart(ctx, x, y, size, color) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.translate(x, y);
+            ctx.scale(size, size);
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(0, -3, -5, -15, -15, -15);
+            ctx.bezierCurveTo(-30, -15, -30, 5, -30, 5);
+            ctx.bezierCurveTo(-30, 20, -15, 35, 0, 45);
+            ctx.bezierCurveTo(15, 35, 30, 20, 30, 5);
+            ctx.bezierCurveTo(30, 5, 30, -15, 15, -15);
+            ctx.bezierCurveTo(5, -15, 0, -3, 0, 0);
+            ctx.fillStyle = color;
+            ctx.shadowBlur = 15; ctx.shadowColor = color;
+            ctx.fill();
+            ctx.restore();
+        }
+    </script>
 </body>
 </html>
