@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.1</title>
+    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.2</title>
     <style>
         :root {
             --bg-color: #050508;
@@ -85,6 +85,7 @@
         .btn-rec.recording { background: #ff0000; box-shadow: 0 0 12px red; }
         .btn-hide { background: #7f8c8d; }
         .btn-img { background: #8e44ad; }
+        .btn-reset { background: #d35400; }
 
         .btn-ai-auto {
             background: linear-gradient(45deg, #e67e22, #f1c40f);
@@ -135,7 +136,8 @@
 
         input[type="file"] { display: none; }
 
-        #export-modal {
+        /* نافذة التصدير ونافذة التحكم بموضع النص */
+        #export-modal, #text-position-modal {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -151,7 +153,9 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
             text-align: center;
         }
-        #export-modal.active { display: block; }
+        #export-modal.active, #text-position-modal.active { display: block; }
+        #text-position-modal { border-color: var(--accent-purple); }
+
         .export-option-btn {
             display: block;
             width: 100%;
@@ -164,7 +168,21 @@
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(39, 174, 96, 0.4);
+        }
+
+        .slider-group {
+            margin: 12px 0;
+            text-align: right;
+        }
+        .slider-group label {
+            font-size: 11px;
+            color: #00ffff;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .slider-group input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-purple);
         }
 
         #playlist-modal {
@@ -257,6 +275,8 @@
         }
 
         #track-info {
+            position: absolute;
+            top: 55px;
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid rgba(0, 255, 255, 0.5);
             padding: 8px 24px;
@@ -271,7 +291,8 @@
             box-shadow: 0 5px 25px rgba(0,0,0,0.9);
             letter-spacing: 0.8px;
             color: #00ffff;
-            margin-top: 6px;
+            transform: translate(-50%, 0);
+            left: 50%;
             transition: opacity 0.3s ease;
         }
 
@@ -412,7 +433,8 @@
         body.hidden-ui #top-bar-container,
         body.hidden-ui #bottom-slide-dock,
         body.hidden-ui #playlist-modal,
-        body.hidden-ui #export-modal {
+        body.hidden-ui #export-modal,
+        body.hidden-ui #text-position-modal {
             opacity: 0;
             pointer-events: none;
             position: absolute;
@@ -427,6 +449,8 @@
             <div class="top-slide-container">
                 <button class="btn-top-item btn-playlist" id="playlistBtn">🎵 القائمة</button>
                 <button class="btn-top-item btn-main" id="playBtn" disabled>▶ تشغيل</button>
+                <button class="btn-top-item btn-reset" id="resetAudioBtn">↺ إعادة الصوت</button>
+                <button class="btn-top-item btn-playlist" id="textPosBtn">📐 موضع النص</button>
                 <button class="btn-top-item btn-ai-auto active" id="aiAutoBtn">✨ AI ديناميكي</button>
                 <button class="btn-top-item btn-ai-sync active" id="aiSyncBtn">⚡ تزامن فائق</button>
                 <button class="btn-top-item btn-ai-shuffle" id="aiShuffleBtn">🔀 تبديل آلي (5ث)</button>
@@ -436,6 +460,22 @@
                 <input type="file" id="bgImageFile" accept="image/*">
                 <button class="btn-top-item btn-export" id="exportBtn">📥 تصدير</button>
                 <button class="btn-top-item btn-hide" id="hideUiBtn">👁️ إخفاء وملء الشاشة</button>
+            </div>
+        </div>
+
+        <!-- نافذة التحكم بموضع النص (المنزلقين) -->
+        <div id="text-position-modal">
+            <div class="playlist-header" style="margin-bottom: 10px;">
+                <span>📐 تحكم يدوي بموضع النص</span>
+                <button class="btn-top-item" id="closeTextPosModal" style="padding: 2px 6px;">✕</button>
+            </div>
+            <div class="slider-group">
+                <label>↔️ الموضع الأفقي (يمين / يسار): <span id="valX">50</span>%</label>
+                <input type="range" id="rangeX" min="10" max="90" value="50">
+            </div>
+            <div class="slider-group">
+                <label>↕️ الموضع العمودي (أعلى / أسفل): <span id="valY">55</span>px</label>
+                <input type="range" id="rangeY" min="10" max="300" value="55">
             </div>
         </div>
 
@@ -474,7 +514,7 @@
             </div>
         </div>
 
-        <div id="track-info" style="position: absolute; top: 55px; z-index: 55;">يعمل الآن: لم يتم اختيار أغنية</div>
+        <div id="track-info">يعمل الآن: لم يتم اختيار أغنية</div>
         
         <div class="canvas-container">
             <div id="center-badge">
@@ -518,10 +558,6 @@
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #e91e63); color:#fff;">💃</div>
                     <div class="dock-label">راقصة 1</div>
                 </div>
-                <div class="dock-item" data-style="dancer_2">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9c27b0); color:#fff;">💃</div>
-                    <div class="dock-label">راقصة 2</div>
-                </div>
                 <div class="dock-item" data-style="love_hearts_1">
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">❤️</div>
                     <div class="dock-label">قلوب 1</div>
@@ -554,6 +590,15 @@
         const bgImageFile = document.getElementById('bgImageFile');
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
+        const resetAudioBtn = document.getElementById('resetAudioBtn');
+        const textPosBtn = document.getElementById('textPosBtn');
+        const textPositionModal = document.getElementById('text-position-modal');
+        const closeTextPosModal = document.getElementById('closeTextPosModal');
+        const rangeX = document.getElementById('rangeX');
+        const rangeY = document.getElementById('rangeY');
+        const valX = document.getElementById('valX');
+        const valY = document.getElementById('valY');
+
         const aiAutoBtn = document.getElementById('aiAutoBtn');
         const aiSyncBtn = document.getElementById('aiSyncBtn');
         const aiShuffleBtn = document.getElementById('aiShuffleBtn');
@@ -591,6 +636,10 @@
         let aiAutoActive = true;
         let aiSyncActive = true;
         
+        // إحداثيات موضع النص اليدوية
+        let textPosX = 50; // النسبة المئوية
+        let textPosY = 55; // البكسل من الأعلى
+
         let aiShuffleActive = false;
         let shuffleInterval = null;
         
@@ -732,6 +781,39 @@
             ctx.restore();
         }
 
+        // تحديث موضع النص على الشاشة يدوياً عبر المنزلقات
+        textPosBtn.addEventListener('click', () => {
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+            textPositionModal.classList.toggle('active');
+        });
+        closeTextPosModal.addEventListener('click', () => textPositionModal.classList.remove('active'));
+
+        rangeX.addEventListener('input', () => {
+            textPosX = rangeX.value;
+            valX.textContent = textPosX;
+            trackInfo.style.left = textPosX + '%';
+        });
+
+        rangeY.addEventListener('input', () => {
+            textPosY = rangeY.value;
+            valY.textContent = textPosY;
+            trackInfo.style.top = textPosY + 'px';
+        });
+
+        // **زر إعادة العنصر الصوتي من البداية**
+        resetAudioBtn.addEventListener('click', () => {
+            if (audio) {
+                audio.currentTime = 0;
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.textContent = "⏸ إيقاف";
+                    requestFullScreenMode();
+                    renderFrame();
+                }
+            }
+        });
+
         function setChroma(color) {
             isChromaMode = true;
             customBgActive = false;
@@ -830,6 +912,7 @@
 
         exportBtn.addEventListener('click', () => {
             playlistModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
             exportModal.classList.toggle('active');
         });
         closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
@@ -862,10 +945,10 @@
                 renderFrame();
             }
 
-            // **إخفاء الأشرطة والواجهة تلقائياً عند بدء التسجيل**
             document.body.classList.add('hidden-ui');
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
 
             const exportCanvas = document.createElement('canvas');
             exportCanvas.width = targetWidth;
@@ -897,7 +980,7 @@
                 a.href = url;
                 a.download = fileName;
                 a.click();
-                alert(`🎬 تم تصدير وحفظ الفيديو بدقة متناسقة بدون أي مطه يا أبو حسين!`);
+                alert(`🎬 تم تصدير فيديو الاستوديو بدون أي مطه وبالموضع اليدوي للنص بنجاح يا أبو حسين!`);
             };
 
             mediaRecorder.start();
@@ -909,7 +992,7 @@
                 if (!isRecording) return;
                 expCtx.clearRect(0, 0, targetWidth, targetHeight);
 
-                // **ضبط أبعاد الخلفية باحترافية (object-fit: cover) لمنع أي مطه أو تشويه**
+                // رسم الخلفية مع مراعاة أبعاد الـ Cover لمنع أي تممط
                 if (customBgActive && loadedBgImage) {
                     const imgRatio = loadedBgImage.width / loadedBgImage.height;
                     const targetRatio = targetWidth / targetHeight;
@@ -933,10 +1016,9 @@
                     expCtx.fillRect(0, 0, targetWidth, targetHeight);
                 }
 
-                // رسم محتويات الـ canvas (الموجات، قلوب، دخان) متناسبة تماماً
                 expCtx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
 
-                // رسم الشعار المركزي بدقة
+                // رسم الشعار المركزي
                 expCtx.save();
                 expCtx.translate(targetWidth / 2, targetHeight / 2);
                 expCtx.beginPath();
@@ -960,7 +1042,7 @@
                 expCtx.fillText("البصراوي", 0, 14);
                 expCtx.restore();
 
-                // رسم شريط العنوان العلوي
+                // رسم شريط العنوان العلوي بناءً على الإحداثيات اليدوية (textPosX و textPosY)
                 const titleText = trackInfo.textContent || "علاء البصراوي - استوديو ظل الروح";
                 expCtx.save();
                 expCtx.font = "bold 16px Tahoma";
@@ -968,8 +1050,9 @@
                 expCtx.textBaseline = "middle";
                 
                 const textWidth = expCtx.measureText(titleText).width + 50;
-                const boxX = (targetWidth - textWidth) / 2;
-                const boxY = 40;
+                const boxX = (targetWidth * (textPosX / 100)) - (textWidth / 2);
+                const scaleYFactor = targetHeight / window.innerHeight;
+                const boxY = textPosY * scaleYFactor;
 
                 expCtx.beginPath();
                 expCtx.roundRect(boxX, boxY, textWidth, 40, 20);
@@ -984,7 +1067,7 @@
                 expCtx.fillStyle = "#00ffff";
                 expCtx.shadowBlur = 8;
                 expCtx.shadowColor = "#00ffff";
-                expCtx.fillText(titleText, targetWidth / 2, boxY + 20);
+                expCtx.fillText(titleText, boxX + (textWidth / 2), boxY + 20);
                 expCtx.restore();
 
                 requestAnimationFrame(recordLoop);
@@ -1005,11 +1088,10 @@
             isRecording = false;
             recBtn.textContent = "🎥 تسجيل الاستوديو";
             recBtn.classList.remove('recording');
-            // **إظهار الأشرطة والأدوات تلقائياً فور توقف التسجيل**
             document.body.classList.remove('hidden-ui');
         }
 
-        // **النقر المزدوج على الشاشة أثناء التسجيل يوقف التسجيل ويظهر الأشرطة فوراً**
+        // النقر المزدوج لإيقاف التسجيل أو إخفاء/إظهار الأشرطة
         window.addEventListener('dblclick', () => {
             if (isRecording) {
                 stopActiveRecording();
@@ -1020,6 +1102,7 @@
 
         playlistBtn.addEventListener('click', () => {
             exportModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
             playlistModal.classList.toggle('active');
         });
         closePlaylist.addEventListener('click', () => playlistModal.classList.remove('active'));
@@ -1028,6 +1111,7 @@
             document.body.classList.add('hidden-ui');
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
             requestFullScreenMode();
         });
 
