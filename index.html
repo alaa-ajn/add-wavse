@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.4</title>
+    <title>استوديو موجات ظل الروح - AJN Studio Templates Pro</title>
     <style>
         :root {
             --bg-color: #050508;
             --wave-color: #00ffff;
-            --panel-bg: rgba(18, 18, 26, 0.92);
-            --border-color: rgba(255, 255, 255, 0.15);
+            --panel-bg: #ffffff;
+            --text-dark: #111111;
+            --border-color: rgba(0, 0, 0, 0.15);
             --accent-purple: #8e44ad;
             --accent-orange: #e67e22;
-            --text-color: #fff;
         }
 
         * { box-sizing: border-box; }
@@ -31,141 +31,191 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            color: var(--text-color);
+            color: #fff;
             transition: background-color 0.8s ease;
         }
 
         #top-bar-container {
-            width: 95%;
-            max-width: 980px;
-            margin-top: 6px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border: 1px solid var(--border-color);
-            z-index: 10;
-            overflow: hidden;
-            transition: opacity 0.3s ease;
-        }
-
-        .top-slide-container {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            z-index: 60;
             display: flex;
             gap: 8px;
-            overflow-x: auto;
-            padding: 6px 12px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            align-items: center;
         }
-
-        .top-slide-container::-webkit-scrollbar { height: 2px; }
-        .top-slide-container::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
 
         .btn-top-item {
-            flex: 0 0 auto;
             background: var(--accent-purple);
             color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
+            padding: 10px 16px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 13px;
             font-weight: bold;
-            white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
-        .btn-playlist { background: #2980b9; }
-        .btn-speed-click { background: #e74c3c; box-shadow: 0 0 10px rgba(231, 76, 60, 0.8); }
-        .btn-export { background: #27ae60; }
-        .btn-fullscreen { background: #d35400; }
+        .btn-menu { background: #2980b9; }
+        .btn-styles-toggle { background: linear-gradient(45deg, #8e44ad, #e74c3c); }
+        .btn-main { background: #27ae60; font-size: 14px; padding: 10px 20px; }
         .btn-rec { background: #c0392b; }
-        .btn-rec.recording { background: #ff0000; box-shadow: 0 0 12px red; }
-        .btn-hide { background: #7f8c8d; }
-        .btn-img { background: #8e44ad; }
-        .btn-reset { background: #d35400; }
+        .btn-rec.recording { background: #ff0000; box-shadow: 0 0 16px red; }
 
-        .btn-ai-auto {
-            background: linear-gradient(45deg, #e67e22, #f1c40f);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 10px;
+        /* القائمة الجانبية باللون الأبيض والنص الأسود الكلاسيكي */
+        #side-menu-drawer {
+            position: absolute;
+            top: 0;
+            right: -340px;
+            width: 320px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-left: 3px solid var(--accent-purple);
+            z-index: 200;
+            box-shadow: -15px 0 40px rgba(0,0,0,0.8);
+            transition: right 0.3s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            color: var(--text-dark);
+        }
+        #side-menu-drawer.active { right: 0; }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
             font-weight: bold;
-            box-shadow: 0 0 10px #f1c40f;
-            white-space: nowrap;
+            color: #8e44ad;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 5px;
         }
 
-        .btn-ai-sync {
-            background: linear-gradient(45deg, #9b59b6, #e74c3c);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
+        .drawer-btn {
+            width: 100%;
+            background: #f4f4f7;
+            color: var(--text-dark);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            text-align: right;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 13px;
             font-weight: bold;
-            box-shadow: 0 0 10px #e74c3c;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
         }
-        .btn-ai-sync.active {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            box-shadow: 0 0 14px #2ecc71;
-        }
-
-        .btn-ai-shuffle {
-            background: linear-gradient(45deg, #8e44ad, #2980b9);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 10px;
-            font-weight: bold;
-            box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
-            white-space: nowrap;
-        }
-        .btn-ai-shuffle.active {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            box-shadow: 0 0 14px #2ecc71;
-        }
+        .drawer-btn:hover { background: #e2d8ec; border-color: var(--accent-purple); }
 
         input[type="file"] { display: none; }
 
-        #export-modal, #text-position-modal {
+        /* نافذة الستايلات بخلفية بيضاء ونصوص سوداء */
+        #styles-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 92%;
+            max-width: 650px;
+            max-height: 82vh;
+            background: var(--panel-bg);
+            border: 3px solid #8e44ad;
+            border-radius: 18px;
+            padding: 20px;
+            z-index: 250;
+            display: none;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+            overflow-y: auto;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+        #styles-modal.active {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .style-card {
+            background: #f8f8fa;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .style-card:hover { border-color: var(--accent-purple); transform: translateY(-2px); background: #eee; }
+        .style-card.active { border-color: #27ae60; background: rgba(39, 174, 96, 0.15); box-shadow: 0 0 12px rgba(39, 174, 96, 0.4); }
+
+        .style-thumb {
+            width: 100%;
+            height: 55px;
+            background: #111;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .style-label {
+            font-size: 12px;
+            color: var(--text-dark);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* باقي النوافذ والإعدادات بلون أبيض نقي */
+        #text-position-modal, #wave-position-modal, #custom-text-modal, #export-modal, #playlist-modal, #templates-modal {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 380px;
-            background: rgba(15, 15, 22, 0.98);
-            border: 2px solid #27ae60;
-            border-radius: 14px;
-            padding: 16px;
+            width: 92%;
+            max-width: 420px;
+            background: var(--panel-bg);
+            border: 3px solid #8e44ad;
+            border-radius: 16px;
+            padding: 18px;
             z-index: 200;
             display: none;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
-            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            color: var(--text-dark);
+            max-height: 85vh;
+            overflow-y: auto;
         }
-        #export-modal.active, #text-position-modal.active { display: block; }
-        #text-position-modal { border-color: var(--accent-purple); }
+        #text-position-modal.active, #wave-position-modal.active, #custom-text-modal.active, #export-modal.active, #playlist-modal.active, #templates-modal.active { display: block; }
 
         .export-option-btn {
             display: block;
             width: 100%;
             background: linear-gradient(45deg, #27ae60, #2ecc71);
             color: #fff;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 12px;
+            margin: 10px 0;
             border: none;
-            border-radius: 8px;
-            font-size: 12px;
+            border-radius: 10px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -175,113 +225,116 @@
             text-align: right;
         }
         .slider-group label {
-            font-size: 11px;
-            color: #00ffff;
+            font-size: 12px;
+            color: #8e44ad;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         .slider-group input[type="range"] {
             width: 100%;
-            accent-color: var(--accent-purple);
+            accent-color: #8e44ad;
+        }
+        .slider-group input[type="text"], .slider-group select {
+            width: 100%;
+            padding: 8px;
+            background: #f4f4f7;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-dark);
+            font-size: 12px;
+        }
+        .slider-group input[type="color"] {
+            width: 100%;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
         }
 
-        #playlist-modal {
-            position: absolute;
-            top: 70px;
-            width: 92%;
-            max-width: 480px;
-            background: rgba(15, 15, 22, 0.98);
-            border: 2px solid var(--accent-purple);
-            border-radius: 12px;
-            padding: 12px;
-            z-index: 100;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        .btn-reset-center {
+            width: 100%;
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
-        #playlist-modal.active { display: block; }
-        
+
         .playlist-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            color: #8e44ad;
         }
 
         .edit-title-box {
-            margin-top: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 8px;
+            margin-top: 12px;
+            background: #f4f4f7;
+            padding: 10px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
         }
-
-        .edit-title-box label {
-            font-size: 10px;
-            color: #00ffff;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .edit-row {
-            display: flex;
-            gap: 6px;
-        }
-
+        .edit-row { display: flex; gap: 8px; margin-top: 6px; }
         .edit-title-box input[type="text"] {
             flex: 1;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: #fff;
-            padding: 5px 8px;
-            font-size: 11px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            color: #000;
+            padding: 8px;
+            font-size: 12px;
         }
-
         .btn-ai-fix {
             background: linear-gradient(45deg, #e67e22, #d35400);
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            font-size: 10px;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
-            white-space: nowrap;
         }
 
         .playlist-items {
-            max-height: 120px;
+            max-height: 160px;
             overflow-y: auto;
-            margin-top: 8px;
-            font-size: 11px;
+            margin-top: 10px;
+            font-size: 12px;
         }
         .playlist-item {
-            background: rgba(255,255,255,0.05);
-            padding: 6px 10px;
-            margin-bottom: 4px;
-            border-radius: 4px;
+            background: #f4f4f7;
+            color: #000;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-right: 3px solid transparent;
+            border-right: 4px solid transparent;
             cursor: pointer;
+            font-weight: bold;
         }
-        .playlist-item.active {
-            border-right-color: #00ffff;
-            background: rgba(0,255,255,0.1);
-        }
+        .playlist-item.active { border-right-color: #27ae60; background: rgba(39, 174, 96, 0.15); }
 
         #track-info {
             position: absolute;
-            top: 55px;
+            top: 65px;
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid rgba(0, 255, 255, 0.5);
-            padding: 8px 24px;
-            border-radius: 25px;
-            font-size: 15px;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 16px;
             font-weight: bold;
             z-index: 50;
             max-width: 85%;
@@ -289,11 +342,26 @@
             overflow: hidden;
             text-overflow: ellipsis;
             box-shadow: 0 5px 25px rgba(0,0,0,0.9);
-            letter-spacing: 0.8px;
             color: #00ffff;
             transform: translate(-50%, 0);
             left: 50%;
             transition: opacity 0.3s ease;
+        }
+
+        #extra-custom-text {
+            position: absolute;
+            top: 260px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 45;
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 0 0 10px #00ffff;
+            pointer-events: none;
+            transition: 0.1s linear;
         }
 
         #capture-wrapper {
@@ -329,8 +397,8 @@
 
         #center-badge {
             position: absolute;
-            width: 75px;
-            height: 75px;
+            width: 120px;
+            height: 120px;
             background: rgba(18, 18, 26, 0.95);
             border: 2.5px solid var(--wave-color);
             border-radius: 50%;
@@ -342,99 +410,24 @@
             z-index: 50;
             padding: 4px;
             text-align: center;
+            transform: translate(-50%, calc(-50% + 180px)) scale(1.3);
+            left: 50%;
+            top: 50%;
+            transition: transform 0.05s linear;
         }
+        #center-badge .brand { font-size: 18px; font-weight: bold; color: #fff; }
+        #center-badge span.sub { font-size: 10px; color: #aaa; margin-top: 1px; }
 
-        #center-badge .brand {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: var(--text-color);
-        }
-
-        #center-badge span.sub {
-            font-size: 7.5px;
-            color: #aaa;
-            margin-top: 1px;
-        }
-
-        #bottom-slide-dock {
-            position: absolute;
-            bottom: 0;
-            width: 95%;
-            max-width: 980px;
-            background: rgba(12, 12, 18, 0.95);
-            border: 1px solid var(--border-color);
-            border-top: 2px solid var(--accent-purple);
-            border-radius: 12px 12px 0 0;
-            padding: 6px 0 8px 0;
-            z-index: 30;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.8);
-            transition: opacity 0.3s ease;
-        }
-
-        .slide-container {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding: 0 8px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .slide-container::-webkit-scrollbar { height: 2px; }
-        .slide-container::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
-
-        .dock-item {
-            flex: 0 0 48px;
-            height: 48px;
-            background: rgba(30, 30, 45, 0.95);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 2px;
-            transition: 0.2s;
-        }
-
-        .dock-item:hover { border-color: var(--accent-purple); }
-        .dock-item.active {
-            border-color: #00ffff;
-            background: rgba(142, 68, 173, 0.5);
-            box-shadow: 0 0 8px rgba(0,255,255,0.5);
-        }
-
-        .dock-thumb {
-            width: 100%;
-            height: 56%;
-            background: #111;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-        }
-
-        .dock-label {
-            font-size: 7px;
-            color: #ccc;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        .dock-item.active .dock-label { color: #fff; font-weight: bold; }
-        .chroma-item { background: rgba(40, 40, 60, 0.95); border-color: #2ecc71; }
-
+        /* إخفاء القوائم والتحكم عند تفعيل وضع ملء الشاشة أو إخفاء الواجهة، مع بقاء اسم الأغنية والنص الإضافي ظاهرين تماماً */
         body.hidden-ui #top-bar-container,
-        body.hidden-ui #bottom-slide-dock,
+        body.hidden-ui #side-menu-drawer,
+        body.hidden-ui #styles-modal,
         body.hidden-ui #playlist-modal,
         body.hidden-ui #export-modal,
-        body.hidden-ui #text-position-modal {
+        body.hidden-ui #text-position-modal,
+        body.hidden-ui #wave-position-modal,
+        body.hidden-ui #custom-text-modal,
+        body.hidden-ui #templates-modal {
             opacity: 0;
             pointer-events: none;
             position: absolute;
@@ -445,44 +438,220 @@
 
     <div id="capture-wrapper">
 
-        <div id="top-bar-container" style="position: absolute; top: 6px; z-index: 60;">
-            <div class="top-slide-container">
-                <button class="btn-top-item btn-playlist" id="playlistBtn">🎵 القائمة</button>
-                <button class="btn-top-item btn-speed-click" id="speedToggleBtn">🚀 سرعة الموجة: 1x</button>
-                <button class="btn-top-item btn-main" id="playBtn" disabled>▶ تشغيل</button>
-                <button class="btn-top-item btn-reset" id="resetAudioBtn">↺ إعادة الصوت</button>
-                <button class="btn-top-item btn-playlist" id="textPosBtn">📐 موضع النص</button>
-                <button class="btn-top-item btn-ai-auto active" id="aiAutoBtn">✨ AI ديناميكي</button>
-                <button class="btn-top-item btn-ai-sync active" id="aiSyncBtn">⚡ تزامن فائق</button>
-                <button class="btn-top-item btn-ai-shuffle" id="aiShuffleBtn">🔀 تبديل آلي (5ث)</button>
-                <button class="btn-top-item btn-fullscreen" id="fullscreenBtn">⛶ فول سكرين</button>
-                <button class="btn-top-item btn-rec" id="recBtn">🎥 تسجيل الاستوديو</button>
-                <label class="btn-top-item btn-img" for="bgImageFile">🖼️ خلفية</label>
-                <input type="file" id="bgImageFile" accept="image/*">
-                <button class="btn-top-item btn-export" id="exportBtn">📥 تصدير</button>
-                <button class="btn-top-item btn-hide" id="hideUiBtn">👁️ إخفاء وملء الشاشة</button>
+        <div id="top-bar-container">
+            <button class="btn-top-item btn-styles-toggle" id="openStylesModalBtn">🎨 الستايلات</button>
+            <button class="btn-top-item btn-main" id="playBtn" disabled>▶ تشغيل</button>
+            <button class="btn-top-item btn-rec" id="recBtn">🎥 تسجيل</button>
+            <button class="btn-top-item btn-menu" id="openMenuDrawerBtn">⚙️ القائمة</button>
+        </div>
+
+        <div id="side-menu-drawer">
+            <div class="drawer-header">
+                <span>⚙️ إعدادات وأدوات الاستوديو</span>
+                <button class="btn-top-item" id="closeMenuDrawerBtn" style="padding: 6px 10px; font-size: 12px;">✕</button>
+            </div>
+            <button class="drawer-btn" id="playlistBtn">🎵 قائمة التشغيل وإدارة النصوص</button>
+            <button class="drawer-btn" id="customTextMenuBtn">✍️ قسم إضافة وتخصيص نص جديد</button>
+            <button class="drawer-btn" id="templatesMenuBtn">📂 إدارة وقوالب التنسيقات المحفوظة</button>
+            <button class="drawer-btn" id="wavePosBtn">🎛️ التحكم بحجم وموقع الموجة والشعار</button>
+            <button class="drawer-btn" id="speedToggleBtn">🚀 سرعة الموجة: 4x</button>
+            <button class="drawer-btn" id="resetAudioBtn">↺ إعادة الصوت من البداية</button>
+            <button class="drawer-btn" id="textPosBtn">📐 التحكم اليدوي بموضع النص</button>
+            <button class="drawer-btn" id="aiAutoBtn">✨ AI ديناميكي (شغال)</button>
+            <button class="drawer-btn" id="aiSyncBtn">⚡ تزامن فائق (شغال)</button>
+            <button class="drawer-btn" id="aiShuffleBtn">🔀 تبديل آلي للستايلات (متوقف)</button>
+            <button class="drawer-btn" id="fullscreenBtn">⛶ ملء الشاشة (Fullscreen)</button>
+            <label class="drawer-btn" for="bgImageFile" style="cursor: pointer;">🖼️ تحميل صورة خلفية مخصصة</label>
+            <input type="file" id="bgImageFile" accept="image/*">
+            <button class="drawer-btn" id="exportBtn" style="background: #27ae60; color: #fff;">📥 تصدير الفيديو أو الصورة</button>
+            <button class="drawer-btn" id="hideUiBtn" style="background: #7f8c8d; color: #fff;">👁️ إخفاء الواجهة بالكامل</button>
+        </div>
+
+        <!-- نافذة إدارة وقوالب التنسيقات -->
+        <div id="templates-modal">
+            <div class="playlist-header" style="margin-bottom: 10px;">
+                <span>📂 قوالب التنسيقات المحفوظة</span>
+                <button class="btn-top-item" id="closeTemplatesModal" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
+            </div>
+            <div class="slider-group">
+                <label>🏷️ اسم القالب الجديد:</label>
+                <input type="text" id="templateNameInput" placeholder="أدخل اسم القالب (مثل: قالب رومانسي)...">
+            </div>
+            <button class="export-option-btn" id="saveTemplateBtn" style="background: linear-gradient(45deg, #8e44ad, #9b59b6);">💾 حفظ التنسيقات الحالية كقالب جديد</button>
+            
+            <div style="margin-top: 15px; font-weight: bold; color: var(--text-dark); font-size: 13px;">القوالب المحفوظة:</div>
+            <div class="playlist-items" id="templatesContainer">
+                <div style="color: #666; text-align: center; padding: 10px; font-size: 12px; font-weight:bold;">لا توجد قوالب محفوظة بعد</div>
+            </div>
+        </div>
+
+        <div id="custom-text-modal">
+            <div class="playlist-header" style="margin-bottom: 10px;">
+                <span>✍️ إضافة وتخصيص نص جديد</span>
+                <button class="btn-top-item" id="closeCustomTextModal" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
+            </div>
+            <div class="slider-group">
+                <label>📝 النص المضاف:</label>
+                <input type="text" id="extraTextInput" value="استوديو ظل الروح - علاء البصراوي" placeholder="اكتب النص هنا...">
+            </div>
+            <div class="slider-group">
+                <label>🔍 حجم النص: <span id="valExtraSize">18</span>px</label>
+                <input type="range" id="rangeExtraSize" min="10" max="100" value="18">
+            </div>
+            <div class="slider-group">
+                <label>🎨 لون النص:</label>
+                <input type="color" id="extraTextColor" value="#ffffff">
+            </div>
+            <div class="slider-group">
+                <label>✨ لون التوهج الخارجي (Glow Color):</label>
+                <input type="color" id="extraGlowColor" value="#00ffff">
+            </div>
+            <div class="slider-group">
+                <label>💪 سمك النص (Font Weight):</label>
+                <select id="selectFontWeight">
+                    <option value="normal">عادي (Normal)</option>
+                    <option value="bold" selected>عريض (Bold)</option>
+                    <option value="bolder">عريض جداً (Bolder)</option>
+                </select>
+            </div>
+            <div class="slider-group">
+                <label>✨ شدة التوهج (Glow): <span id="valExtraGlow">10</span>px</label>
+                <input type="range" id="rangeExtraGlow" min="0" max="60" value="10">
+            </div>
+            <div class="slider-group">
+                <label>↕️ الارتفاع العمودي للنص: <span id="valExtraY">260</span>px</label>
+                <input type="range" id="rangeExtraY" min="0" max="1000" value="260">
+            </div>
+        </div>
+
+        <div id="wave-position-modal">
+            <div class="playlist-header" style="margin-bottom: 10px;">
+                <span>🎛️ تحكم الموجة والشعار</span>
+                <button class="btn-top-item" id="closeWavePosModal" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
+            </div>
+            <div class="slider-group">
+                <label>🔍 حجم الموجة: <span id="valScale">100</span>%</label>
+                <input type="range" id="rangeScale" min="50" max="200" value="100">
+            </div>
+            <div class="slider-group">
+                <label>⭐ حجم الشعار (السنتر): <span id="valLogoScale">130</span>%</label>
+                <input type="range" id="rangeLogoScale" min="50" max="200" value="130">
+            </div>
+            <div class="slider-group">
+                <label>↔️ الإزاحة الأفقية (يمين/يسار): <span id="valWaveX">0</span>px</label>
+                <input type="range" id="rangeWaveX" min="-500" max="500" value="0">
+            </div>
+            <div class="slider-group">
+                <label>↕️ الإزاحة العمودية (أعلى/أسفل): <span id="valWaveY">180</span>px</label>
+                <input type="range" id="rangeWaveY" min="-500" max="500" value="180">
+            </div>
+            <button class="btn-reset-center" id="resetCenterBtn">🎯 رجوع تلقائي لسنتر الشاشة</button>
+        </div>
+
+        <div id="styles-modal">
+            <div class="playlist-header">
+                <span>🎨 اختر قالب الموجة المفضلة لديك</span>
+                <button class="btn-top-item" id="closeStylesModalBtn" style="padding: 6px 10px; font-size: 12px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
+            </div>
+            <div class="styles-grid" id="stylesGridContainer">
+                <div class="style-card active" data-style="gemini_5d_cosmos">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #8e44ad); color:#00ffff;">✨G</div>
+                    <div class="style-label">جيمناي 5D</div>
+                </div>
+                <div class="style-card" data-style="magic_spiral_spread">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #00ffff, #ff00ff); color:#fff;">✨</div>
+                    <div class="style-label">حلزون سحري</div>
+                </div>
+                <div class="style-card" data-style="spiral_galaxy">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #8e44ad, #00ffff); color:#fff;">🌀</div>
+                    <div class="style-label">حلزون مجري</div>
+                </div>
+                <div class="style-card" data-style="neon_pulse">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #ff00ff); color:#fff;">💥</div>
+                    <div class="style-label">نبض نيوني</div>
+                </div>
+                <div class="style-card" data-style="classic_full_spectrum">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">📊</div>
+                    <div class="style-label">طيف كلاسيكي</div>
+                </div>
+                <div class="style-card" data-style="alaa_pro_1">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">⚡</div>
+                    <div class="style-label">علاء 1 (بريق)</div>
+                </div>
+                <div class="style-card" data-style="alaa_pro_2">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #e67e22); color:#fff;">👑</div>
+                    <div class="style-label">علاء 2 (ملك)</div>
+                </div>
+                <div class="style-card" data-style="alaa_pro_3">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">💫</div>
+                    <div class="style-label">علاء 3 (مجرة)</div>
+                </div>
+                <div class="style-card" data-style="alaa_pro_4">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #27ae60); color:#fff;">🔥</div>
+                    <div class="style-label">علاء 4 (حماسي)</div>
+                </div>
+                <div class="style-card" data-style="wind_sparks">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">🌪️</div>
+                    <div class="style-label">رياح وشرار</div>
+                </div>
+                <div class="style-card" data-style="radial_spray">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🎆</div>
+                    <div class="style-label">رذاذ شعاعي</div>
+                </div>
+                <div class="style-card" data-style="lyre_1">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #00bcd4); color:#fff;">🎻</div>
+                    <div class="style-label">قيثار 1</div>
+                </div>
+                <div class="style-card" data-style="lyre_2">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #3f51b5); color:#fff;">🎸</div>
+                    <div class="style-label">قيثار 2</div>
+                </div>
+                <div class="style-card" data-style="lyre_3">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #009688); color:#fff;">🎼</div>
+                    <div class="style-label">قيثار 3</div>
+                </div>
+                <div class="style-card" data-style="dancer_1">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #e91e63); color:#fff;">💃</div>
+                    <div class="style-label">راقصة 1</div>
+                </div>
+                <div class="style-card" data-style="love_hearts_1">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">❤️</div>
+                    <div class="style-label">قلوب 1</div>
+                </div>
+                <div class="style-card" data-style="butterfly_1">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">🦋</div>
+                    <div class="style-label">فراشة 1</div>
+                </div>
+                <div class="style-card" data-style="quantum_superwave">
+                    <div class="style-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🌀</div>
+                    <div class="style-label">كوانتم</div>
+                </div>
+                <div class="style-card" onclick="setChroma('#00FF00')" style="border-color: #2ecc71;">
+                    <div class="style-thumb" style="background: #00FF00;">🟢</div>
+                    <div class="style-label">أخضر كروم</div>
+                </div>
             </div>
         </div>
 
         <div id="text-position-modal">
             <div class="playlist-header" style="margin-bottom: 10px;">
                 <span>📐 تحكم يدوي بموضع النص</span>
-                <button class="btn-top-item" id="closeTextPosModal" style="padding: 2px 6px;">✕</button>
+                <button class="btn-top-item" id="closeTextPosModal" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
             </div>
             <div class="slider-group">
-                <label>↔️ الموضع الأفقي (يمين / يسار): <span id="valX">50</span>%</label>
-                <input type="range" id="rangeX" min="10" max="90" value="50">
+                <label>↔️ الموضع الأفقي: <span id="valX">50</span>%</label>
+                <input type="range" id="rangeX" min="0" max="100" value="50">
             </div>
             <div class="slider-group">
-                <label>↕️ الموضع العمودي (أعلى / أسفل): <span id="valY">55</span>px</label>
-                <input type="range" id="rangeY" min="10" max="300" value="55">
+                <label>↕️ الموضع العمودي: <span id="valY">55</span>px</label>
+                <input type="range" id="rangeY" min="0" max="800" value="55">
             </div>
         </div>
 
         <div id="export-modal">
             <div class="playlist-header" style="margin-bottom: 10px;">
                 <span>🎯 اختر نوع وحجم التصدير</span>
-                <button class="btn-top-item" id="closeExportModal" style="padding: 2px 6px;">✕</button>
+                <button class="btn-top-item" id="closeExportModal" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
             </div>
             <button class="export-option-btn" id="exportVerticalVideoBtn">📱 فيديو عمودي (9:16 - ريلز/شورتس)</button>
             <button class="export-option-btn" id="exportHorizontalVideoBtn">💻 فيديو أفقي قياسي (16:9 - شاشات)</button>
@@ -492,29 +661,28 @@
         <div id="playlist-modal">
             <div class="playlist-header">
                 <span>قائمة التشغيل وإدارة النصوص</span>
-                <button class="btn-top-item" id="closePlaylist" style="padding: 2px 6px;">✕</button>
+                <button class="btn-top-item" id="closePlaylist" style="padding: 4px 8px; font-size: 11px; background: rgba(0,0,0,0.1); color:#000;">✕</button>
             </div>
-            <div style="margin: 8px 0;">
-                <label class="btn-top-item" for="multiAudioFile" style="display: block; text-align: center; padding: 7px; background: var(--accent-orange); cursor: pointer; border-radius: 6px; font-size: 10px; width:100%;">
+            <div style="margin: 10px 0;">
+                <label class="btn-top-item" for="multiAudioFile" style="display: block; text-align: center; padding: 10px; background: var(--accent-orange); color:#fff; cursor: pointer; border-radius: 8px; font-size: 12px; width:100%;">
                     ➕ تحميل ملفات الأغاني الصوتية
                 </label>
                 <input type="file" id="multiAudioFile" accept="audio/*" multiple>
             </div>
-
             <div class="edit-title-box">
-                <label>✏️ تعديل عنوان الأغنية الحالي أو التصحيح الذكي:</label>
+                <label style="color:#8e44ad; font-size:11px; font-weight:bold;">✏️ تعديل عنوان الأغنية أو التصحيح الذكي:</label>
                 <div class="edit-row">
                     <input type="text" id="manualTitleInput" placeholder="اكتب اسم الأغنية هنا...">
-                    <button class="btn-ai-fix" id="aiFixTitleBtn">✨ تصحيح ذكي AI</button>
+                    <button class="btn-ai-fix" id="aiFixTitleBtn">✨ تصحيح AI</button>
                 </div>
             </div>
-
             <div class="playlist-items" id="playlistContainer">
-                <div style="color: #888; text-align: center; padding: 12px; font-size: 10px;">لم يتم تحميل ملفات صوتية بعد</div>
+                <div style="color: #666; text-align: center; padding: 15px; font-size: 12px; font-weight:bold;">لم يتم تحميل ملفات صوتية بعد</div>
             </div>
         </div>
 
         <div id="track-info">يعمل الآن: لم يتم اختيار أغنية</div>
+        <div id="extra-custom-text">استوديو ظل الروح - علاء البصراوي</div>
         
         <div class="canvas-container">
             <div id="center-badge">
@@ -524,100 +692,10 @@
             <canvas id="canvas"></canvas>
         </div>
 
-        <div id="bottom-slide-dock">
-            
-            
-            
-            
-            <div class="slide-container">
-                
-                
-                <div class="dock-item" data-style="magic_spiral_spread">
-    <div class="dock-thumb" style="background: linear-gradient(45deg, #00ffff, #ff00ff); color:#fff;">✨</div>
-    <div class="dock-label">حلزون سحري</div>
-</div>
-
-                
-                <div class="dock-item" data-style="spiral_galaxy">
-    <div class="dock-thumb" style="background: linear-gradient(45deg, #8e44ad, #00ffff); color:#fff;">🌀</div>
-    <div class="dock-label">حلزون مجري</div>
-</div>
-
-                
-                <div class="dock-item" data-style="neon_pulse">
-    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff00ff); color:#fff;">💥</div>
-    <div class="dock-label">نبض نيوني</div>
-</div>
-
-                <div class="dock-item" data-style="classic_full_spectrum">
-    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">📊</div>
-    <div class="dock-label">طيف كلاسيكي</div>
-</div>
-
-                <div class="dock-item active" data-style="alaa_pro_1">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">⚡</div>
-                    <div class="dock-label">علاء 1 (بريق)</div>
-                </div>
-                <div class="dock-item" data-style="alaa_pro_2">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #e67e22); color:#fff;">👑</div>
-                    <div class="dock-label">علاء 2 (ملك)</div>
-                </div>
-                <div class="dock-item" data-style="alaa_pro_3">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">💫</div>
-                    <div class="dock-label">علاء 3 (مجرة)</div>
-                </div>
-                <div class="dock-item" data-style="alaa_pro_4">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #27ae60); color:#fff;">🔥</div>
-                    <div class="dock-label">علاء 4 (حماسي)</div>
-                </div>
-                <div class="dock-item" data-style="wind_sparks">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">🌪️</div>
-                    <div class="dock-label">رياح وشرار</div>
-                </div>
-                <div class="dock-item" data-style="radial_spray">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🎆</div>
-                    <div class="dock-label">رذاذ شعاعي</div>
-                </div>
-                <div class="dock-item" data-style="lyre_1">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00bcd4); color:#fff;">🎻</div>
-                    <div class="dock-label">قيثار 1</div>
-                </div>
-                <div class="dock-item" data-style="lyre_2">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #3f51b5); color:#fff;">🎸</div>
-                    <div class="dock-label">قيثار 2</div>
-                </div>
-                <div class="dock-item" data-style="lyre_3">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #009688); color:#fff;">🎼</div>
-                    <div class="dock-label">قيثار 3</div>
-                </div>
-                <div class="dock-item" data-style="dancer_1">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #e91e63); color:#fff;">💃</div>
-                    <div class="dock-label">راقصة 1</div>
-                </div>
-                <div class="dock-item" data-style="love_hearts_1">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">❤️</div>
-                    <div class="dock-label">قلوب 1</div>
-                </div>
-                <div class="dock-item" data-style="butterfly_1">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #9b59b6); color:#fff;">🦋</div>
-                    <div class="dock-label">فراشة 1</div>
-                </div>
-                <div class="dock-item" data-style="quantum_superwave">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🌀</div>
-                    <div class="dock-label">كوانتم</div>
-                </div>
-                <div class="dock-item chroma-item" onclick="setChroma('#00FF00')">
-                    <div class="dock-thumb" style="background: #00FF00;">🟢</div>
-                    <div class="dock-label">أخضر كروم</div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <audio id="audio" crossorigin="anonymous"></audio>
 
-    <!-- استدعاء ملف الجافاسكريبت الخارجي -->
     <script src="waves.js"></script>
 
     <script>
@@ -634,6 +712,49 @@
         const valX = document.getElementById('valX');
         const valY = document.getElementById('valY');
         const speedToggleBtn = document.getElementById('speedToggleBtn');
+
+        const wavePosBtn = document.getElementById('wavePosBtn');
+        const wavePositionModal = document.getElementById('wave-position-modal');
+        const closeWavePosModal = document.getElementById('closeWavePosModal');
+        const rangeScale = document.getElementById('rangeScale');
+        const valScale = document.getElementById('valScale');
+        const rangeLogoScale = document.getElementById('rangeLogoScale');
+        const valLogoScale = document.getElementById('valLogoScale');
+        const rangeWaveX = document.getElementById('rangeWaveX');
+        const valWaveX = document.getElementById('valWaveX');
+        const rangeWaveY = document.getElementById('rangeWaveY');
+        const valWaveY = document.getElementById('valWaveY');
+        const resetCenterBtn = document.getElementById('resetCenterBtn');
+
+        const customTextMenuBtn = document.getElementById('customTextMenuBtn');
+        const customTextModal = document.getElementById('custom-text-modal');
+        const closeCustomTextModal = document.getElementById('closeCustomTextModal');
+        const extraTextInput = document.getElementById('extraTextInput');
+        const rangeExtraSize = document.getElementById('rangeExtraSize');
+        const valExtraSize = document.getElementById('valExtraSize');
+        const extraTextColor = document.getElementById('extraTextColor');
+        const extraGlowColor = document.getElementById('extraGlowColor');
+        const selectFontWeight = document.getElementById('selectFontWeight');
+        const rangeExtraGlow = document.getElementById('rangeExtraGlow');
+        const valExtraGlow = document.getElementById('valExtraGlow');
+        const rangeExtraY = document.getElementById('rangeExtraY');
+        const valExtraY = document.getElementById('valExtraY');
+        const extraCustomText = document.getElementById('extra-custom-text');
+
+        // عناصر إدارة القوالب
+        const templatesMenuBtn = document.getElementById('templatesMenuBtn');
+        const templatesModal = document.getElementById('templates-modal');
+        const closeTemplatesModal = document.getElementById('closeTemplatesModal');
+        const templateNameInput = document.getElementById('templateNameInput');
+        const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+        const templatesContainer = document.getElementById('templatesContainer');
+
+        let savedTemplates = JSON.parse(localStorage.getItem('ajn_studio_templates') || '[]');
+
+        let waveScalePercent = 100;
+        let logoScalePercent = 130;
+        let waveOffsetX = 0;
+        let waveOffsetY = 180;
 
         const aiAutoBtn = document.getElementById('aiAutoBtn');
         const aiSyncBtn = document.getElementById('aiSyncBtn');
@@ -655,14 +776,21 @@
         const exportHorizontalVideoBtn = document.getElementById('exportHorizontalVideoBtn');
         const exportImageBtn = document.getElementById('exportImageBtn');
 
+        const openMenuDrawerBtn = document.getElementById('openMenuDrawerBtn');
+        const closeMenuDrawerBtn = document.getElementById('closeMenuDrawerBtn');
+        const sideMenuDrawer = document.getElementById('side-menu-drawer');
+        const openStylesModalBtn = document.getElementById('openStylesModalBtn');
+        const closeStylesModalBtn = document.getElementById('closeStylesModalBtn');
+        const stylesModal = document.getElementById('styles-modal');
+        const styleCards = document.querySelectorAll('.style-card[data-style]');
+
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const trackInfo = document.getElementById('track-info');
-        const dockItems = document.querySelectorAll('.dock-item[data-style]');
         const centerBadge = document.getElementById('center-badge');
 
         let audioCtx, analyser, source, dataArray;
-        let currentStyle = 'alaa_pro_1';
+        let currentStyle = 'gemini_5d_cosmos';
         let orbitAngle = 0;
         let aiColorTimer = 0;
         let currentAiColor = '#00ffff';
@@ -691,6 +819,213 @@
         const MAX_SMOKE = 8;
         let backgroundModeTimer = 0;
         let currentBgMode = 'snow';
+
+        openMenuDrawerBtn.addEventListener('click', () => sideMenuDrawer.classList.add('active'));
+        closeMenuDrawerBtn.addEventListener('click', () => sideMenuDrawer.classList.remove('active'));
+
+        // أحداث نافذة القوالب
+        templatesMenuBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            customTextModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+            stylesModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
+            templatesModal.classList.toggle('active');
+            renderTemplatesUI();
+        });
+        closeTemplatesModal.addEventListener('click', () => templatesModal.classList.remove('active'));
+
+        saveTemplateBtn.addEventListener('click', () => {
+            const tName = templateNameInput.value.trim() || (`قالب ${savedTemplates.length + 1}`);
+            const templateData = {
+                name: tName,
+                style: currentStyle,
+                waveScale: waveScalePercent,
+                logoScale: logoScalePercent,
+                waveX: waveOffsetX,
+                waveY: waveOffsetY,
+                extraText: extraTextInput.value,
+                extraTextSize: rangeExtraSize.value,
+                extraTextColor: extraTextColor.value,
+                extraGlowColor: extraGlowColor.value,
+                fontWeight: selectFontWeight.value,
+                extraGlow: rangeExtraGlow.value,
+                extraY: rangeExtraY.value,
+                textPosX: textPosX,
+                textPosY: textPosY
+            };
+            savedTemplates.push(templateData);
+            localStorage.setItem('ajn_studio_templates', JSON.stringify(savedTemplates));
+            templateNameInput.value = '';
+            renderTemplatesUI();
+            alert(`✨ تم حفظ القالب "${tName}" بنجاح يا أبو حسين!`);
+        });
+
+        function renderTemplatesUI() {
+            templatesContainer.innerHTML = '';
+            if (savedTemplates.length === 0) {
+                templatesContainer.innerHTML = '<div style="color: #666; text-align: center; padding: 10px; font-size: 12px; font-weight:bold;">لا توجد قوالب محفوظة بعد</div>';
+                return;
+            }
+            savedTemplates.forEach((t, index) => {
+                const div = document.createElement('div');
+                div.className = 'playlist-item';
+                div.innerHTML = `<span>📁 ${t.name}</span> <button style="background:#e74c3c; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="loadTemplate(${index})">تطبيق</button>`;
+                templatesContainer.appendChild(div);
+            });
+        }
+
+        window.loadTemplate = function(index) {
+            const t = savedTemplates[index];
+            if (!t) return;
+            currentStyle = t.style;
+            styleCards.forEach(c => {
+                if (c.getAttribute('data-style') === currentStyle) c.classList.add('active');
+                else c.classList.remove('active');
+            });
+            waveScalePercent = t.waveScale; rangeScale.value = waveScalePercent; valScale.textContent = waveScalePercent;
+            logoScalePercent = t.logoScale; rangeLogoScale.value = logoScalePercent; valLogoScale.textContent = logoScalePercent;
+            waveOffsetX = t.waveX; rangeWaveX.value = waveOffsetX; valWaveX.textContent = waveOffsetX;
+            waveOffsetY = t.waveY; rangeWaveY.value = waveOffsetY; valWaveY.textContent = waveOffsetY;
+            updateBadgeTransform();
+
+            extraTextInput.value = t.extraText; extraCustomText.textContent = t.extraText;
+            rangeExtraSize.value = t.extraTextSize; valExtraSize.textContent = t.extraTextSize; extraCustomText.style.fontSize = t.extraTextSize + 'px';
+            extraTextColor.value = t.extraTextColor; extraCustomText.style.color = t.extraTextColor;
+            extraGlowColor.value = t.extraGlowColor;
+            selectFontWeight.value = t.fontWeight; extraCustomText.style.fontWeight = t.fontWeight;
+            rangeExtraGlow.value = t.extraGlow; valExtraGlow.textContent = t.extraGlow;
+            rangeExtraY.value = t.extraY; valExtraY.textContent = t.extraY; extraCustomText.style.top = t.extraY + 'px';
+            updateExtraTextGlow();
+
+            textPosX = t.textPosX; rangeX.value = textPosX; valX.textContent = textPosX; trackInfo.style.left = textPosX + '%';
+            textPosY = t.textPosY; rangeY.value = textPosY; valY.textContent = textPosY; trackInfo.style.top = textPosY + 'px';
+
+            templatesModal.classList.remove('active');
+            alert(`✨ تم تطبيق القالب "${t.name}" بنجاح يا أبو حسين!`);
+        };
+
+        customTextMenuBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+            stylesModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
+            customTextModal.classList.toggle('active');
+        });
+        closeCustomTextModal.addEventListener('click', () => customTextModal.classList.remove('active'));
+
+        extraTextInput.addEventListener('input', () => {
+            extraCustomText.textContent = extraTextInput.value;
+        });
+
+        rangeExtraSize.addEventListener('input', () => {
+            valExtraSize.textContent = rangeExtraSize.value;
+            extraCustomText.style.fontSize = rangeExtraSize.value + 'px';
+        });
+
+        extraTextColor.addEventListener('input', () => {
+            extraCustomText.style.color = extraTextColor.value;
+        });
+
+        extraGlowColor.addEventListener('input', updateExtraTextGlow);
+        rangeExtraGlow.addEventListener('input', () => {
+            valExtraGlow.textContent = rangeExtraGlow.value;
+            updateExtraTextGlow();
+        });
+
+        function updateExtraTextGlow() {
+            const glowVal = rangeExtraGlow.value;
+            const glowColor = extraGlowColor.value || '#00ffff';
+            extraCustomText.style.textShadow = `0 0 ${glowVal}px ${glowColor}`;
+        }
+
+        selectFontWeight.addEventListener('change', () => {
+            extraCustomText.style.fontWeight = selectFontWeight.value;
+        });
+
+        rangeExtraY.addEventListener('input', () => {
+            valExtraY.textContent = rangeExtraY.value;
+            extraCustomText.style.top = rangeExtraY.value + 'px';
+        });
+
+        wavePosBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
+            playlistModal.classList.remove('active');
+            exportModal.classList.remove('active');
+            stylesModal.classList.remove('active');
+            textPositionModal.classList.remove('active');
+            wavePositionModal.classList.toggle('active');
+        });
+        closeWavePosModal.addEventListener('click', () => wavePositionModal.classList.remove('active'));
+
+        rangeScale.addEventListener('input', () => {
+            waveScalePercent = rangeScale.value;
+            valScale.textContent = waveScalePercent;
+        });
+
+        rangeLogoScale.addEventListener('input', () => {
+            logoScalePercent = rangeLogoScale.value;
+            valLogoScale.textContent = logoScalePercent;
+            updateBadgeTransform();
+        });
+
+        rangeWaveX.addEventListener('input', () => {
+            waveOffsetX = parseInt(rangeWaveX.value);
+            valWaveX.textContent = waveOffsetX;
+            updateBadgeTransform();
+        });
+        
+        rangeWaveY.addEventListener('input', () => {
+            waveOffsetY = parseInt(rangeWaveY.value);
+            valWaveY.textContent = waveOffsetY;
+            updateBadgeTransform();
+        });
+
+        resetCenterBtn.addEventListener('click', () => {
+            waveOffsetX = 0;
+            waveOffsetY = 180;
+            logoScalePercent = 130;
+            waveScalePercent = 100;
+
+            rangeWaveX.value = 0;
+            rangeWaveY.value = 180;
+            rangeLogoScale.value = 130;
+            rangeScale.value = 100;
+
+            valWaveX.textContent = "0";
+            valWaveY.textContent = "180";
+            valLogoScale.textContent = "130";
+            valScale.textContent = "100";
+
+            updateBadgeTransform();
+        });
+
+        function updateBadgeTransform() {
+            const logoScaleFactor = logoScalePercent / 100;
+            centerBadge.style.transform = `translate(calc(-50% + ${waveOffsetX}px), calc(-50% + ${waveOffsetY}px)) scale(${logoScaleFactor})`;
+        }
+
+        openStylesModalBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            stylesModal.classList.add('active');
+        });
+        closeStylesModalBtn.addEventListener('click', () => stylesModal.classList.remove('active'));
+
+        styleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                styleCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                currentStyle = card.getAttribute('data-style');
+                stylesModal.classList.remove('active');
+            });
+        });
 
         speedToggleBtn.addEventListener('click', () => {
             toggleWaveSpeed(speedToggleBtn);
@@ -815,8 +1150,13 @@
         }
 
         textPosBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
+            stylesModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
             textPositionModal.classList.toggle('active');
         });
         closeTextPosModal.addEventListener('click', () => textPositionModal.classList.remove('active'));
@@ -840,6 +1180,7 @@
                     audio.play();
                     playBtn.textContent = "⏸ إيقاف";
                     requestFullScreenMode();
+                    document.body.classList.add('hidden-ui');
                     renderFrame();
                 }
             }
@@ -851,6 +1192,8 @@
             loadedBgImage = null;
             document.body.style.backgroundImage = 'none';
             document.body.style.backgroundColor = color;
+            stylesModal.classList.remove('active');
+            sideMenuDrawer.classList.remove('active');
         }
 
         bgImageFile.addEventListener('change', function(e) {
@@ -867,45 +1210,23 @@
             isChromaMode = false;
         });
 
-        dockItems.forEach(item => {
-            item.addEventListener('click', () => {
-                dockItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-                currentStyle = item.getAttribute('data-style');
-            });
-        });
-
         aiAutoBtn.addEventListener('click', () => {
             aiAutoActive = !aiAutoActive;
-            if (aiAutoActive) {
-                aiAutoBtn.classList.add('active');
-                aiAutoBtn.textContent = "✨ AI ديناميكي";
-            } else {
-                aiAutoBtn.classList.remove('active');
-                aiAutoBtn.textContent = "💤 AI متوقف";
-            }
+            aiAutoBtn.textContent = aiAutoActive ? "✨ AI ديناميكي (شغال)" : "💤 AI ديناميكي (متوقف)";
         });
 
         aiSyncBtn.addEventListener('click', () => {
             aiSyncActive = !aiSyncActive;
-            if (aiSyncActive) {
-                aiSyncBtn.classList.add('active');
-                aiSyncBtn.textContent = "⚡ تزامن فائق";
-            } else {
-                aiSyncBtn.classList.remove('active');
-                aiSyncBtn.textContent = "💤 تزامن عادي";
-            }
+            aiSyncBtn.textContent = aiSyncActive ? "⚡ تزامن فائق (شغال)" : "💤 تزامن عادي";
         });
 
         aiShuffleBtn.addEventListener('click', () => {
             aiShuffleActive = !aiShuffleActive;
             if (aiShuffleActive) {
-                aiShuffleBtn.classList.add('active');
                 aiShuffleBtn.textContent = "🔀 تبديل آلي (شغال)";
                 startShuffle();
             } else {
-                aiShuffleBtn.classList.remove('active');
-                aiShuffleBtn.textContent = "🔀 تبديل آلي (5ث)";
+                aiShuffleBtn.textContent = "🔀 تبديل آلي (متوقف)";
                 stopShuffle();
             }
         });
@@ -918,12 +1239,11 @@
                 let randomStyle = available[Math.floor(Math.random() * available.length)];
                 currentStyle = randomStyle;
                 
-                dockItems.forEach(item => {
-                    if (item.getAttribute('data-style') === currentStyle) {
-                        item.classList.add('active');
-                        item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                styleCards.forEach(card => {
+                    if (card.getAttribute('data-style') === currentStyle) {
+                        card.classList.add('active');
                     } else {
-                        item.classList.remove('active');
+                        card.classList.remove('active');
                     }
                 });
             }, 5000);
@@ -938,12 +1258,15 @@
                 document.documentElement.requestFullscreen().catch(err => {});
             }
         }
-
         fullscreenBtn.addEventListener('click', requestFullScreenMode);
 
         exportBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
             playlistModal.classList.remove('active');
             textPositionModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
             exportModal.classList.toggle('active');
         });
         closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
@@ -973,13 +1296,18 @@
                 audio.play();
                 playBtn.textContent = "⏸ إيقاف";
                 requestFullScreenMode();
+                document.body.classList.add('hidden-ui');
                 renderFrame();
             }
 
-            document.body.classList.add('hidden-ui');
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
             textPositionModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
+            stylesModal.classList.remove('active');
 
             const exportCanvas = document.createElement('canvas');
             exportCanvas.width = targetWidth;
@@ -1048,10 +1376,36 @@
 
                 expCtx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
 
+                const customTextStr = extraTextInput.value;
+                if (customTextStr) {
+                    expCtx.save();
+                    const scaleYFactor = targetHeight / window.innerHeight;
+                    const textFontSize = parseInt(rangeExtraSize.value) * scaleYFactor;
+                    const textYPos = parseInt(rangeExtraY.value) * scaleYFactor;
+                    const fontWeightStr = selectFontWeight.value;
+                    const textColorStr = extraTextColor.value || '#ffffff';
+                    const glowColorStr = extraGlowColor.value || '#00ffff';
+                    const glowValNum = parseInt(rangeExtraGlow.value) * scaleYFactor;
+
+                    expCtx.font = `${fontWeightStr} ${textFontSize}px Tahoma`;
+                    expCtx.fillStyle = textColorStr;
+                    expCtx.textAlign = "center";
+                    expCtx.textBaseline = "middle";
+                    expCtx.shadowBlur = glowValNum;
+                    expCtx.shadowColor = glowColorStr;
+                    expCtx.fillText(customTextStr, targetWidth / 2, textYPos);
+                    expCtx.restore();
+                }
+
+                const recCenterX = (targetWidth / 2) + waveOffsetX;
+                const recCenterY = (targetHeight / 2) + waveOffsetY;
+                const recLogoScale = logoScalePercent / 100;
+
                 expCtx.save();
-                expCtx.translate(targetWidth / 2, targetHeight / 2);
+                expCtx.translate(recCenterX, recCenterY);
+                expCtx.scale(recLogoScale, recLogoScale);
                 expCtx.beginPath();
-                expCtx.arc(0, 0, 45, 0, Math.PI * 2);
+                expCtx.arc(0, 0, 40, 0, Math.PI * 2);
                 expCtx.fillStyle = 'rgba(18, 18, 26, 0.95)';
                 expCtx.strokeStyle = currentAiColor;
                 expCtx.lineWidth = 3;
@@ -1060,15 +1414,15 @@
                 expCtx.fill();
                 expCtx.stroke();
 
-                expCtx.font = "bold 20px Tahoma";
+                expCtx.font = "bold 18px Tahoma";
                 expCtx.fillStyle = "#fff";
                 expCtx.textAlign = "center";
                 expCtx.textBaseline = "middle";
-                expCtx.fillText("AJN", 0, -6);
+                expCtx.fillText("AJN", 0, -5);
 
-                expCtx.font = "11px Tahoma";
+                expCtx.font = "10px Tahoma";
                 expCtx.fillStyle = "#aaa";
-                expCtx.fillText("البصراوي", 0, 14);
+                expCtx.fillText("البصراوي", 0, 12);
                 expCtx.restore();
 
                 const titleText = trackInfo.textContent || "علاء البصراوي - استوديو ظل الروح";
@@ -1114,11 +1468,12 @@
         function stopActiveRecording() {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
             isRecording = false;
-            recBtn.textContent = "🎥 تسجيل الاستوديو";
+            recBtn.textContent = "🎥 تسجيل";
             recBtn.classList.remove('recording');
             document.body.classList.remove('hidden-ui');
         }
 
+        // إبقاء اسم الأغنية والنص الإضافي ظاهرين وثابتين عند النقر المزدوج (Double Click)
         window.addEventListener('dblclick', () => {
             if (isRecording) {
                 stopActiveRecording();
@@ -1128,17 +1483,26 @@
         });
 
         playlistBtn.addEventListener('click', () => {
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
             exportModal.classList.remove('active');
             textPositionModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
             playlistModal.classList.toggle('active');
         });
         closePlaylist.addEventListener('click', () => playlistModal.classList.remove('active'));
 
         hideUiBtn.addEventListener('click', () => {
             document.body.classList.add('hidden-ui');
+            sideMenuDrawer.classList.remove('active');
+            templatesModal.classList.remove('active');
+            customTextModal.classList.remove('active');
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
             textPositionModal.classList.remove('active');
+            wavePositionModal.classList.remove('active');
+            stylesModal.classList.remove('active');
             requestFullScreenMode();
         });
 
@@ -1157,20 +1521,21 @@
         function renderPlaylistUI() {
             playlistContainer.innerHTML = '';
             if (playlist.length === 0) {
-                playlistContainer.innerHTML = '<div style="color: #888; text-align: center; padding: 12px; font-size: 10px;">لم يتم تحميل ملفات صوتية بعد</div>';
+                playlistContainer.innerHTML = '<div style="color: #666; text-align: center; padding: 15px; font-size: 12px; font-weight:bold;">لم يتم تحميل ملفات صوتية بعد</div>';
                 return;
             }
             playlist.forEach((file, index) => {
                 const div = document.createElement('div');
                 div.className = 'playlist-item';
                 if (index === currentTrackIndex) div.classList.add('active');
-                div.innerHTML = `<span>${index + 1}. ${file.name}</span> ${index === currentTrackIndex ? '<span style="color:#2ecc71;">● يعمل</span>' : ''}`;
+                div.innerHTML = `<span>${index + 1}. ${file.name}</span> ${index === currentTrackIndex ? '<span style="color:#27ae60;">● يعمل</span>' : ''}`;
                 div.onclick = () => {
                     currentTrackIndex = index;
                     loadTrack(currentTrackIndex);
                     audio.play();
                     playBtn.textContent = "⏸ إيقاف";
                     requestFullScreenMode();
+                    document.body.classList.add('hidden-ui');
                     renderFrame();
                     renderPlaylistUI();
                 };
@@ -1213,6 +1578,7 @@
                 loadTrack(currentTrackIndex);
                 audio.play();
                 requestFullScreenMode();
+                document.body.classList.add('hidden-ui');
                 renderPlaylistUI();
             }
         });
@@ -1234,10 +1600,12 @@
                 audio.play();
                 playBtn.textContent = "⏸ إيقاف";
                 requestFullScreenMode();
+                document.body.classList.add('hidden-ui');
                 renderFrame();
             } else {
                 audio.pause();
                 playBtn.textContent = "▶ تشغيل";
+                document.body.classList.remove('hidden-ui');
             }
         });
 
@@ -1295,16 +1663,16 @@
             orbitAngle += (0.05 + (bassVolume / 220)) * speedFactor * globalWaveSpeed;
             const activeColor = currentAiColor;
 
-            const centerX = displayWidth / 2;
-            const centerY = displayHeight / 2;
+            const centerX = (displayWidth / 2) + waveOffsetX;
+            const centerY = (displayHeight / 2) + waveOffsetY;
             
-            const maxAllowedRadius = Math.min(centerX, centerY) * 0.65; 
-            const dynamicScaleFactor = Math.min(1.15, 0.7 + (bassVolume / 220));
+            const baseRadiusLimit = Math.min(displayWidth, displayHeight) * 0.45;
+            const maxAllowedRadius = baseRadiusLimit * (waveScalePercent / 100);
+            const dynamicScaleFactor = Math.min(1.15, 0.7 + (bassVolume / 220)) * (waveScalePercent / 100);
 
             ctx.save();
             ctx.translate(centerX, centerY);
 
-            // استدعاء دالة الرسم المخصصة من الملف الخارجي
             renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllowedRadius, dynamicScaleFactor, bassVolume, orbitAngle, dataArray, bufferLength);
 
             ctx.restore();

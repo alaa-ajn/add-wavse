@@ -3,19 +3,19 @@
    إعداد وتطوير: علاء البصراوي
    ========================================================= */
 
-// 1️⃣ قائمة المستويات المتاحة لسرعة الموجة (تتدرج من 1x إلى السرعات الخاطفة 6x)
+// 1️⃣ قائمة المستويات المتاحة لسرعة الموجة
 const speedLevels = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
 let currentSpeedIndex = 0;
 let globalWaveSpeed = 1.0;
 
-// 2️⃣ مصفوفة جميع أنماط التصاميم
+// 2️⃣ مصفوفة جميع أنماط التصاميم (مضمن فيها موجة جيمناي للبعد الخامس)
 const allStyles = [
-    'alaa_pro_1', 'alaa_pro_2', 'alaa_pro_3', 'alaa_pro_4',
+    'gemini_5d_cosmos', 'alaa_pro_1', 'alaa_pro_2', 'alaa_pro_3', 'alaa_pro_4',
     'wind_sparks', 'radial_spray', 'classic_full_spectrum', 'neon_pulse', 'lyre_1', 'lyre_2', 'lyre_3', 
     'dancer_1', 'love_hearts_1', 'butterfly_1', 'quantum_superwave', 'spiral_galaxy', 'magic_spiral_spread'
 ];
 
-// 3️⃣ دالة التبديل السريع بين السرعات بنقرة زر واحدة
+// 3️⃣ دالة التبديل السريع بين السرعات
 function toggleWaveSpeed(buttonElement) {
     currentSpeedIndex = (currentSpeedIndex + 1) % speedLevels.length;
     globalWaveSpeed = speedLevels[currentSpeedIndex];
@@ -27,7 +27,67 @@ function toggleWaveSpeed(buttonElement) {
 // 4️⃣ الدالة الرئيسية لرسم الأنماط والموجات بالـ Canvas
 function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllowedRadius, dynamicScaleFactor, bassVolume, orbitAngle, dataArray, bufferLength) {
 
-    if (currentStyle === 'alaa_pro_1') {
+    // =========================================================
+    // ✨🌌 نمط جيمناي في البعد الخامس (Gemini 5D Cosmos Wave)
+    // =========================================================
+    if (currentStyle === 'gemini_5d_cosmos') {
+        ctx.save();
+        
+        // رسم حرف G المتألق في المركز
+        ctx.font = "bold 28px Tahoma";
+        ctx.fillStyle = activeColor;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowBlur = 30;
+        ctx.shadowColor = activeColor;
+        ctx.fillText("G", 0, 2);
+
+        // خطوط طاقة مجرية متقاطعة
+        const waveCount = 5;
+        for (let w = 0; w < waveCount; w++) {
+            ctx.beginPath();
+            const angleOffset = (w * Math.PI / waveCount) + (orbitAngle * (w % 2 === 0 ? 1 : -1));
+            
+            for (let i = 0; i < bufferLength; i += 2) {
+                const val = dataArray[i] / 255;
+                const distance = (30 + (i * 0.7) + (val * 50) + (bassVolume * 0.3)) * dynamicScaleFactor;
+                const currentAngle = angleOffset + (i * 0.03) + Math.sin(orbitAngle + i) * 0.2;
+                
+                const x = distance * Math.cos(currentAngle);
+                const y = distance * Math.sin(currentAngle) * 0.75;
+
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+
+            ctx.strokeStyle = w % 2 === 0 ? activeColor : '#00ffff';
+            ctx.lineWidth = 2.5;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = activeColor;
+            ctx.stroke();
+        }
+
+        // نجوم وشرارات طاقة تدور في مدارات الأبعاد الخمسة
+        for (let orb = 1; orb <= 4; orb++) {
+            const orbitR = Math.min(maxAllowedRadius * 0.9, 50 + (orb * 25) + (bassVolume * 0.2));
+            const elAngle = orbitAngle * (orb * 1.5) + (orb * Math.PI / 2);
+            const elX = orbitR * Math.cos(elAngle);
+            const elY = orbitR * Math.sin(elAngle) * 0.8;
+
+            ctx.beginPath();
+            ctx.arc(elX, elY, 3.5 + (bassVolume / 40), 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#00ffff';
+            ctx.fill();
+        }
+
+        ctx.restore();
+
+    } else if (currentStyle === 'alaa_pro_1') {
         ctx.font = "bold 16px Tahoma";
         ctx.fillStyle = activeColor;
         ctx.textAlign = "center";
@@ -66,35 +126,25 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
             ctx.shadowColor = activeColor;
             ctx.fill();
         }
-        ////  هنا اضافة تمط الجديد ا
-            // =========================================================
-    // ✨🌀 نمط الموجة الحلزونية السحرية المنتشرة (Magic Spiral Spread)
-    // =========================================================
+
     } else if (currentStyle === 'magic_spiral_spread') {
-        const arms = 8; // 8 أذرع حلزونية ممتدة
-        const maxDist = maxAllowedRadius * 1.6; // انتشار واسع يغطي المساحة بكاملها
+        const arms = 8;
+        const maxDist = maxAllowedRadius * 1.6;
 
         for (let a = 0; a < arms; a++) {
             const baseAngle = (a * (Math.PI * 2 / arms)) + (orbitAngle * 2.0);
             ctx.beginPath();
 
-            // المسح من المركز إلى أطراف الشاشة البعيدة
             for (let i = 0; i < bufferLength; i += 2) {
                 const val = dataArray[i] / 255;
-                // حساب نصف قطر واسع الانتشار يتأثر بالـ Bass ونبرة الصوت
                 const radius = (20 + (i * 0.8) + (val * 60) + (bassVolume * 0.35)) * dynamicScaleFactor;
                 const currentAngle = baseAngle + (i * 0.05);
                 
                 const x = Math.min(maxDist, radius) * Math.cos(currentAngle);
                 const y = Math.min(maxDist, radius) * Math.sin(currentAngle);
 
-                if (i === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
-                }
+                if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
 
-                // إضافة شرارات سحرية متوهجة عند القمم المرتفعة للصوت
                 if (val > 0.65 && i % 8 === 0) {
                     ctx.save();
                     ctx.beginPath();
@@ -113,10 +163,6 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
             ctx.shadowColor = activeColor;
             ctx.stroke();
         }
-
-
-/// نمط الجديد هنا.
-        
 
     } else if (currentStyle === 'wind_sparks') {
         for (let i = 0; i < 14; i++) {
@@ -139,12 +185,9 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
             ctx.shadowColor = '#ffffff';
             ctx.fill();
         }
-            // =========================================================
-    // 🌀 نمط الحلزون المجري (Spiral Galaxy)
-    // =========================================================
+
     } else if (currentStyle === 'spiral_galaxy') {
-        const arms = 6; // عدد الأذرع الحلزونية
-        
+        const arms = 6;
         for (let a = 0; a < arms; a++) {
             const baseAngle = (a * (Math.PI * 2 / arms)) + (orbitAngle * 1.5);
             ctx.beginPath();
@@ -157,11 +200,7 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
                 const x = radius * Math.cos(currentAngle);
                 const y = radius * Math.sin(currentAngle);
 
-                if (i === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
-                }
+                if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
             }
 
             ctx.strokeStyle = activeColor;
@@ -170,7 +209,6 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
             ctx.shadowColor = activeColor;
             ctx.stroke();
         }
-
 
     } else if (currentStyle === 'radial_spray') {
         for (let i = 0; i < bufferLength; i += 3) {
@@ -347,11 +385,7 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
                 const amplitude = (freqVal / 255) * 80 * dynamicScaleFactor;
                 const waveY = centerY + yOffset + Math.sin((x * 0.03) + (orbitAngle * (l + 1))) * (amplitude * 0.3) - (amplitude * 0.7);
                 
-                if (x === 0) {
-                    ctx.moveTo(x, waveY);
-                } else {
-                    ctx.lineTo(x, waveY);
-                }
+                if (x === 0) { ctx.moveTo(x, waveY); } else { ctx.lineTo(x, waveY); }
             }
 
             ctx.strokeStyle = activeColor;
@@ -364,7 +398,7 @@ function renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllo
     }
 }
 
-// دالة مساعدة لرسم شكل القلب
+// دالة رسم القلب
 function drawHeart(ctx, x, y, size, color) {
     ctx.save();
     ctx.beginPath();
