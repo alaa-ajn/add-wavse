@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.2</title>
+    <title>استوديو موجات ظل الروح - AJN Studio Pro 3.4</title>
     <style>
         :root {
             --bg-color: #050508;
@@ -79,6 +79,7 @@
         }
 
         .btn-playlist { background: #2980b9; }
+        .btn-speed-click { background: #e74c3c; box-shadow: 0 0 10px rgba(231, 76, 60, 0.8); }
         .btn-export { background: #27ae60; }
         .btn-fullscreen { background: #d35400; }
         .btn-rec { background: #c0392b; }
@@ -136,7 +137,6 @@
 
         input[type="file"] { display: none; }
 
-        /* نافذة التصدير ونافذة التحكم بموضع النص */
         #export-modal, #text-position-modal {
             position: absolute;
             top: 50%;
@@ -448,6 +448,7 @@
         <div id="top-bar-container" style="position: absolute; top: 6px; z-index: 60;">
             <div class="top-slide-container">
                 <button class="btn-top-item btn-playlist" id="playlistBtn">🎵 القائمة</button>
+                <button class="btn-top-item btn-speed-click" id="speedToggleBtn">🚀 سرعة الموجة: 1x</button>
                 <button class="btn-top-item btn-main" id="playBtn" disabled>▶ تشغيل</button>
                 <button class="btn-top-item btn-reset" id="resetAudioBtn">↺ إعادة الصوت</button>
                 <button class="btn-top-item btn-playlist" id="textPosBtn">📐 موضع النص</button>
@@ -463,7 +464,6 @@
             </div>
         </div>
 
-        <!-- نافذة التحكم بموضع النص (المنزلقين) -->
         <div id="text-position-modal">
             <div class="playlist-header" style="margin-bottom: 10px;">
                 <span>📐 تحكم يدوي بموضع النص</span>
@@ -525,7 +525,35 @@
         </div>
 
         <div id="bottom-slide-dock">
+            
+            
+            
+            
             <div class="slide-container">
+                
+                
+                <div class="dock-item" data-style="magic_spiral_spread">
+    <div class="dock-thumb" style="background: linear-gradient(45deg, #00ffff, #ff00ff); color:#fff;">✨</div>
+    <div class="dock-label">حلزون سحري</div>
+</div>
+
+                
+                <div class="dock-item" data-style="spiral_galaxy">
+    <div class="dock-thumb" style="background: linear-gradient(45deg, #8e44ad, #00ffff); color:#fff;">🌀</div>
+    <div class="dock-label">حلزون مجري</div>
+</div>
+
+                
+                <div class="dock-item" data-style="neon_pulse">
+    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff00ff); color:#fff;">💥</div>
+    <div class="dock-label">نبض نيوني</div>
+</div>
+
+                <div class="dock-item" data-style="classic_full_spectrum">
+    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">📊</div>
+    <div class="dock-label">طيف كلاسيكي</div>
+</div>
+
                 <div class="dock-item active" data-style="alaa_pro_1">
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff007f); color:#fff;">⚡</div>
                     <div class="dock-label">علاء 1 (بريق)</div>
@@ -541,6 +569,14 @@
                 <div class="dock-item" data-style="alaa_pro_4">
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #27ae60); color:#fff;">🔥</div>
                     <div class="dock-label">علاء 4 (حماسي)</div>
+                </div>
+                <div class="dock-item" data-style="wind_sparks">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00ffff); color:#fff;">🌪️</div>
+                    <div class="dock-label">رياح وشرار</div>
+                </div>
+                <div class="dock-item" data-style="radial_spray">
+                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🎆</div>
+                    <div class="dock-label">رذاذ شعاعي</div>
                 </div>
                 <div class="dock-item" data-style="lyre_1">
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #00bcd4); color:#fff;">🎻</div>
@@ -570,10 +606,6 @@
                     <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #ff0055); color:#fff;">🌀</div>
                     <div class="dock-label">كوانتم</div>
                 </div>
-                <div class="dock-item" data-style="radial_burst">
-                    <div class="dock-thumb" style="background: linear-gradient(45deg, #111, #2980b9); color:#ff007f;">🎇</div>
-                    <div class="dock-label">شعاعي</div>
-                </div>
                 <div class="dock-item chroma-item" onclick="setChroma('#00FF00')">
                     <div class="dock-thumb" style="background: #00FF00;">🟢</div>
                     <div class="dock-label">أخضر كروم</div>
@@ -584,6 +616,9 @@
     </div>
 
     <audio id="audio" crossorigin="anonymous"></audio>
+
+    <!-- استدعاء ملف الجافاسكريبت الخارجي -->
+    <script src="waves.js"></script>
 
     <script>
         const multiAudioFile = document.getElementById('multiAudioFile');
@@ -598,6 +633,7 @@
         const rangeY = document.getElementById('rangeY');
         const valX = document.getElementById('valX');
         const valY = document.getElementById('valY');
+        const speedToggleBtn = document.getElementById('speedToggleBtn');
 
         const aiAutoBtn = document.getElementById('aiAutoBtn');
         const aiSyncBtn = document.getElementById('aiSyncBtn');
@@ -636,18 +672,11 @@
         let aiAutoActive = true;
         let aiSyncActive = true;
         
-        // إحداثيات موضع النص اليدوية
-        let textPosX = 50; // النسبة المئوية
-        let textPosY = 55; // البكسل من الأعلى
+        let textPosX = 50;
+        let textPosY = 55;
 
         let aiShuffleActive = false;
         let shuffleInterval = null;
-        
-        const allStyles = [
-            'alaa_pro_1', 'alaa_pro_2', 'alaa_pro_3', 'alaa_pro_4',
-            'lyre_1', 'lyre_2', 'lyre_3', 'dancer_1', 'dancer_2',
-            'love_hearts_1', 'butterfly_1', 'quantum_superwave', 'radial_burst'
-        ];
 
         let playlist = [];
         let currentTrackIndex = 0;
@@ -662,6 +691,10 @@
         const MAX_SMOKE = 8;
         let backgroundModeTimer = 0;
         let currentBgMode = 'snow';
+
+        speedToggleBtn.addEventListener('click', () => {
+            toggleWaveSpeed(speedToggleBtn);
+        });
 
         function resizeCanvas() {
             const container = canvas.parentElement;
@@ -717,7 +750,7 @@
 
             for (let i = 0; i < smokeParticles.length; i++) {
                 let s = smokeParticles[i];
-                s.y += s.speedY * (1 + bassFactor * 0.3);
+                s.y += s.speedY * (1 + bassFactor * 0.3) * globalWaveSpeed;
                 if (s.y < -50) { resetSmoke(i, false); s = smokeParticles[i]; }
                 ctx.save();
                 ctx.beginPath();
@@ -731,8 +764,8 @@
 
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i];
-                p.x += p.speedX * syncMultiplier * 0.8;
-                p.y += p.speedY * (1 + bassFactor * 0.8);
+                p.x += p.speedX * syncMultiplier * 0.8 * globalWaveSpeed;
+                p.y += p.speedY * (1 + bassFactor * 0.8) * globalWaveSpeed;
 
                 if (p.y > h || p.x < 0 || p.x > w) { resetParticle(i, false); p = particles[i]; }
 
@@ -781,7 +814,6 @@
             ctx.restore();
         }
 
-        // تحديث موضع النص على الشاشة يدوياً عبر المنزلقات
         textPosBtn.addEventListener('click', () => {
             playlistModal.classList.remove('active');
             exportModal.classList.remove('active');
@@ -801,7 +833,6 @@
             trackInfo.style.top = textPosY + 'px';
         });
 
-        // **زر إعادة العنصر الصوتي من البداية**
         resetAudioBtn.addEventListener('click', () => {
             if (audio) {
                 audio.currentTime = 0;
@@ -980,7 +1011,7 @@
                 a.href = url;
                 a.download = fileName;
                 a.click();
-                alert(`🎬 تم تصدير فيديو الاستوديو بدون أي مطه وبالموضع اليدوي للنص بنجاح يا أبو حسين!`);
+                alert(`🎬 تم تصدير فيديو الاستوديو بنجاح يا أبو حسين!`);
             };
 
             mediaRecorder.start();
@@ -992,7 +1023,6 @@
                 if (!isRecording) return;
                 expCtx.clearRect(0, 0, targetWidth, targetHeight);
 
-                // رسم الخلفية مع مراعاة أبعاد الـ Cover لمنع أي تممط
                 if (customBgActive && loadedBgImage) {
                     const imgRatio = loadedBgImage.width / loadedBgImage.height;
                     const targetRatio = targetWidth / targetHeight;
@@ -1018,7 +1048,6 @@
 
                 expCtx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
 
-                // رسم الشعار المركزي
                 expCtx.save();
                 expCtx.translate(targetWidth / 2, targetHeight / 2);
                 expCtx.beginPath();
@@ -1042,7 +1071,6 @@
                 expCtx.fillText("البصراوي", 0, 14);
                 expCtx.restore();
 
-                // رسم شريط العنوان العلوي بناءً على الإحداثيات اليدوية (textPosX و textPosY)
                 const titleText = trackInfo.textContent || "علاء البصراوي - استوديو ظل الروح";
                 expCtx.save();
                 expCtx.font = "bold 16px Tahoma";
@@ -1091,7 +1119,6 @@
             document.body.classList.remove('hidden-ui');
         }
 
-        // النقر المزدوج لإيقاف التسجيل أو إخفاء/إظهار الأشرطة
         window.addEventListener('dblclick', () => {
             if (isRecording) {
                 stopActiveRecording();
@@ -1265,7 +1292,7 @@
 
             updateAndRenderEnvironment(bassVolume);
 
-            orbitAngle += (0.05 + (bassVolume / 220)) * speedFactor;
+            orbitAngle += (0.05 + (bassVolume / 220)) * speedFactor * globalWaveSpeed;
             const activeColor = currentAiColor;
 
             const centerX = displayWidth / 2;
@@ -1277,170 +1304,9 @@
             ctx.save();
             ctx.translate(centerX, centerY);
 
-            if (currentStyle === 'alaa_pro_1') {
-                ctx.font = "bold 16px Tahoma";
-                ctx.fillStyle = activeColor;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = activeColor;
-                ctx.fillText("علاء البصراوي", 0, 0);
+            // استدعاء دالة الرسم المخصصة من الملف الخارجي
+            renderWaveStyle(ctx, currentStyle, activeColor, currentAiColor, maxAllowedRadius, dynamicScaleFactor, bassVolume, orbitAngle, dataArray, bufferLength);
 
-                for (let r = 1; r <= 3; r++) {
-                    const waveR = Math.min(maxAllowedRadius, (28 + (r * 20) + (bassVolume * 0.25)) * dynamicScaleFactor);
-                    ctx.beginPath();
-                    ctx.arc(0, 0, waveR, 0, Math.PI * 2);
-                    ctx.strokeStyle = activeColor;
-                    ctx.lineWidth = 2.5;
-                    ctx.setLineDash([12, 6]);
-                    ctx.stroke();
-                }
-
-                for (let orb = 1; orb <= 2; orb++) {
-                    const orbitRadius = Math.min(maxAllowedRadius * 0.85, 40 + (orb * 25) + (bassVolume * 0.12));
-                    ctx.beginPath();
-                    ctx.arc(0, 0, orbitRadius, 0, Math.PI * 2);
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-                    ctx.lineWidth = 1;
-                    ctx.setLineDash([]);
-                    ctx.stroke();
-
-                    const electronAngle = orbitAngle * (orb % 2 === 0 ? 2.5 : -3.0) + (orb * 2);
-                    const elX = orbitRadius * Math.cos(electronAngle);
-                    const elY = orbitRadius * Math.sin(electronAngle);
-
-                    ctx.beginPath();
-                    ctx.arc(elX, elY, 4, 0, Math.PI * 2);
-                    ctx.fillStyle = activeColor;
-                    ctx.shadowBlur = 12;
-                    ctx.shadowColor = activeColor;
-                    ctx.fill();
-                }
-            } else if (currentStyle === 'alaa_pro_2') {
-                ctx.font = "bold 16px Tahoma";
-                ctx.fillStyle = activeColor;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.shadowBlur = 25;
-                ctx.shadowColor = activeColor;
-                ctx.fillText("👑 علاء البصراوي", 0, 0);
-
-                for (let i = 0; i < 10; i++) {
-                    const angle = orbitAngle + (i * (Math.PI * 2 / 10));
-                    const len = Math.min(maxAllowedRadius, 35 + (bassVolume * 1.1));
-                    ctx.beginPath();
-                    ctx.moveTo(22 * Math.cos(angle), 22 * Math.sin(angle));
-                    ctx.lineTo(len * Math.cos(angle), len * Math.sin(angle));
-                    ctx.strokeStyle = activeColor;
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                }
-            } else if (currentStyle === 'alaa_pro_3') {
-                ctx.font = "bold 16px Tahoma";
-                ctx.fillStyle = activeColor;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = activeColor;
-                ctx.fillText("💫 علاء البصراوي", 0, 0);
-
-                for (let r = 1; r <= 3; r++) {
-                    const rx = Math.min(maxAllowedRadius, (50 + (r * 18) + (bassVolume * 0.2)) * dynamicScaleFactor);
-                    const ry = Math.min(maxAllowedRadius * 0.6, (25 + (r * 10) + (bassVolume * 0.12)) * dynamicScaleFactor);
-                    ctx.beginPath();
-                    ctx.ellipse(0, 0, rx, ry, orbitAngle * (r % 2 === 0 ? 2.2 : -2.2), 0, Math.PI * 2);
-                    ctx.strokeStyle = activeColor;
-                    ctx.lineWidth = 2.5;
-                    ctx.setLineDash([8, 8]);
-                    ctx.stroke();
-                }
-            } else if (currentStyle === 'alaa_pro_4') {
-                ctx.font = "bold 16px Tahoma";
-                ctx.fillStyle = activeColor;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.shadowBlur = 30;
-                ctx.shadowColor = activeColor;
-                ctx.fillText("🔥 علاء البصراوي", 0, 0);
-
-                const baseR = Math.min(maxAllowedRadius, 45 + (bassVolume * 0.4));
-                ctx.beginPath();
-                ctx.arc(0, 0, baseR, 0, Math.PI * 2);
-                ctx.strokeStyle = activeColor;
-                ctx.lineWidth = 4;
-                ctx.shadowBlur = 25;
-                ctx.shadowColor = activeColor;
-                ctx.stroke();
-            } else if (currentStyle === 'lyre_1') {
-                for (let i = 0; i < 9; i++) {
-                    const xOffset = (i - 4) * 20;
-                    const val = dataArray[i * 4] / 255;
-                    const len = Math.min(maxAllowedRadius * 0.65, (30 + (val * 45) + (bassVolume * 0.2)) * dynamicScaleFactor);
-                    ctx.beginPath(); ctx.moveTo(xOffset, -len); ctx.lineTo(xOffset, len);
-                    ctx.strokeStyle = activeColor; ctx.lineWidth = 3 + (val * 2);
-                    ctx.shadowBlur = 15; ctx.shadowColor = activeColor; ctx.stroke();
-                }
-            } else if (currentStyle === 'lyre_2') {
-                const baseR = maxAllowedRadius * 0.35;
-                for (let r = 1; r <= 3; r++) {
-                    const radius = Math.min(maxAllowedRadius, (baseR * r * 0.6) * dynamicScaleFactor);
-                    ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2);
-                    ctx.strokeStyle = activeColor; ctx.lineWidth = 3; ctx.setLineDash([10, 6]);
-                    ctx.shadowBlur = 18; ctx.shadowColor = activeColor; ctx.stroke();
-                }
-            } else if (currentStyle === 'lyre_3') {
-                for (let i = 0; i < 11; i++) {
-                    const angle = orbitAngle * 3.5 + (i * (Math.PI * 2 / 11));
-                    const dist = Math.min(maxAllowedRadius * 0.7, 35 + Math.sin(orbitAngle * 5 + i) * 12 + ((bassVolume/200)*30));
-                    ctx.beginPath(); ctx.arc(dist * Math.cos(angle), dist * Math.sin(angle), 4 + (bassVolume/35), 0, Math.PI * 2);
-                    ctx.fillStyle = activeColor; ctx.shadowBlur = 15; ctx.shadowColor = activeColor; ctx.fill();
-                }
-            } else if (currentStyle === 'dancer_1') {
-                const radius = Math.min(maxAllowedRadius, (40 + (bassVolume * 0.25)) * dynamicScaleFactor);
-                ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2);
-                ctx.strokeStyle = activeColor; ctx.lineWidth = 4; ctx.shadowBlur = 20; ctx.shadowColor = activeColor; ctx.stroke();
-            } else if (currentStyle === 'love_hearts_1') {
-                const heartScale = Math.min(1.4, (1.0 + (bassVolume / 280)) * dynamicScaleFactor);
-                drawHeart(ctx, 0, 0, heartScale, activeColor);
-            } else if (currentStyle === 'butterfly_1') {
-                const rx = Math.min(maxAllowedRadius * 0.7, (55 + (bassVolume * 0.2)) * dynamicScaleFactor);
-                const ry = Math.min(maxAllowedRadius * 0.5, (35 + (bassVolume * 0.15)) * dynamicScaleFactor);
-                ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, orbitAngle, 0, Math.PI * 2);
-                ctx.strokeStyle = activeColor; ctx.lineWidth = 3.5; ctx.shadowBlur = 20; ctx.shadowColor = activeColor; ctx.stroke();
-            } else if (currentStyle === 'quantum_superwave') {
-                for (let r = 1; r <= 5; r++) {
-                    const radius = Math.min(maxAllowedRadius, (22 + (r * 16) + (bassVolume * 0.18)) * dynamicScaleFactor);
-                    ctx.beginPath(); ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-                    ctx.strokeStyle = activeColor; ctx.lineWidth = 2.5; ctx.setLineDash([10, 6]); ctx.stroke();
-                }
-            } else if (currentStyle === 'radial_burst') {
-                for (let i = 0; i < bufferLength; i += 2) {
-                    const angle = (i * 2 * Math.PI) / bufferLength;
-                    const len = Math.min(maxAllowedRadius * 0.65, ((dataArray[i] / 220) * 40) * dynamicScaleFactor);
-                    ctx.beginPath(); ctx.moveTo(30 * Math.cos(angle), 30 * Math.sin(angle));
-                    ctx.lineTo((30 + len) * Math.cos(angle), (30 + len) * Math.sin(angle));
-                    ctx.strokeStyle = currentAiColor; ctx.lineWidth = 2.5; ctx.stroke();
-                }
-            }
-
-            ctx.restore();
-        }
-
-        function drawHeart(ctx, x, y, size, color) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.translate(x, y);
-            ctx.scale(size, size);
-            ctx.moveTo(0, 0);
-            ctx.bezierCurveTo(0, -3, -5, -15, -15, -15);
-            ctx.bezierCurveTo(-30, -15, -30, 5, -30, 5);
-            ctx.bezierCurveTo(-30, 20, -15, 35, 0, 45);
-            ctx.bezierCurveTo(15, 35, 30, 20, 30, 5);
-            ctx.bezierCurveTo(30, 5, 30, -15, 15, -15);
-            ctx.bezierCurveTo(5, -15, 0, -3, 0, 0);
-            ctx.fillStyle = color;
-            ctx.shadowBlur = 15; ctx.shadowColor = color;
-            ctx.fill();
             ctx.restore();
         }
     </script>
